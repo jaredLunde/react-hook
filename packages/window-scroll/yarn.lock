@@ -803,14 +803,14 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@react-hook/throttle@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.0.tgz#7ea216320ddb1e0449da6538e409ace751bdd542"
-  integrity sha512-wQyCiO8lxZT6TwsCuMwl+W+S66YQ5uWYm54JHIL2FSyuAr+MmUMeEoZGSWdGP0mDgG2TVEfClzmEUl0nYznELQ==
+"@react-hook/throttle@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.1.tgz#ece3022748a45b93badfb982619d96aa3f081893"
+  integrity sha512-SaHtdhbmHvfT+RTh3h3UAw2voDPxSq45Qw4mNxucY1iR5j7rzdCkJ/t4WoGsBDyl/L2FsCwNI+qgIyUo+h57Bw==
   dependencies:
-    "@render-props/utils" "^0.2.12"
+    "@render-props/utils" "^0.2.13"
 
-"@render-props/utils@^0.2.12":
+"@render-props/utils@^0.2.13":
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.13.tgz#0efac795260440cd4a19129f2e5acb264bf714e2"
   integrity sha512-qYV7OnNJwUCABClay7lLDezRefnUWCSMElhheLlO69bDcNSQmIB5v27WYKCYF9CjHPeEJ9vDY8nWe6za/HK0lw==

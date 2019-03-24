@@ -803,14 +803,21 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@react-hook/debounce@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-0.1.0.tgz#481266a59b5017b2b48f8ea1527cfb04de7ad56f"
-  integrity sha512-zPTuZT2lERq1UXmXgtwQkIExnmep/tEUgh7el9nBEVkLEOugP4SYf3xK0MZc9lnMe7qXNs3SNMmQ8K6yCWzHBQ==
+"@react-hook/debounce@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-0.1.1.tgz#ec1374916a56467e789f89a8eedccd719c123edb"
+  integrity sha512-4+RqbuFoZrlSO2MAq7SqGuJ+KoXPOgfw1LdgCF1BL3RkA0rL1QE7BjcNJLJF9WcKE/zel1Twf32nrT8zfa80Gg==
   dependencies:
-    "@render-props/utils" "^0.2.12"
+    "@render-props/utils" "^0.2.13"
 
-"@render-props/utils@^0.2.12":
+"@react-hook/throttle@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.1.tgz#ece3022748a45b93badfb982619d96aa3f081893"
+  integrity sha512-SaHtdhbmHvfT+RTh3h3UAw2voDPxSq45Qw4mNxucY1iR5j7rzdCkJ/t4WoGsBDyl/L2FsCwNI+qgIyUo+h57Bw==
+  dependencies:
+    "@render-props/utils" "^0.2.13"
+
+"@render-props/utils@^0.2.13":
   version "0.2.13"
   resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.13.tgz#0efac795260440cd4a19129f2e5acb264bf714e2"
   integrity sha512-qYV7OnNJwUCABClay7lLDezRefnUWCSMElhheLlO69bDcNSQmIB5v27WYKCYF9CjHPeEJ9vDY8nWe6za/HK0lw==
@@ -2168,11 +2175,6 @@ posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
-
-prettier@^1.16.4:
-  version "1.16.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.4.tgz#73e37e73e018ad2db9c76742e2647e21790c9717"
-  integrity sha512-ZzWuos7TI5CKUeQAtFd6Zhm2s6EpAD/ZLApIhsF9pRvRtM1RFo61dM/4MSRUA0SuLugA/zgrZD8m0BaY46Og7g==
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.8"

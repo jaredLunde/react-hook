@@ -1,14 +1,14 @@
 import {useEffect} from 'react'
 import emptyArr from 'empty/array'
 import emptyObj from 'empty/object'
-import useDebounce from '@react-hook/debounce'
+import useThrottle from '@react-hook/throttle'
 
 
 const useSizeHook = (dim, initialValue, opt) => {
-  const {wait, leading} = opt
-  const [size, setThrottledSize] = useDebounce(
+  const {fps, leading} = opt
+  const [size, setThrottledSize] = useThrottle(
     typeof document === 'undefined' ? initialValue : document.documentElement[dim],
-    wait,
+    fps,
     leading
   )
 

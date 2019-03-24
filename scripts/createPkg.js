@@ -54,6 +54,7 @@ async function create (pkgName) {
           pkgJson.set('scripts.prettier:es', 'yarn prettier \"dist/es/**/*.js\"')
           pkgJson.set('scripts.prettier:cjs', 'yarn prettier \"dist/cjs/**/*.js\"')
           pkgJson.set('scripts.prepublishOnly', 'yarn build')
+          pkgJson.set('keywords', ['react', 'react hook', 'hook', 'react hooks', 'hooks'])
           pkgJson.save()
 
           const devDeps = []
