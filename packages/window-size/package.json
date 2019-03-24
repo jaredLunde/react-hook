@@ -25,9 +25,10 @@
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
-    "react": "^16.7.0"
+    "react": "^16.8.0"
   },
   "dependencies": {
-    "@react-hook/debounce": "^0.1.0"
+    "@react-hook/debounce": "^0.1.0",
+    "empty": "^0.10.1"
   }
 }

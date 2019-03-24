@@ -62,7 +62,7 @@ async function create (pkgName) {
           if (IS_REACT_PKG) {
             devDeps.push('@stellar-apps/babel-preset-react')
             peerDeps.push('prop-types@^15.6.0')
-            peerDeps.push('react@^16.7.0')
+            peerDeps.push('react@^16.8.0')
           }
 
           spinner = ora(`Installing ${pkgName}`).start()

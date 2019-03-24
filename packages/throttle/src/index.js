@@ -1,60 +1,60 @@
-import {useCallback, useState, useEffect, useRef} from 'react'
+import {useCallback, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@render-props/utils'
 
 
-export const useThrottleCallback = (fn, fps = 30, immediate = true) => {
-  const timeout = useRef(null),
-    endTimeout = useRef(null),
-    usedImmediate = useRef(false),
+export const useThrottleCallback = (fn, fps = 30, leading = false) => {
+  const
+    nextTimeout = useRef(null),
+    tailTimeout = useRef(null),
+    calledLeading = useRef(false),
     wait = 1000 / fps
-
+  
   const next = useCallback(
-    function (args) {
-      fn.apply(this, args)
-      timeout.current = null
+    (args, this_) => {
+      nextTimeout.current = null
+      tailTimeout.current === null && (calledLeading.current = false)
+      fn.apply(this_, args)
     },
     [fn]
   )
-
-  const endNext = useCallback(
-    args => {
-      if (timeout.current === null) {
-        fn.apply(this, args)
-        usedImmediate.current = false
-      }
-
-      endTimeout.current = null
+  const tail = useCallback(
+    (args, this_) => {
+      tailTimeout.current = null
+      calledLeading.current = false
+      nextTimeout.current === null && fn.apply(this_, args)
     },
     [fn]
   )
 
   return useCallback(
     function () {
-      if (timeout.current === null) {
-        if (immediate === true && usedImmediate.current === false) {
-          next(arguments)
-          usedImmediate.current = true
+      const this_ = this
+
+      if (nextTimeout.current === null) {
+        if (leading === true && calledLeading.current === false) {
+          next(arguments, this_)
+          calledLeading.current = true
         }
 
-        timeout.current = requestTimeout(() => next(arguments), wait)
+        nextTimeout.current = requestTimeout(() => next(arguments, this_), wait)
       }
       else {
-        endTimeout.current !== null && clearRequestTimeout(endTimeout.current)
-        endTimeout.current = requestTimeout(() => endNext(arguments), wait)
+        tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
+        tailTimeout.current = requestTimeout(() => tail(arguments, this_), wait)
       }
 
       return () => {
-        timeout.current !== null && clearRequestTimeout(timeout.current)
-        endTimeout.current !== null && clearRequestTimeout(endTimeout.current)
+        nextTimeout.current !== null && clearRequestTimeout(nextTimeout.current)
+        tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
       }
     },
     [next, fps]
   )
 }
 
-export const useThrottle = (initialState, fps, immediate) => {
+export const useThrottle = (initialState, fps, leading) => {
   const [state, setState] = useState(initialState)
-  return [state, useThrottleCallback(setState, fps, immediate)]
+  return [state, useThrottleCallback(setState, fps, leading)]
 }
 
 export default useThrottle

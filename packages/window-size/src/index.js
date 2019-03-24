@@ -5,11 +5,11 @@ import useDefaultDebounce from '@react-hook/debounce'
 
 
 const useSizeHook = (dim, initialValue, opt) => {
-  const {wait, immediate, useDebounce = useDefaultDebounce} = opt
+  const {wait, leading, useDebounce = useDefaultDebounce} = opt
   const [size, setThrottledSize] = useDebounce(
     typeof document === 'undefined' ? initialValue : document.documentElement[dim],
     wait,
-    immediate
+    leading
   )
 
   useEffect(

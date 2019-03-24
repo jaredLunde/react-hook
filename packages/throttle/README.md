@@ -1,10 +1,20 @@
-# @stellar-apps/throttle
-[description]
+# @react-hook/throttle
+A hook for throttling values and callbacks.
+
 
 ## Installation
-`yarn add @stellar-apps/throttle`
+`yarn add @react-hook/throttle`
 
 ## Usage
 ```js
-import useThrottle from '@stellar-apps/throttle'
+import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
+
+const F = props => {
+    // basic usage
+    const [value, setValue] = useThrottle('initialValue', 30/*fps*/, true/*leading*/)
+    
+    // this is actually the same code for useThrottle()
+    const [state, setState] = useState(initialState)
+    const [state, throttledState] = useThrottleCallback(setState, 30/*fps*/, true/*leading*/)
+}
 ```
