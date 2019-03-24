@@ -1,0 +1,35 @@
+{
+  "presets": [
+    ["@stellar-apps/react", {"removePropTypes":  false}]
+  ],
+  "env": {
+    "cjs": {
+      "presets": [
+        [
+          "@stellar-apps/es",
+          {
+            "env": {
+              "useBuiltIns": false,
+              "targets": {"browsers": ">5% in US"}
+            }
+          }
+        ]
+      ]
+    },
+    "es": {
+      "presets": [
+        [
+          "@stellar-apps/es",
+          {
+            "env": {
+              "useBuiltIns": false,
+              "modules": false,
+              "targets": {"browsers": ">5% in US"}
+            },
+            "runtime": {"useESModules": true}
+          }
+        ]
+      ]
+    }
+  }
+}

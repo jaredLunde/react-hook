@@ -1,0 +1,25 @@
+{
+  "name": "react-hook",
+  "version": "1.0.0",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "edit-json-file": "^1.2.1",
+    "fs-extra": "^7.0.1",
+    "minimist": "^1.2.0",
+    "node-cmd": "^3.0.0",
+    "ora": "^3.2.0",
+    "semver": "^5.6.0"
+  },
+  "scripts": {
+    "create-pkg": "node scripts/createPkg",
+    "add-all": "node scripts/addAll",
+    "build-all": "node scripts/buildAll",
+    "install-all": "node scripts/installAll",
+    "publish-all": "node scripts/publishAll",
+    "upgrade-all": "node scripts/upgradeAll",
+    "list-all": "node scripts/listAll",
+    "replace-all": "node scripts/replaceAll"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@react-hook/debounce",
+  "version": "0.1.0",
+  "main": "dist/cjs/index.js",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "sideEffects": false,
+  "module": "dist/es/index.js",
+  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/useDebounce",
+  "scripts": {
+    "build": "yarn run build:es && yarn run build:cjs",
+    "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
+    "build:cjs": "rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs && npm run prettier:cjs",
+    "watch:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src -w --out-dir dist/es",
+    "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write",
+    "prettier:es": "yarn prettier \"dist/es/**/*.js\"",
+    "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "@stellar-apps/babel-preset-es": "^1.0.4",
+    "@stellar-apps/babel-preset-react": "^1.0.1",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {
+    "@render-props/utils": "^0.2.13"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.7.0"
+  }
+}
