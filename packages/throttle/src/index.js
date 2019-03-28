@@ -10,7 +10,7 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
     wait = 1000 / fps
   
   const next = useCallback(
-    (args, this_) => {
+    (this_, args) => {
       nextTimeout.current = null
       tailTimeout.current === null && (calledLeading.current = false)
       fn.apply(this_, args)
@@ -18,7 +18,7 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
     [fn]
   )
   const tail = useCallback(
-    (args, this_) => {
+    (this_, args) => {
       tailTimeout.current = null
       calledLeading.current = false
       nextTimeout.current === null && fn.apply(this_, args)
@@ -29,18 +29,19 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
   return useCallback(
     function () {
       const this_ = this
+      const args = arguments
 
       if (nextTimeout.current === null) {
         if (leading === true && calledLeading.current === false) {
-          next(arguments, this_)
+          next(this_, args)
           calledLeading.current = true
         }
 
-        nextTimeout.current = requestTimeout(() => next(arguments, this_), wait)
+        nextTimeout.current = requestTimeout(() => next(this_, args), wait)
       }
       else {
         tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-        tailTimeout.current = requestTimeout(() => tail(arguments, this_), wait)
+        tailTimeout.current = requestTimeout(() => tail(this_, args), wait)
       }
 
       return () => {
