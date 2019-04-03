@@ -1,12 +1,12 @@
 {
-  "name": "@react-hook/toggle",
+  "name": "@react-hook/hover",
   "version": "1.0.1",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/toggle",
+  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/hover",
   "scripts": {
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
@@ -23,7 +23,7 @@
     "hook",
     "react hooks",
     "hooks",
-    "toggle"
+    "hover"
   ],
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.4",
@@ -34,5 +34,6 @@
   "peerDependencies": {
     "prop-types": "^15.6.0",
     "react": "^16.8.0"
-  }
+  },
+  "dependencies": {}
 }
