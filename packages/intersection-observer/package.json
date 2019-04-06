@@ -1,12 +1,12 @@
 {
-  "name": "@react-hook/intersection",
-  "version": "1.0.2",
+  "name": "@react-hook/intersection-observer",
+  "version": "1.0.1",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/intersection",
+  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/intersection-observer",
   "scripts": {
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",

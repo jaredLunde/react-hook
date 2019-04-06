@@ -1,7 +1,7 @@
 if (typeof window !== 'undefined') {
   require('intersection-observer')
 }
-import React, {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 
 const empty = {}
