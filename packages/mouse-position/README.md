@@ -1,6 +1,6 @@
 # @react-hook/mouse-position
-A React hook container for tracking the position of the mouse as it
-moves around an element.
+A React hook for tracking the position of the mouse as it moves around
+an element.
 
 ## Installation
 `yarn add @react-hook/mouse-position`
