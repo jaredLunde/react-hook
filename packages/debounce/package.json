@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/debounce",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@render-props/utils": "^0.2.13"
+    "@essentials/request-timeout": "^1.0.0"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",

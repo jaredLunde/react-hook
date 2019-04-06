@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState, useRef} from 'react'
-import {requestTimeout, clearRequestTimeout} from '@render-props/utils'
+import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
 
 export const useDebounceCallback = (fn, wait = 100, leading = false) => {
@@ -11,8 +11,15 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
     },
     [fn]
   )
-  // cleans up pending timeouts on unmount
-  useEffect(() => () => timeout.current !== null && clearRequestTimeout(timeout.current))
+
+  // cleans up pending timeouts when the function chagnes
+  useEffect(
+    () => () => {
+      timeout.current !== null && clearRequestTimeout(timeout.current)
+      timeout.current = null
+    },
+    [fn, wait]
+  )
 
   return useCallback(
     function () {
@@ -28,7 +35,7 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
 
       timeout.current = requestTimeout(() => next(this_, args), wait)
     },
-    [next, wait]
+    [fn, wait]
   )
 }
 

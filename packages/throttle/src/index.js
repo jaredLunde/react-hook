@@ -1,5 +1,5 @@
 import {useEffect, useCallback, useState, useRef} from 'react'
-import {requestTimeout, clearRequestTimeout} from '@render-props/utils'
+import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
 
 export const useThrottleCallback = (fn, fps = 30, leading = false) => {
@@ -8,7 +8,7 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
     tailTimeout = useRef(null),
     calledLeading = useRef(false),
     wait = 1000 / fps
-  
+
   const next = useCallback(
     (this_, args) => {
       nextTimeout.current = null
@@ -27,12 +27,16 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
     [fn]
   )
 
-  // cleans up pending timeouts on unmount
+  // cleans up pending timeouts when the function changes
   useEffect(
     () => () => {
       nextTimeout.current !== null && clearRequestTimeout(nextTimeout.current)
       tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-    }
+      nextTimeout.current = null
+      tailTimeout.current = null
+      calledLeading.current = false
+    },
+    [fn, fps]
   )
 
   return useCallback(
@@ -53,7 +57,7 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
         tailTimeout.current = requestTimeout(() => tail(this_, args), wait)
       }
     },
-    [next, fps]
+    [fn, fps]
   )
 }
 

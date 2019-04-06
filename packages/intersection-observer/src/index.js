@@ -4,8 +4,7 @@ if (typeof window !== 'undefined') {
 import {useEffect, useRef, useState} from 'react'
 
 
-const empty = {}
-const _memo = {}
+const empty = {}, _memo = {}
 const memoize = fn => initialIsIntersecting => {
   if (_memo[initialIsIntersecting] === void 0)
     _memo[initialIsIntersecting] = fn(initialIsIntersecting)

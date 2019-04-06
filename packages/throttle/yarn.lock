@@ -803,13 +803,13 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@render-props/utils@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.13.tgz#0efac795260440cd4a19129f2e5acb264bf714e2"
-  integrity sha512-qYV7OnNJwUCABClay7lLDezRefnUWCSMElhheLlO69bDcNSQmIB5v27WYKCYF9CjHPeEJ9vDY8nWe6za/HK0lw==
+"@essentials/request-timeout@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.0.tgz#c0c375077ebb2c7ca7dfa67d12b6f405c907773a"
+  integrity sha512-bIucWaMb4Ze6NsJflywVASSERoF686cTTHfiU6XTtmf2neD42D9/ULVlyTuQmpCN2yNbK0aw6BqBn6Bdsif0CQ==
   dependencies:
     performance-now "^2.1.0"
-    raf "^3.4.0"
+    raf "^3.4.1"
 
 "@stellar-apps/babel-preset-es@^1.0.4":
   version "1.0.4"
@@ -2077,7 +2077,7 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.0.tgz#a37d732f4271b4ab1ad070d35508e8290788ffaa"
   integrity sha512-MtEC1TqN0EU5nephaJ4rAtThHtC86dNN9qCuEhtshvpVBkAW5ZO7BASN9REnF9eoXGcRub+pFuKEpOHE+HbEMw==
 
-raf@^3.4.0:
+raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==

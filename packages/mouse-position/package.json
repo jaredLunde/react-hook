@@ -1,12 +1,12 @@
 {
-  "name": "@react-hook/throttle",
-  "version": "0.1.6",
+  "name": "@react-hook/mouse-position",
+  "version": "1.0.0",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle",
+  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/mouse-position",
   "scripts": {
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
@@ -17,6 +17,13 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
     "prepublishOnly": "yarn build"
   },
+  "keywords": [
+    "react",
+    "react hook",
+    "hook",
+    "react hooks",
+    "hooks"
+  ],
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.4",
     "@stellar-apps/babel-preset-react": "^1.0.1",
@@ -28,14 +35,8 @@
     "react": "^16.8.0"
   },
   "dependencies": {
-    "@essentials/request-timeout": "^1.0.0"
-  },
-  "keywords": [
-    "react",
-    "react hook",
-    "hook",
-    "react hooks",
-    "hooks",
-    "throttle"
-  ]
+    "@essentials/request-timeout": "^1.0.0",
+    "@react-hook/hover": "^1.0.1",
+    "@react-hook/throttle": "^0.1.6"
+  }
 }
