@@ -26,7 +26,7 @@ import useMousePosition from '@react-hook/mouse-position'
  }
 ```
 
-### `useMousePosition(enterDelay: number, leaveDelay:number, fps: number)`
+### `useMousePosition(enterDelay: number, leaveDelay: number, fps: number)`
 #### Arguments
 - `enterDelay`
   - `<number>`
