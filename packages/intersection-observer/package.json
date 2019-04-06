@@ -1,12 +1,12 @@
 {
-  "name": "@react-hook/throttle",
-  "version": "0.1.4",
+  "name": "@react-hook/intersection",
+  "version": "1.0.2",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "sideEffects": false,
   "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle",
+  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/intersection",
   "scripts": {
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
@@ -17,6 +17,15 @@
     "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
     "prepublishOnly": "yarn build"
   },
+  "keywords": [
+    "react",
+    "react hook",
+    "hook",
+    "react hooks",
+    "hooks",
+    "intersection",
+    "intersection observer"
+  ],
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.4",
     "@stellar-apps/babel-preset-react": "^1.0.1",
@@ -28,14 +37,6 @@
     "react": "^16.8.0"
   },
   "dependencies": {
-    "@render-props/utils": "^0.2.13"
-  },
-  "keywords": [
-    "react",
-    "react hook",
-    "hook",
-    "react hooks",
-    "hooks",
-    "throttle"
-  ]
+    "intersection-observer": "^0.5.1"
+  }
 }

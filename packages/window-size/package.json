@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
@@ -26,8 +26,8 @@
     "react": "^16.8.0"
   },
   "dependencies": {
-    "@react-hook/debounce": "^0.1.1",
-    "@react-hook/throttle": "^0.1.1",
+    "@react-hook/debounce": "^0.1.4",
+    "@react-hook/throttle": "^0.1.4",
     "empty": "^0.10.1"
   },
   "keywords": [

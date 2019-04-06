@@ -803,10 +803,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@react-hook/throttle@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.1.tgz#ece3022748a45b93badfb982619d96aa3f081893"
-  integrity sha512-SaHtdhbmHvfT+RTh3h3UAw2voDPxSq45Qw4mNxucY1iR5j7rzdCkJ/t4WoGsBDyl/L2FsCwNI+qgIyUo+h57Bw==
+"@react-hook/throttle@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.4.tgz#6558ae4b4d58bc5397b29020c1808c98b0b4bab4"
+  integrity sha512-zABVkjsqq8tR0f3sSSwPdbsGLMU/jGMIXi87/XQAPA+efPi20xIaOTWfEGW+7PsthEQgtUo1y/uQin56rbCbnw==
   dependencies:
     "@render-props/utils" "^0.2.13"
 

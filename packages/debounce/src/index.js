@@ -1,4 +1,4 @@
-import {useCallback, useState, useRef} from 'react'
+import {useCallback, useEffect, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@render-props/utils'
 
 
@@ -11,6 +11,8 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
     },
     [fn]
   )
+  // cleans up pending timeouts on unmount
+  useEffect(() => () => timeout.current !== null && clearRequestTimeout(timeout.current))
 
   return useCallback(
     function () {
@@ -25,7 +27,6 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
       }
 
       timeout.current = requestTimeout(() => next(this_, args), wait)
-      return () => timeout.current !== null && clearRequestTimeout(timeout.current)
     },
     [next, wait]
   )

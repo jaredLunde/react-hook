@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-scroll",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "react": "^16.8.0"
   },
   "dependencies": {
-    "@react-hook/throttle": "^0.1.1",
+    "@react-hook/throttle": "^0.1.4",
     "empty": "^0.10.1"
   },
   "keywords": [
