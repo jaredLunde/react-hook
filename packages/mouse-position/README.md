@@ -12,7 +12,7 @@ import useMousePosition from '@react-hook/mouse-position'
  const F = props => {
    const [mousePositionRef, mousePosition] = useMousePosition(
      0,   // enterDelay
-     200, // leaveDelay
+     0, // leaveDelay
      30,  // fps
    )
 
