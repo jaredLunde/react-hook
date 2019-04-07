@@ -12,7 +12,7 @@ const getScrollY = () =>
 
 export default (fps = 30) => {
   const [scrollY, setThrottledScroll] = useThrottle(
-    typeof window === 'undefined' ? 0 : getScrollY(),
+    typeof window === 'undefined' ? 0 : getScrollY,
     fps,
     true
   )
