@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/mouse-position",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/cjs/index.js",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
@@ -40,6 +40,6 @@
   "dependencies": {
     "@essentials/request-timeout": "^1.0.0",
     "@react-hook/hover": "^1.0.1",
-    "@react-hook/throttle": "^0.1.6"
+    "@react-hook/throttle": "^1.0.0"
   }
 }

@@ -847,10 +847,10 @@
   resolved "https://registry.yarnpkg.com/@react-hook/hover/-/hover-1.0.1.tgz#71c7236a703fc36714e76e8d3072ea04f28bf487"
   integrity sha512-tXT1xJhGLbWhNkwQsYVx2KGn6wLkREi76Aw4lDqUwNEG5QDIK6W0yJU3TINE8dlrJf+KB0sTrrRMeB/7mQM3+A==
 
-"@react-hook/throttle@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.6.tgz#ab744bf9a00289d3978ec9ae6a36be9d18fe5ea0"
-  integrity sha512-nnjWF0EsKU7xljPfBal47X/tNRV728Y5ugB5qiSBeZt5hAUN8C+7lo70usXvEYRu6sRVo5E9fkTLD75fidnsmQ==
+"@react-hook/throttle@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
+  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
