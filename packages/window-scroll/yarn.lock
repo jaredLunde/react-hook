@@ -803,20 +803,20 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@react-hook/throttle@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.4.tgz#6558ae4b4d58bc5397b29020c1808c98b0b4bab4"
-  integrity sha512-zABVkjsqq8tR0f3sSSwPdbsGLMU/jGMIXi87/XQAPA+efPi20xIaOTWfEGW+7PsthEQgtUo1y/uQin56rbCbnw==
-  dependencies:
-    "@render-props/utils" "^0.2.13"
-
-"@render-props/utils@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.13.tgz#0efac795260440cd4a19129f2e5acb264bf714e2"
-  integrity sha512-qYV7OnNJwUCABClay7lLDezRefnUWCSMElhheLlO69bDcNSQmIB5v27WYKCYF9CjHPeEJ9vDY8nWe6za/HK0lw==
+"@essentials/request-timeout@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.1.tgz#fd46f0d7ffdfc422229e5da7de89341fe434d1dd"
+  integrity sha512-31ronVRtN7bTKEwdMnh4/qvNT9pjHpKWt4HFTqNJAIbxeFlO2OLac1vSEH+c1deqkxK0h9wynMxmwRAmQinwwg==
   dependencies:
     performance-now "^2.1.0"
-    raf "^3.4.0"
+    raf "^3.4.1"
+
+"@react-hook/throttle@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
+  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
+  dependencies:
+    "@essentials/request-timeout" "^1.0.0"
 
 "@stellar-apps/babel-preset-es@^1.0.4":
   version "1.0.4"
@@ -2189,7 +2189,7 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-raf@^3.4.0:
+raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
