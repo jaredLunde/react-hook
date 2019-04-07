@@ -30,10 +30,16 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
   // cleans up pending timeouts when the function changes
   useEffect(
     () => () => {
-      nextTimeout.current !== null && clearRequestTimeout(nextTimeout.current)
-      tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-      nextTimeout.current = null
-      tailTimeout.current = null
+      if (nextTimeout.current !== null) {
+        clearRequestTimeout(nextTimeout.current)
+        nextTimeout.current = null
+      }
+
+      if (tailTimeout.current !== null) {
+        clearRequestTimeout(tailTimeout.current)
+        tailTimeout.current = null
+      }
+
       calledLeading.current = false
     },
     [fn, fps]
@@ -49,8 +55,9 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
           next(this_, args)
           calledLeading.current = true
         }
-
-        nextTimeout.current = requestTimeout(() => next(this_, args), wait)
+        else {
+          nextTimeout.current = requestTimeout(() => next(this_, args), wait)
+        }
       }
       else {
         tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
