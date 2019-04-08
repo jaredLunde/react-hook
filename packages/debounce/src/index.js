@@ -15,8 +15,10 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
   // cleans up pending timeouts when the function chagnes
   useEffect(
     () => () => {
-      timeout.current !== null && clearRequestTimeout(timeout.current)
-      timeout.current = null
+      if (timeout.current !== null) {
+        clearRequestTimeout(timeout.current)
+        timeout.current = null
+      }
     },
     [fn, wait]
   )
