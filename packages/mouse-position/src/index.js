@@ -7,14 +7,14 @@ import {useThrottleCallback} from '@react-hook/throttle'
 const
   emptyArr = [],
   initialState = {
+    x: null,
+    y: null,
     pageX: null,
     pageY: null,
     clientX: null,
     clientY: null,
     screenX: null,
     screenY: null,
-    elementX: null,
-    elementY: null,
     elementWidth: null,
     elementHeight: null,
     isOver: false
