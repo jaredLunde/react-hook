@@ -9,24 +9,6 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
     calledLeading = useRef(false),
     wait = 1000 / fps
 
-  const next = useCallback(
-    (this_, args) => {
-      nextTimeout.current = null
-      tailTimeout.current === null && (calledLeading.current = false)
-      fn.apply(this_, args)
-    },
-    [fn]
-  )
-
-  const tail = useCallback(
-    (this_, args) => {
-      tailTimeout.current = null
-      calledLeading.current = false
-      nextTimeout.current === null && fn.apply(this_, args)
-    },
-    [fn]
-  )
-
   // cleans up pending timeouts when the function changes
   useEffect(
     () => () => {
@@ -47,21 +29,38 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
 
   return useCallback(
     function () {
-      const this_ = this
-      const args = arguments
+      const
+        this_ = this,
+        args = arguments
 
       if (nextTimeout.current === null) {
+        const next = () => {
+          nextTimeout.current = null
+          tailTimeout.current === null && (calledLeading.current = false)
+          fn.apply(this_, args)
+        }
+
         if (leading === true && calledLeading.current === false) {
-          next(this_, args)
+          // leading
+          next()
           calledLeading.current = true
         }
         else {
-          nextTimeout.current = requestTimeout(() => next(this_, args), wait)
+          // head
+          nextTimeout.current = requestTimeout(next, wait)
         }
       }
       else {
+        // tail
         tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-        tailTimeout.current = requestTimeout(() => tail(this_, args), wait)
+        tailTimeout.current = requestTimeout(
+          () => {
+            tailTimeout.current = null
+            calledLeading.current = false
+            nextTimeout.current === null && fn.apply(this_, args)
+          },
+          wait
+        )
       }
     },
     [fn, fps]

@@ -1,13 +1,18 @@
 # @react-hook/window-size
-React hooks for monitoring changes to the size of the window.
+React hooks for updating components when the size of the `window`
+changes.
 
 ## Installation
 `yarn add @react-hook/window-size`
 
 ## Usage
-```js
+```jsx
 // using debounced values
-import {useWindowSize, useWindowWidth, useWindowHeight} from '@react-hook/window-size'
+import {
+  useWindowSize, 
+  useWindowWidth, 
+  useWindowHeight
+} from '@react-hook/window-size'
 
 const F = props => {
   const [width, height] = useWindowSize(
@@ -18,7 +23,11 @@ const F = props => {
 }
 
 // using throttled values
-import {useWindowSize, useWindowWidth, useWindowHeight} from '@react-hook/window-size/throttled'
+import {
+  useWindowSize, 
+  useWindowWidth, 
+  useWindowHeight
+} from '@react-hook/window-size/throttled'
 
 const F = props => {
   const [width, height] = useWindowSize(
@@ -28,3 +37,125 @@ const F = props => {
   )
 }
 ```
+
+## Debounced
+### `useWindowSize(initialWidth: number, initialHeight: number, debounceOptions: object)`
+- `initialWidth` `<number>`
+  - The initial width to use when there is no `window` object
+- `initialHeight` `<number>`
+  - The initial width to use when there is no `window` object
+- `debounceOptions` `<object>`
+  - `wait` `<number>`
+    - **default** 100
+    - Defines the amount of time you want `setState` to wait after the
+      last received action before executing
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+  
+#### Returns `[width: integer, height: integer]: array`
+- `width`
+  - The current width of the window
+- `height`
+  - The current height of the window
+
+### `useWindowWidth(initialWidth: number, debounceOptions: object)`
+- `initialWidth` `<number>`
+  - The initial width to use when there is no `window` object
+- `debounceOptions` `<object>`
+  - `wait` `<number>`
+    - **default** 100
+    - Defines the amount of time you want `setState` to wait after the
+      last received action before executing
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+  
+#### Returns `width: integer`
+- `width`
+  - The current width of the window
+
+
+### `useWindowHeight(initialHeight: number, debounceOptions: object)`
+- `initialHeight` `<number>`
+  - The initial height to use when there is no `window` object
+- `debounceOptions` `<object>`
+  - `wait` `<number>`
+    - **default** 100
+    - Defines the amount of time you want `setState` to wait after the
+      last received action before executing
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+  
+#### Returns `height: integer`
+- `height`
+  - The current height of the window
+
+----
+## Throttled
+```js 
+import { 
+  useWindowSize, 
+  useWindowWidth,
+  useWindowHeight,
+} from '@react-hook/toggle/throttled'
+```
+### `useWindowSize(initialWidth: number, initialHeight: number, throttleOptions: object)`
+- `initialWidth` `<number>`
+  - The initial width to use when there is no `window` object
+- `initialHeight` `<number>`
+  - The initial width to use when there is no `window` object
+- `throttleOptions` `<object>`
+  - `fps` `<number>`
+    - **default** 30
+    - Defines the rate in frames per second with which the scroll position
+      is updated
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+  
+#### Returns `[width: integer, height: integer]: array`
+- `width`
+  - The current width of the window
+- `height`
+  - The current height of the window
+
+### `useWindowWidth(initialWidth: number, throttleOptions: object)`
+- `initialWidth` `<number>`
+  - The initial width to use when there is no `window` object
+- `throttleOptions` `<object>`
+  - `fps` `<number>`
+    - **default** 30
+    - Defines the rate in frames per second with which the scroll position
+      is updated
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+  
+#### Returns `width: integer`
+- `width`
+  - The current width of the window
+
+
+### `useWindowHeight(initialHeight: number, throttleOptions: object)`
+- `initialHeight` `<number>`
+  - The initial height to use when there is no `window` object
+- `throttleOptions` `<object>`
+  - `fps` `<number>`
+    - **default** 30
+    - Defines the rate in frames per second with which the scroll position
+      is updated
+  - `leading` `<bool>`
+    - **default** false
+    - Calls `setState` on the leading edge (right away). When `false`
+      `setState` will not be called until the next frame is due
+      
+#### Returns `height: integer`
+- `height`
+  - The current height of the window

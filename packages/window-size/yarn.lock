@@ -811,27 +811,19 @@
     performance-now "^2.1.0"
     raf "^3.4.1"
 
-"@react-hook/debounce@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-0.1.4.tgz#4963e7966c91c9422384fac1fa28a93a44c5e87d"
-  integrity sha512-uWkTtDRuGt4ZOwqRDUgq1oamahR+dHy3G4/xqlEoLXD/L6uD2YIAmAD2raOHBYq6rJzetzjkKoT11Z5slV5S9g==
-  dependencies:
-    "@render-props/utils" "^0.2.13"
-
-"@react-hook/throttle@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
-  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
+"@react-hook/debounce@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-1.0.2.tgz#e1bddb153fcc3d31d038afb6abb6fbebac071dba"
+  integrity sha512-66tD3eb7Kd+/3qrhyzzUC2NKm1fq9k4LJalbDjMJnRvLQw8MgE7ZMyYAS/y9df3O4Q8emO8ekV3h7mYgBTfkjQ==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
-"@render-props/utils@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@render-props/utils/-/utils-0.2.13.tgz#0efac795260440cd4a19129f2e5acb264bf714e2"
-  integrity sha512-qYV7OnNJwUCABClay7lLDezRefnUWCSMElhheLlO69bDcNSQmIB5v27WYKCYF9CjHPeEJ9vDY8nWe6za/HK0lw==
+"@react-hook/throttle@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.1.tgz#53d6f4e28b4e3630092ac278991744be26704871"
+  integrity sha512-1TsRQ/uw7WUj8+ITHbD+FlesbfxoSLUypCUzYkOttBXHbNSRNx0DnSHEPDu+IS7LroxdEt451YLybgvpy8X0qg==
   dependencies:
-    performance-now "^2.1.0"
-    raf "^3.4.0"
+    "@essentials/request-timeout" "^1.0.0"
 
 "@stellar-apps/babel-preset-es@^1.0.4":
   version "1.0.4"
@@ -2199,7 +2191,7 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-raf@^3.4.0, raf@^3.4.1:
+raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==

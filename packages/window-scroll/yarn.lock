@@ -811,10 +811,10 @@
     performance-now "^2.1.0"
     raf "^3.4.1"
 
-"@react-hook/throttle@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
-  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
+"@react-hook/throttle@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.1.tgz#53d6f4e28b4e3630092ac278991744be26704871"
+  integrity sha512-1TsRQ/uw7WUj8+ITHbD+FlesbfxoSLUypCUzYkOttBXHbNSRNx0DnSHEPDu+IS7LroxdEt451YLybgvpy8X0qg==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
