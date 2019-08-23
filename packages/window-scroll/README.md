@@ -1,9 +1,15 @@
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/window-scroll?style=plastic)](https://bundlephobia.com/result?p=@react-hook/window-scroll)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+---
+
 # @react-hook/window-scroll
-A React hook for watching the scroll position of the window on the
-y-axis
+A react hook for updating components when the scroll position of the window on the
+y-axis changes
 
 ## Installation
-`yarn add @react-hook/window-scroll`
+#### `npm i @react-hook/window-scroll`
+#### `yarn add @react-hook/window-scroll`
 
 ## Usage
 ```js
