@@ -1,7 +1,7 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import * as raf from 'raf'
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
-import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
+import {useWindowSize} from './index'
 
 
 const renderWindowSize = (...args) => renderHook(() => useWindowSize(...args))
