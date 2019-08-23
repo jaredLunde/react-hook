@@ -20,7 +20,7 @@ const F = props => {
 }
 ```
 
-### `useWindowScroll(fps: number)`
+### `useWindowScroll(fps?: number)`
 - `fps` `<number>`
   - **default** 30
   - Defines the rate in frames per second with which the scroll position
