@@ -28,7 +28,7 @@ export const CallbackExample = (initialState, wait, leading) => {
 ```
 
 
-### `useDebounce(initialValue: any, fps: number, leading: bool)`
+### `useDebounce(initialValue: any, wait?: number, leading?: bool)`
 - `initialValue` `<any>`
   - Sets an initial state
 - `wait` `<number>`
@@ -48,7 +48,7 @@ export const CallbackExample = (initialState, wait, leading) => {
   
 ----
 
-### `useDebounceCallback(fn: function, fps: number, leading: bool)`
+### `useDebounceCallback(fn: function, wait?: number, leading?: bool)`
 - `fn` `<any>`
   - This is the callback you want to debounce
 - `wait` `<number>`

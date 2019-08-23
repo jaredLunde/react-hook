@@ -34,7 +34,7 @@ const CallbackExample = (initialState, fps = 30, leading = false) => {
 }
 ```
 
-### `useThrottle(initialValue: any, fps: number, leading: bool)`
+### `useThrottle(initialValue: any, fps?: number, leading?: bool)`
 - `initialValue` `<any>`
   - Sets an initial state
 - `fps` `<number>`
@@ -53,7 +53,7 @@ const CallbackExample = (initialState, fps = 30, leading = false) => {
   
 ----
 
-### `useThrottleCallback(fn: function, fps: number, leading: bool)`
+### `useThrottleCallback(fn: function, fps?: number, leading?: bool)`
 - `fn` `<any>`
   - This is the callback you want to throttle
 - `fps` `<number>`
