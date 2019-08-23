@@ -45,7 +45,7 @@ const F = props => {
 ```
 
 ## Debounced
-### `useWindowSize(initialWidth: number, initialHeight: number, debounceOptions: object)`
+### `useWindowSize(initialWidth?: number, initialHeight?: number, debounceOptions?: object)`
 - `initialWidth` `<number>`
   - The initial width to use when there is no `window` object
 - `initialHeight` `<number>`
@@ -66,7 +66,7 @@ const F = props => {
 - `height`
   - The current height of the window
 
-### `useWindowWidth(initialWidth: number, debounceOptions: object)`
+### `useWindowWidth(initialWidth?: number, debounceOptions?: object)`
 - `initialWidth` `<number>`
   - The initial width to use when there is no `window` object
 - `debounceOptions` `<object>`
@@ -84,7 +84,7 @@ const F = props => {
   - The current width of the window
 
 
-### `useWindowHeight(initialHeight: number, debounceOptions: object)`
+### `useWindowHeight(initialHeight?: number, debounceOptions?: object)`
 - `initialHeight` `<number>`
   - The initial height to use when there is no `window` object
 - `debounceOptions` `<object>`
@@ -110,7 +110,7 @@ import {
   useWindowHeight,
 } from '@react-hook/toggle/throttled'
 ```
-### `useWindowSize(initialWidth: number, initialHeight: number, throttleOptions: object)`
+### `useWindowSize(initialWidth?: number, initialHeight?: number, throttleOptions?: object)`
 - `initialWidth` `<number>`
   - The initial width to use when there is no `window` object
 - `initialHeight` `<number>`
@@ -131,7 +131,7 @@ import {
 - `height`
   - The current height of the window
 
-### `useWindowWidth(initialWidth: number, throttleOptions: object)`
+### `useWindowWidth(initialWidth?: number, throttleOptions?: object)`
 - `initialWidth` `<number>`
   - The initial width to use when there is no `window` object
 - `throttleOptions` `<object>`
@@ -149,7 +149,7 @@ import {
   - The current width of the window
 
 
-### `useWindowHeight(initialHeight: number, throttleOptions: object)`
+### `useWindowHeight(initialHeight?: number, throttleOptions?: object)`
 - `initialHeight` `<number>`
   - The initial height to use when there is no `window` object
 - `throttleOptions` `<object>`
