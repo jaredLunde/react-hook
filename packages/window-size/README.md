@@ -1,5 +1,5 @@
 [![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/window-size?style=plastic)](https://bundlephobia.com/result?p=@react-hook/window-size)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
 
 ---
 
