@@ -8,6 +8,11 @@
       "experimentalObjectRestSpread": true
     }
   },
+  "plugins": [
+    "jest",
+    "react",
+    "react-hooks"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
