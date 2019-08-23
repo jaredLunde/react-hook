@@ -1,9 +1,15 @@
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/debounce?style=plastic)](https://bundlephobia.com/result?p=@react-hook/debounce)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+---
+
 # @react-hook/debounce
-A hook for debouncing values and callbacks.
+A react hook for debouncing values and callbacks.
 
 
 ## Installation
-`yarn add @react-hook/debounce`
+#### `npm i @react-hook/debounce`
+#### `yarn add @react-hook/debounce`
 
 ## Usage
 ```js

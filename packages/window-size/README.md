@@ -1,9 +1,15 @@
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/window-size?style=plastic)](https://bundlephobia.com/result?p=@react-hook/window-size)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+---
+
 # @react-hook/window-size
 React hooks for updating components when the size of the `window`
 changes.
 
 ## Installation
-`yarn add @react-hook/window-size`
+#### `npm i @react-hook/window-size`
+#### `yarn add @react-hook/window-size`
 
 ## Usage
 ```jsx

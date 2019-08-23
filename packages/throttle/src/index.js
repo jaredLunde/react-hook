@@ -1,10 +1,8 @@
 import {useEffect, useCallback, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
-
 export const useThrottleCallback = (fn, fps = 30, leading = false) => {
-  const
-    nextTimeout = useRef(null),
+  const nextTimeout = useRef(null),
     tailTimeout = useRef(null),
     calledLeading = useRef(false),
     wait = 1000 / fps
@@ -28,9 +26,8 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
   )
 
   return useCallback(
-    function () {
-      const
-        this_ = this,
+    function() {
+      const this_ = this,
         args = arguments
 
       if (nextTimeout.current === null) {
@@ -44,23 +41,18 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
           // leading
           next()
           calledLeading.current = true
-        }
-        else {
+        } else {
           // head
           nextTimeout.current = requestTimeout(next, wait)
         }
-      }
-      else {
+      } else {
         // tail
         tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-        tailTimeout.current = requestTimeout(
-          () => {
-            tailTimeout.current = null
-            calledLeading.current = false
-            nextTimeout.current === null && fn.apply(this_, args)
-          },
-          wait
-        )
+        tailTimeout.current = requestTimeout(() => {
+          tailTimeout.current = null
+          calledLeading.current = false
+          nextTimeout.current === null && fn.apply(this_, args)
+        }, wait)
       }
     },
     [fn, fps]

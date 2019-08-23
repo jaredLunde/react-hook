@@ -6,7 +6,7 @@ import useDebounce from '@react-hook/debounce'
 
 const useSizeHook = (dim, initialValue, opt) => {
   const {wait, leading} = opt
-  const [size, setThrottledSize] = useDebounce(
+  const [size, setDebouncedSize] = useDebounce(
     typeof document === 'undefined' ? initialValue : document.documentElement[dim],
     wait,
     leading
@@ -14,7 +14,7 @@ const useSizeHook = (dim, initialValue, opt) => {
 
   useEffect(
     () => {
-      const setSize = () => setThrottledSize(document.documentElement[dim])
+      const setSize = () => setDebouncedSize(document.documentElement[dim])
       window.addEventListener('resize', setSize)
       window.addEventListener('orientationchange', setSize)
 
@@ -29,13 +29,11 @@ const useSizeHook = (dim, initialValue, opt) => {
   return size
 }
 
-export const useWindowHeight = (initialValue = 0, opt = emptyObj) => {
-  return useSizeHook('clientHeight', initialValue, opt)
-}
+export const useWindowHeight = (initialValue = 0, opt = emptyObj) =>
+  useSizeHook('clientHeight', initialValue, opt)
 
-export const useWindowWidth = (initialValue = 0, opt = emptyObj) => {
-  return useSizeHook('clientWidth', initialValue, opt)
-}
+export const useWindowWidth = (initialValue = 0, opt = emptyObj) =>
+  useSizeHook('clientWidth', initialValue, opt)
 
 export const useWindowSize = (initialWidth, initialHeight, opt) => ([
   useWindowWidth(initialWidth, opt),

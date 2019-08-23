@@ -1,35 +1,14 @@
 {
   "name": "@react-hook/window-size",
   "version": "1.0.2",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
-  "license": "MIT",
-  "sideEffects": false,
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-size",
-  "scripts": {
-    "build": "yarn build:es && yarn build:cjs && yarn build-throttled:es && yarn build-throttled:cjs",
-    "build:es": "rimraf dist/es && mkdir -p dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src/index.js --out-file dist/es/index.js",
-    "build:cjs": "rimraf dist/cjs && mkdir -p dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src/index.js --out-file dist/cjs/index.js",
-    "build-throttled:es": "rimraf throttled/es && mkdir -p throttled/es && cross-env NODE_ENV=production BABEL_ENV=es babel src/throttled.js --out-file throttled/es/index.js",
-    "build-throttled:cjs": "rimraf throttled/cjs && mkdir -p throttled/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src/throttled.js --out-file throttled/cjs/index.js",
-    "watch:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src -w --out-dir dist/es",
-    "prepublishOnly": "yarn build"
-  },
-  "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.4",
-    "@stellar-apps/babel-preset-react": "^1.0.1",
-    "rimraf": "^2.6.3"
-  },
-  "peerDependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^16.8.0"
-  },
-  "dependencies": {
-    "@react-hook/debounce": "^1.0.2",
-    "@react-hook/throttle": "^1.0.1",
-    "empty": "^0.10.1"
-  },
+  "files": [
+    "/dist"
+  ],
+  "description": "React hooks for updating components when the size of the `window` changes.",
   "keywords": [
     "react",
     "react hook",
@@ -37,12 +16,82 @@
     "react hooks",
     "hooks",
     "window size",
+    "window size hook",
     "window width",
+    "window width hook",
     "window height",
+    "window height hook",
     "window",
     "viewport size",
     "viewport width",
     "viewport height",
-    "viewport"
-  ]
+    "viewport",
+    "viewport hook"
+  ],
+  "sideEffects": false,
+  "devDependencies": {
+    "@lunde/babel-preset-es": "^1.0.1",
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.1.3",
+    "@testing-library/react-hooks": "^2.0.1",
+    "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.2.1",
+    "eslint-import-resolver-jest": "^3.0.0",
+    "eslint-plugin-jest": "^22.15.2",
+    "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.2.3",
+    "mock-raf": "^1.0.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
+    "rimraf": "^3.0.0"
+  },
+  "dependencies": {
+    "@react-hook/debounce": "^1.0.3",
+    "@react-hook/throttle": "^1.0.4",
+    "empty": "^0.10.1"
+  },
+  "peerDependencies": {
+    "prop-types": ">= 15.6.0",
+    "react": ">= 16.8.0"
+  },
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:es && npm run build-throttled:cjs && npm run build-throttled:es",
+    "build:cjs": "babel src/index.js -d dist/cjs --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src/index.js -d dist/es --delete-dir-on-start",
+    "build-throttled:cjs": "babel src/throttled.js -d throttled/cjs --delete-dir-on-start",
+    "build-throttled:es": "cross-env BABEL_ENV=es babel src/throttled.js -d throttled/es --delete-dir-on-start",
+    "format": "npm run format:cjs && npm run format:es && npm run format:src",
+    "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
+    "format:es": "prettier --write \"dist/es/**/*.js\"",
+    "format:src": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint src",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
+    "test": "jest",
+    "validate": "npm run lint && npm run test -- --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint",
+      "pretty-quick --staged"
+    ]
+  },
+  "homepage": "https://github.com/jaredLunde/@react-hook/tree/master/packages/window-size#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredLunde/react-hook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaredLunde/react-hook/issues"
+  }
 }

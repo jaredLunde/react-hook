@@ -1,9 +1,15 @@
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/throttle?style=plastic)](https://bundlephobia.com/result?p=@react-hook/throttle)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+---
+
 # @react-hook/throttle
-A hook for throttling values and callbacks.
+A react hook for throttling values and callbacks.
 
 
 ## Installation
-`yarn add @react-hook/throttle`
+#### `npm i @react-hook/throttle`
+#### `yarn add @react-hook/throttle`
 
 ## Usage
 ```js

@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
-
 export const useDebounceCallback = (fn, wait = 100, leading = false) => {
   const timeout = useRef(null)
 
@@ -17,22 +16,17 @@ export const useDebounceCallback = (fn, wait = 100, leading = false) => {
   )
 
   return useCallback(
-    function () {
+    function() {
       const this_ = this
       const args = arguments
 
-      if (timeout.current === null && leading === true)
-        fn.apply(this_, args)
-      else if (timeout.current !== null)
-        clearRequestTimeout(timeout.current)
+      if (timeout.current === null && leading === true) fn.apply(this_, args)
+      else if (timeout.current !== null) clearRequestTimeout(timeout.current)
 
-      timeout.current = requestTimeout(
-        () => {
-          timeout.current = null
-          leading !== true && fn.apply(this_, args)
-        },
-        wait
-      )
+      timeout.current = requestTimeout(() => {
+        timeout.current = null
+        leading !== true && fn.apply(this_, args)
+      }, wait)
     },
     [fn, wait]
   )
