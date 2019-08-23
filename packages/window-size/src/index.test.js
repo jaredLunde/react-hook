@@ -3,7 +3,6 @@ import * as raf from 'raf'
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import {useWindowSize} from './index'
 
-
 const renderWindowSize = (...args) => renderHook(() => useWindowSize(...args))
 
 describe('debounced', () => {

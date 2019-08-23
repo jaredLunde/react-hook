@@ -3,7 +3,6 @@ import {useWindowSize} from './throttled'
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import * as raf from 'raf'
 
-
 const renderWindowSize = (...args) => renderHook(() => useWindowSize(...args))
 
 describe('throttled', () => {
@@ -26,7 +25,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
 
-    act(() => raf.step({count: 1, time: 1000/30}))
+    act(() => raf.step({count: 1, time: 1000 / 30}))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
@@ -46,7 +45,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
 
-    act(() => raf.step({count: 1, time: 1000/30}))
+    act(() => raf.step({count: 1, time: 1000 / 30}))
     act(() => resizeTo(1280, 720))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
@@ -65,7 +64,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 1000/60}))
+    act(() => raf.step({count: 1, time: 1000 / 60}))
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
   })
@@ -79,7 +78,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 1000/30}))
+    act(() => raf.step({count: 1, time: 1000 / 30}))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
