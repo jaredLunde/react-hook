@@ -21,5 +21,6 @@
     "upgrade-all": "node scripts/upgradeAll",
     "list-all": "node scripts/listAll",
     "replace-all": "node scripts/replaceAll"
-  }
+  },
+  "peerDependencies": {}
 }

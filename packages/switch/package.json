@@ -1,0 +1,79 @@
+{
+  "name": "@react-hook/switch",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "files": [
+    "/dist"
+  ],
+  "description": "A react hook for controlling two initial values with toggle, on, and off states",
+  "keywords": [
+    "react",
+    "react hook",
+    "react hooks",
+    "hooks",
+    "switch",
+    "toggle",
+    "toggle hook",
+    "switch hook"
+  ],
+  "sideEffects": false,
+  "devDependencies": {
+    "@babel/preset-react": "^7.0.0",
+    "@lunde/babel-preset-es": "^1.0.1",
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.1.3",
+    "@testing-library/react-hooks": "^2.0.1",
+    "babel-eslint": "^10.0.3",
+    "cross-env": "^5.2.0",
+    "eslint": "^6.2.2",
+    "eslint-import-resolver-jest": "^3.0.0",
+    "eslint-plugin-jest": "^22.15.2",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "react": "^16.8.0",
+    "react-dom": "^16.9.0",
+    "react-test-renderer": "^16.9.0",
+    "rimraf": "^3.0.0"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:es",
+    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js  --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
+    "format": "npm run format:cjs && npm run format:es && npm run format:src",
+    "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
+    "format:es": "prettier --write \"dist/es/**/*.js\"",
+    "format:src": "prettier --write \"src/**/*.js\"",
+    "lint": "eslint src",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
+    "test": "jest",
+    "validate": "npm run lint && npm run test -- --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint",
+      "pretty-quick --staged"
+    ]
+  },
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/switch#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaredLunde/react-hook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaredLunde/react-hook/issues"
+  }
+}
