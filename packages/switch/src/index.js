@@ -1,5 +1,6 @@
 import {useState, useCallback} from 'react'
 
+const emptyArr = []
 export default (defaultValue = false) => {
   if (defaultValue !== false && defaultValue !== true)
     throw new Error(
@@ -10,11 +11,8 @@ export default (defaultValue = false) => {
     )
 
   const [current, setCurrent] = useState(defaultValue)
-  const toggle = useCallback(() => setCurrent(curr => curr !== true), [
-    true,
-    false,
-  ])
-  toggle.on = useCallback(() => setCurrent(true), [true])
-  toggle.off = useCallback(() => setCurrent(false), [false])
+  const toggle = useCallback(() => setCurrent(curr => curr !== true), emptyArr)
+  toggle.on = useCallback(() => setCurrent(true), emptyArr)
+  toggle.off = useCallback(() => setCurrent(false), emptyArr)
   return [current, toggle]
 }
