@@ -13,7 +13,7 @@ test('on', () => {
 })
 
 test('off', () => {
-  const {result} = renderSwitch(false, true, true)
+  const {result} = renderSwitch(true)
   expect(result.current[0]).toBe(true)
   act(result.current[1].off)
   expect(result.current[0]).toBe(false)
@@ -28,15 +28,8 @@ test('toggle', () => {
   expect(result.current[0]).toBe(false)
 })
 
-test('custom offValue, onValue', () => {
-  const {result} = renderSwitch('off', 'on')
-  expect(result.current[0]).toBe('off')
-  act(result.current[1])
-  expect(result.current[0]).toBe('on')
-})
-
 test('throws', () => {
   expect(() => {
-    throw renderSwitch(false, true, 'off').result.error
+    throw renderSwitch('off').result.error
   }).toThrowErrorMatchingSnapshot()
 })

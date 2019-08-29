@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/switch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -43,7 +43,9 @@
     "rimraf": "^3.0.0"
   },
   "dependencies": {},
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
   "scripts": {
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
