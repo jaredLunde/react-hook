@@ -1,0 +1,34 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@lunde/es",
+      {
+        "env": {
+          "targets": {
+            "node": "8"
+          }
+        },
+        "typescript": false
+      }
+    ]
+  ],
+  "env": {
+    "es": {
+      "presets": [
+        [
+          "@lunde/es",
+          {
+            "env": {
+              "modules": false,
+              "targets": {
+                "browsers": "> 2%"
+              }
+            },
+            "typescript": false
+          }
+        ]
+      ]
+    }
+  }
+}
