@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
   "license": "MIT",
   "main": "dist/cjs/index.js",
@@ -63,11 +63,10 @@
     "react": ">= 16.8.0"
   },
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build-throttled:cjs && npm run build-throttled:es",
+    "build": "npm run build:cjs && npm run build:es && npm run build-throttled",
     "build:cjs": "babel src/index.js -d dist/cjs --delete-dir-on-start",
     "build:es": "cross-env BABEL_ENV=es babel src/index.js -d dist/es --delete-dir-on-start",
-    "build-throttled:cjs": "babel src/throttled.js -d throttled/cjs --delete-dir-on-start",
-    "build-throttled:es": "cross-env BABEL_ENV=es babel src/throttled.js -d throttled/es --delete-dir-on-start",
+    "build-throttled": "babel src/throttled.js -o throttled/index.js",
     "format": "npm run format:cjs && npm run format:es && npm run format:src",
     "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
     "format:es": "prettier --write \"dist/es/**/*.js\"",
