@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/passive-layout-effect",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
   "license": "MIT",
   "main": "dist/cjs/index.js",
