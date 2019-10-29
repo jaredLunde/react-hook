@@ -1,3 +1,5 @@
+---
+
 <h1 align="center">
   @react-hook/intersection-observer
 </h1>
@@ -14,6 +16,7 @@
   </a>
 </p>
 
+---
 
 A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available
 
