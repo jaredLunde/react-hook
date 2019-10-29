@@ -43,6 +43,8 @@ const Component = () => {
 }
 ```
 
+## API
+
 ### `useIntersectionObserver(options?: Object): [entry, ref]`
 
 #### Options
