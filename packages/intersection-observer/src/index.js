@@ -2,27 +2,9 @@ if (typeof window !== 'undefined') {
   require('intersection-observer')
 }
 import {useEffect, useRef, useState} from 'react'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
 
-
-const empty = {}, _memo = {}
-const memoize = fn => initialIsIntersecting => {
-  if (_memo[initialIsIntersecting] === void 0)
-    _memo[initialIsIntersecting] = fn(initialIsIntersecting)
-  return _memo[initialIsIntersecting]
-}
-const setInitialState = memoize(
-  initialIsIntersecting => () => ({
-    boundingClientRect: null,
-    intersectionRatio: 0,
-    intersectionRect: null,
-    isIntersecting: initialIsIntersecting,
-    rootBounds: null,
-    target: null,
-    time: null
-  })
-)
-
-export default (opt = empty) => {
+const useIntersectionObserver = (opt = {}) => {
   const {
     root = null,
     pollInterval = null,
@@ -32,20 +14,36 @@ export default (opt = empty) => {
     initialIsIntersecting = false
   } = opt
   const
-    element = useRef(null),
-    observer = useRef(null),
-    [state, setState] = useState(setInitialState(initialIsIntersecting))
+    didMount = useRef(null),
+    [element, setElement] = useState(null),
+    [entry, setEntry] = useState(() => ({
+      boundingClientRect: null,
+      intersectionRatio: 0,
+      intersectionRect: null,
+      isIntersecting: initialIsIntersecting,
+      rootBounds: null,
+      target: null,
+      time: null
+    })),
+    createObserver = () => {
+      if (typeof IntersectionObserver === 'undefined') return null
+      const observer = new IntersectionObserver(
+        entries => setEntry(entries[entries.length - 1]),
+        {root, rootMargin, threshold}
+      )
+      observer.POLL_INTERVAL = pollInterval
+      observer.USE_MUTATION_OBSERVER = useMutationObserver
+      return observer
+    },
+    [observer, setObserver] = useState(createObserver)
 
   useEffect(
     () => {
-      observer.current = new IntersectionObserver(
-        entries => setState(entries[entries.length - 1]),
-        {root, rootMargin, threshold}
-      )
-
-      observer.current.POLL_INTERVAL = pollInterval
-      observer.current.USE_MUTATION_OBSERVER = useMutationObserver
-      return () => observer.current.disconnect()
+      if (didMount.current === false)
+        didMount.current = true
+      else
+        setObserver(createObserver())
+      return () => didMount.current === true && observer.disconnect()
     },
     [
       root,
@@ -56,13 +54,15 @@ export default (opt = empty) => {
     ]
   )
 
-  useEffect(
+  useLayoutEffect(
     () => {
-      element.current && observer.current.observe(element.current)
-      return () => element.current && observer.current.unobserve(element.current)
+      element && observer.observe(element)
+      return () => element && observer.unobserve(element)
     },
-    [element.current, observer.current]
+    [element, observer]
   )
 
-  return [element, state]
+  return [entry, setElement]
 }
+
+export default useIntersectionObserver
