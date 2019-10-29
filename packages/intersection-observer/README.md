@@ -1,4 +1,4 @@
----
+<hr>
 <h1 align="center">
 @react-hook/intersection-observer
 </h1>
@@ -14,7 +14,7 @@
 <img alt="" src="https://img.shields.io/npm/l/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
 </a>
 </p>
----
+<hr>
 
 A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available
 
