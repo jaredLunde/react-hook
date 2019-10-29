@@ -64,6 +64,8 @@ const F = props => {
 }
 ```
 
+## API
+
 ## Debounced
 ### `useWindowSize(initialWidth?: number, initialHeight?: number, debounceOptions?: object)`
 - `initialWidth` `<number>`
