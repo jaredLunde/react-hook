@@ -8,10 +8,10 @@
   <a href="https://bundlephobia.com/result?p=@react-hook/intersection-observer" rel="nofollow" class="rich-diff-level-one">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
   </a>
-  <a aria-label="NPM version" href="https://www.npmjs.com/package/@zeit/swr">
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/intersection-observer">
     <img alt="" src="https://img.shields.io/npm/v/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
   </a>
-  <a aria-label="License" href="https://github.com/zeit/swr/blob/master/LICENSE">
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
     <img alt="" src="https://img.shields.io/npm/l/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
   </a>
 </p>
