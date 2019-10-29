@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/intersection-observer",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -69,7 +69,10 @@
     "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.0.1"
+    "@react-hook/passive-layout-effect": "^1.0.1",
+    "intersection-observer": "^0.7.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "react": ">=16.8"
+  }
 }
