@@ -50,4 +50,4 @@ const Component = props => {
 #### Returns `scrollY: integer`
 |  | Type | Description |
 | ---- | ---- | ------- |
-|  scrollY   |   `number`   | The current scroll position of the window on the y-axis  |
+|  scrollY   |   `integer`   | The current scroll position of the window on the y-axis  |
