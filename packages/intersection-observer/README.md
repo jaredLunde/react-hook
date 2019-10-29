@@ -1,7 +1,9 @@
 <hr>
+<div align="center">
 <h1 align="center">
 @react-hook/intersection-observer
 </h1>
+</div>
 
 <p align="center">
 <a href="https://bundlephobia.com/result?p=@react-hook/intersection-observer" rel="nofollow" class="rich-diff-level-one">
