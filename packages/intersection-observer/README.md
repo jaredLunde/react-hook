@@ -1,6 +1,6 @@
 <hr>
 <h1 align="center">
-@react-hook/intersection-observer
+useIntersectionObserver()
 </h1>
 
 <p align="center">
