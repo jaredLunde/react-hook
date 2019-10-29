@@ -11,10 +11,9 @@ const useIntersectionObserver = (opt = {}) => {
     useMutationObserver = false,
     rootMargin = '0px 0px 0px 0px',
     threshold = 0,
-    initialIsIntersecting = false
+    initialIsIntersecting = false,
   } = opt
-  const
-    didMount = useRef(null),
+  const didMount = useRef(null),
     [element, setElement] = useState(null),
     [entry, setEntry] = useState(() => ({
       boundingClientRect: null,
@@ -23,7 +22,7 @@ const useIntersectionObserver = (opt = {}) => {
       isIntersecting: initialIsIntersecting,
       rootBounds: null,
       target: null,
-      time: null
+      time: null,
     })),
     createObserver = () => {
       if (typeof IntersectionObserver === 'undefined') return null
@@ -37,30 +36,22 @@ const useIntersectionObserver = (opt = {}) => {
     },
     [observer, setObserver] = useState(createObserver)
 
-  useEffect(
-    () => {
-      if (didMount.current === false)
-        didMount.current = true
-      else
-        setObserver(createObserver())
-      return () => didMount.current === true && observer.disconnect()
-    },
-    [
-      root,
-      rootMargin,
-      pollInterval,
-      useMutationObserver,
-      ...(Array.isArray(threshold) === true ? threshold : [threshold]),
-    ]
-  )
+  useEffect(() => {
+    if (didMount.current === false) didMount.current = true
+    else setObserver(createObserver())
+    return () => didMount.current === true && observer.disconnect()
+  }, [
+    root,
+    rootMargin,
+    pollInterval,
+    useMutationObserver,
+    ...(Array.isArray(threshold) === true ? threshold : [threshold]),
+  ])
 
-  useLayoutEffect(
-    () => {
-      element && observer.observe(element)
-      return () => element && observer.unobserve(element)
-    },
-    [element, observer]
-  )
+  useLayoutEffect(() => {
+    element && observer.observe(element)
+    return () => element && observer.unobserve(element)
+  }, [element, observer])
 
   return [entry, setElement]
 }
