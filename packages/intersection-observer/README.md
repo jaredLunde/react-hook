@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
 <h1 align="center">
-@react-hook/intersection-observer
+useIntersectionObserver()
 </h1>
 </div>
 
@@ -16,6 +16,10 @@
 <img alt="" src="https://img.shields.io/npm/l/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
 </a>
 </p>
+
+<pre align="center">
+npm i @react-hook/intersection-observer
+</pre>
 <hr>
 
 A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available
@@ -27,12 +31,6 @@ element or viewport is referred to as the root.
 When an IntersectionObserver is created, it's configured to watch for given ratios of visibility within the root. The
 configuration cannot be changed once the IntersectionObserver is created, so a given observer object is only useful for
 watching for specific changes in degree of visibility.
-
-## Installation
-
-#### `npm i @react-hook/intersection-observer`
-
-#### `yarn add @react-hook/intersection-observer`
 
 ## Usage
 
