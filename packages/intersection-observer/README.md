@@ -14,7 +14,6 @@
   </a>
 </p>
 
----
 
 A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available
 
