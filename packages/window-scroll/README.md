@@ -41,6 +41,8 @@ const Component = props => {
 }
 ```
 
+## API
+
 ### `useWindowScroll(fps?: number)`
 |  | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
