@@ -32,7 +32,7 @@ When an IntersectionObserver is created, it's configured to watch for given rati
 configuration cannot be changed once the IntersectionObserver is created, so a given observer object is only useful for
 watching for specific changes in degree of visibility.
 
-## Usage
+## Quick Start
 
 ```jsx harmony
 import useIntersectionObserver from '@react-hook/intersection-observer'
