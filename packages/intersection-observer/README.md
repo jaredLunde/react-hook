@@ -36,7 +36,7 @@ watching for specific changes in degree of visibility.
 
 ## Usage
 
-```js
+```jsx harmony
 import useIntersectionObserver from '@react-hook/intersection-observer'
 
 const Component = () => {
