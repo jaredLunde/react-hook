@@ -1,14 +1,11 @@
 {
   "name": "@react-hook/window-size",
-  "version": "1.0.8",
+  "version": "1.0.9",
+  "homepage": "https://github.com/jaredLunde/react-hook#readme",
+  "repository": "github:jaredLunde/react-hook",
+  "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
-  "files": [
-    "/dist",
-    "/throttled"
-  ],
   "description": "React hooks for updating components when the size of the `window` changes.",
   "keywords": [
     "react",
@@ -29,70 +26,66 @@
     "viewport",
     "viewport hook"
   ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "files": [
+    "/dist",
+    "/throttled"
+  ],
   "sideEffects": false,
-  "devDependencies": {
-    "@lunde/babel-preset-es": "^1.0.1",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react": "^9.1.3",
-    "@testing-library/react-hooks": "^2.0.1",
-    "babel-eslint": "^10.0.2",
-    "cross-env": "^5.2.0",
-    "eslint": "^6.2.1",
-    "eslint-import-resolver-jest": "^3.0.0",
-    "eslint-plugin-jest": "^22.15.2",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^2.0.1",
-    "husky": "^3.0.4",
-    "jest": "^24.9.0",
-    "lint-staged": "^9.2.3",
-    "mock-raf": "^1.0.1",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-test-renderer": "^16.9.0",
-    "rimraf": "^3.0.0"
-  },
-  "dependencies": {
-    "@react-hook/debounce": "^1.0.3",
-    "@react-hook/throttle": "^1.0.4",
-    "empty": "^0.10.1"
-  },
-  "peerDependencies": {
-    "prop-types": ">= 15.6.0",
-    "react": ">= 16.8.0"
-  },
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build-throttled",
-    "build:cjs": "babel src/index.js -d dist/cjs --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src/index.js -d dist/es --delete-dir-on-start",
-    "build-throttled": "babel src/throttled.js -o throttled/index.js",
-    "format": "npm run format:cjs && npm run format:es && npm run format:src",
-    "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
-    "format:es": "prettier --write \"dist/es/**/*.js\"",
-    "format:src": "prettier --write \"src/**/*.js\"",
-    "lint": "eslint src",
+    "build": "npm run build:cjs && npm run build:es && npm run build:throttled && npm run build:types",
+    "build:cjs": "babel src/index.ts -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:es": "babel src/index.ts -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:throttled": "babel src/throttled.ts -o throttled/index.js -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\"",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts && tsc -p tsconfig.throttled.json -d --outDir throttled --emitDeclarationOnly && mv throttled/throttled.d.ts throttled/index.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run lint && npm run test -- --coverage"
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run build:types"
     }
   },
   "lint-staged": {
-    "src/**/*.js": [
+    "**/*.{ts,js}": [
       "eslint",
-      "pretty-quick --staged"
+      "prettier --write"
+    ],
+    "**/*.{md,yml,json}": [
+      "prettier --write"
     ]
   },
-  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-size#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jaredLunde/react-hook.git"
+  "devDependencies": {
+    "@lunde/babel-preset-es": "latest",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "cross-env": "latest",
+    "eslint": "latest",
+    "eslint-import-resolver-jest": "latest",
+    "eslint-plugin-jest": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "mock-raf": "^1.0.1",
+    "prettier": "latest",
+    "react": "^16.12.0",
+    "react-test-renderer": "^16.12.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
-  "bugs": {
-    "url": "https://github.com/jaredLunde/react-hook/issues"
+  "dependencies": {
+    "@react-hook/debounce": "^1.0.6",
+    "@react-hook/throttle": "^1.0.7"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
   }
 }
