@@ -1,69 +1,79 @@
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/throttle?style=plastic)](https://bundlephobia.com/result?p=@react-hook/throttle)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+<hr>
+<div align="center">
+  <h1 align="center">
+    @react-hook/throttle
+  </h1>
+</div>
 
----
+<p align="center">
+  <a href="https://bundlephobia.com/result?p=@react-hook/throttle">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/throttle">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
+  </a>
+</p>
 
-# @react-hook/throttle
-A react hook for throttling values and callbacks.
+<pre align="center">npm i @react-hook/throttle</pre>
+<hr>
 
+## Quick Start
 
-## Installation
-#### `npm i @react-hook/throttle`
-#### `yarn add @react-hook/throttle`
-
-## Usage
-```js
+```jsx harmony
 import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
-// throttling a value
-const F = props => {
-    // basic usage
-    const [value, setValue] = useThrottle(
-      'initialValue', 
-      30/*fps*/, 
-      true/*leading*/
-    )
+
+const Component = props => {
+  // at a basic level, used just like useState
+  const [value, setValue] = useThrottle('initialValue')
 }
-// throttling a callback
-const CallbackExample = (initialState, fps = 30, leading = false) => {
-  // this is the exact code that useThrottle() uses
+
+const useMyCallback = (initialState, wait, leading) => {
+  // this is the same code useThrottle() uses to throttle setState
   const [state, setState] = useState(initialState)
-  return [
-    state, 
-    useThrottleCallback(setState, fps, leading)
-  ]
+  return [state, useThrottleCallback(setState, wait, leading)]
 }
 ```
 
-### `useThrottle(initialValue: any, fps?: number, leading?: bool)`
-- `initialValue` `<any>`
-  - Sets an initial state
-- `fps` `<number>`
-  - **default** 30
-  - Defines the rate in frames per second with which `setState` is called
-- `leading` `<bool>`
-  - **default** false
-  - Calls `setState` on the leading edge (right away). When `false`
-    `setState` will not be called until the next frame is due
+## API
 
-#### Returns `[value: any, setValue: function]: array`
-- `value`
-  - The value set by `setValue` or the `initialValue`
-- `setValue`
-  - A throttled `setState` callback
-  
-----
+### `useThrottle(initialState: any, fps?: number, leading?: boolean)`
 
-### `useThrottleCallback(fn: function, fps?: number, leading?: bool)`
-- `fn` `<any>`
-  - This is the callback you want to throttle
-- `fps` `<number>`
-  - **default** 30
-  - Defines the rate in frames per second with which `setState` is called
-- `leading` `<bool>`
-  - **default** false
-  - Calls `setState` on the leading edge (right away). When `false`
-    `setState` will not be called until the next frame is due
+#### Options
 
-#### Returns `setValue: function`
-- `throttledFn`
-  - The throttled `fn` callback
+| Property     | Type      | Default | Description                                                                                                                |
+| ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| initialState | `any`     |         | The initial state stored in `useState`                                                                                     |
+| fps          | `number`  | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
+| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+
+#### Returns `[state, setState]`
+
+| Variable | Type       | Description                                       |
+| -------- | ---------- | ------------------------------------------------- |
+| state    | `any`      | The value set by `setState` or the `initialState` |
+| setState | `Function` | A throttled `setState` callback                   |
+
+---
+
+### `useThrottleCallback(callback: Function, wait?: number, leading?: boolean)`
+
+#### Options
+
+| Property | Type       | Default | Description                                                                                                                |
+| -------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| callback | `Function` |         | This is the callback you want to throttle                                                                                  |
+| fps      | `number`   | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
+| leading  | `boolean`  | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+
+#### Returns `throttledCallback`
+
+| Variable          | Type       | Description                          |
+| ----------------- | ---------- | ------------------------------------ |
+| throttledCallback | `Function` | A throttled version of your callback |
+
+## LICENSE
+
+MIT

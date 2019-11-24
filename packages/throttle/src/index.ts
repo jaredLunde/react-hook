@@ -1,7 +1,11 @@
 import {useEffect, useCallback, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
-export const useThrottleCallback = (fn, fps = 30, leading = false) => {
+export const useThrottleCallback = (
+  callback: Function,
+  fps = 30,
+  leading = false
+): Function => {
   const nextTimeout = useRef(null),
     tailTimeout = useRef(null),
     calledLeading = useRef(false),
@@ -9,7 +13,7 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
 
   // cleans up pending timeouts when the function changes
   useEffect(
-    () => () => {
+    () => (): void => {
       if (nextTimeout.current !== null) {
         clearRequestTimeout(nextTimeout.current)
         nextTimeout.current = null
@@ -22,22 +26,24 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
 
       calledLeading.current = false
     },
-    [fn, fps]
+    [callback, fps]
   )
 
   return useCallback(
     function() {
-      const this_ = this,
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this,
+        // eslint-disable-next-line prefer-rest-params
         args = arguments
 
       if (nextTimeout.current === null) {
-        const next = () => {
+        const next = (): void => {
           nextTimeout.current = null
           tailTimeout.current === null && (calledLeading.current = false)
-          fn.apply(this_, args)
+          callback.apply(self, args)
         }
 
-        if (leading === true && calledLeading.current === false) {
+        if (leading && calledLeading.current === false) {
           // leading
           next()
           calledLeading.current = true
@@ -48,18 +54,22 @@ export const useThrottleCallback = (fn, fps = 30, leading = false) => {
       } else {
         // tail
         tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-        tailTimeout.current = requestTimeout(() => {
+        tailTimeout.current = requestTimeout((): void => {
           tailTimeout.current = null
           calledLeading.current = false
-          nextTimeout.current === null && fn.apply(this_, args)
+          nextTimeout.current === null && callback.apply(self, args)
         }, wait)
       }
     },
-    [fn, fps]
+    [callback, fps]
   )
 }
 
-export const useThrottle = (initialState, fps, leading) => {
+export const useThrottle = (
+  initialState: any,
+  fps?: number,
+  leading?: boolean
+): any[] => {
   const [state, setState] = useState(initialState)
   return [state, useThrottleCallback(setState, fps, leading)]
 }

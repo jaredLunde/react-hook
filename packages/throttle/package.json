@@ -1,83 +1,71 @@
 {
   "name": "@react-hook/throttle",
-  "version": "1.0.5",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "version": "1.0.6",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle#readme",
+  "repository": "github:jaredLunde/react-hook",
+  "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
+  "description": "A React hook for throttling setState and other callbacks",
+  "keywords": [
+    "throttle"
+  ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "files": [
     "/dist"
   ],
-  "description": "A react hook for throttling values and callbacks",
-  "keywords": [
-    "react",
-    "react hook",
-    "throttle",
-    "throttle hook",
-    "react throttle",
-    "throttle state"
-  ],
   "sideEffects": false,
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:es && npm run build:types",
+    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts",
+    "prepublishOnly": "npm run validate && npm run build && npm run format",
+    "test": "jest",
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build:types"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": [
+      "eslint",
+      "prettier --write"
+    ],
+    "**/*.{md,yml,json}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
-    "@lunde/babel-preset-es": "^1.0.1",
-    "@testing-library/jest-dom": "^4.1.0",
-    "@testing-library/react": "^9.1.3",
-    "@testing-library/react-hooks": "^2.0.1",
-    "babel-eslint": "^10.0.2",
-    "cross-env": "^5.2.0",
-    "eslint": "^6.2.1",
-    "eslint-import-resolver-jest": "^3.0.0",
-    "eslint-plugin-jest": "^22.15.2",
-    "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^2.0.1",
-    "husky": "^3.0.4",
-    "jest": "^24.9.0",
-    "lint-staged": "^9.2.3",
+    "@lunde/babel-preset-es": "latest",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "cross-env": "latest",
+    "eslint": "latest",
+    "eslint-import-resolver-jest": "latest",
+    "eslint-plugin-jest": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
     "mock-raf": "^1.0.1",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-test-renderer": "^16.9.0",
-    "rimraf": "^3.0.0"
+    "prettier": "latest",
+    "react": "^16.12.0",
+    "react-test-renderer": "^16.12.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
     "@essentials/request-timeout": "^1.0.1"
   },
   "peerDependencies": {
-    "prop-types": ">= 15.6.0",
-    "react": ">= 16.8.0"
-  },
-  "scripts": {
-    "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js  --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "format": "npm run format:cjs && npm run format:es && npm run format:src",
-    "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
-    "format:es": "prettier --write \"dist/es/**/*.js\"",
-    "format:src": "prettier --write \"src/**/*.js\"",
-    "lint": "eslint src",
-    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
-    "test": "jest",
-    "validate": "npm run lint && npm run test -- --coverage"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.js": [
-      "eslint",
-      "pretty-quick --staged"
-    ]
-  },
-  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jaredLunde/react-hook.git"
-  },
-  "bugs": {
-    "url": "https://github.com/jaredLunde/react-hook/issues"
+    "react": ">=16.8"
   }
 }
