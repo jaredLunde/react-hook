@@ -1,13 +1,18 @@
 {
   "name": "@react-hook/throttle",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
   "description": "A React hook for throttling setState and other callbacks",
   "keywords": [
-    "throttle"
+    "react",
+    "react hook",
+    "throttle",
+    "throttle hook",
+    "react throttle",
+    "throttle state"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
