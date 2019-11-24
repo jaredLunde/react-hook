@@ -37,15 +37,17 @@ const Component = props => {
 
 ### `useWindowScroll(fps?: number)`
 
+#### Options
+
 |     | Type     | Default | Description                                                                     |
 | --- | -------- | ------- | ------------------------------------------------------------------------------- |
 | fps | `number` | `30`    | Defines the rate in frames per second with which the scroll position is updated |
 
-#### Returns `scrollY: integer`
+#### Returns `scrollY: number`
 
 |         | Type      | Description                                             |
 | ------- | --------- | ------------------------------------------------------- |
-| scrollY | `integer` | The current scroll position of the window on the y-axis |
+| scrollY | `number` | The current scroll position of the window on the y-axis |
 
 ## LICENSE
 
