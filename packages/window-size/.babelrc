@@ -7,8 +7,7 @@
           "targets": {
             "node": "8"
           }
-        },
-        "typescript": false
+        }
       }
     ]
   ],
@@ -24,7 +23,7 @@
                 "browsers": "> 2%"
               }
             },
-            "typescript": false
+            "objectAssign": false
           }
         ]
       ]

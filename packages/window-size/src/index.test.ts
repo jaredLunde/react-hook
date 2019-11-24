@@ -1,9 +1,11 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import * as raf from 'raf'
+// @ts-ignore
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import {useWindowSize} from './index'
 
-const renderWindowSize = (...args) => renderHook(() => useWindowSize(...args))
+const renderWindowSize = (...args): any =>
+  renderHook(() => useWindowSize(...args))
 
 describe('debounced', () => {
   beforeEach(() => {

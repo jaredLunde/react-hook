@@ -1,55 +1,60 @@
-"use strict";
+'use strict'
 
-exports.__esModule = true;
-exports.default = exports.useWindowSize = exports.useWindowWidth = exports.useWindowHeight = void 0;
+exports.__esModule = true
+exports.default = exports.useWindowSize = exports.useWindowWidth = exports.useWindowHeight = void 0
 
-var _react = require("react");
+var _react = require('react')
 
-var _array = _interopRequireDefault(require("empty/array"));
+var _throttle = _interopRequireDefault(require('@react-hook/throttle'))
 
-var _object = _interopRequireDefault(require("empty/object"));
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {default: obj}
+}
 
-var _throttle = _interopRequireDefault(require("@react-hook/throttle"));
+const emptyArr = []
+const emptyObj = {}
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const useSizeHook = (dim, initialValue, opt) => {
-  const {
+const useSizeHook = (dim, initialValue, options = emptyObj) => {
+  const {fps, leading} = options
+  const [size, setThrottledSize] = (0, _throttle.default)(
+    typeof document === 'undefined'
+      ? initialValue
+      : document.documentElement[dim],
     fps,
     leading
-  } = opt;
-  const [size, setThrottledSize] = (0, _throttle.default)(typeof document === 'undefined' ? initialValue : document.documentElement[dim], fps, leading);
+  )
 
   function _ref() {
-    return setThrottledSize(document.documentElement[dim]);
+    return setThrottledSize(document.documentElement[dim])
   }
 
-  (0, _react.useEffect)(() => {
-    const setSize = _ref;
-    window.addEventListener('resize', setSize);
-    window.addEventListener('orientationchange', setSize);
+  ;(0, _react.useEffect)(() => {
+    const setSize = _ref
+    window.addEventListener('resize', setSize)
+    window.addEventListener('orientationchange', setSize)
     return () => {
-      window.removeEventListener('resize', setSize);
-      window.removeEventListener('orientationchange', setSize);
-    };
-  }, _array.default);
-  return size;
-};
+      window.removeEventListener('resize', setSize)
+      window.removeEventListener('orientationchange', setSize)
+    }
+  }, emptyArr)
+  return size
+}
 
-const useWindowHeight = (initialValue = 0, opt = _object.default) => {
-  return useSizeHook('clientHeight', initialValue, opt);
-};
+const useWindowHeight = (initialValue = 0, options) =>
+  useSizeHook('clientHeight', initialValue, options)
 
-exports.useWindowHeight = useWindowHeight;
+exports.useWindowHeight = useWindowHeight
 
-const useWindowWidth = (initialValue = 0, opt = _object.default) => {
-  return useSizeHook('clientWidth', initialValue, opt);
-};
+const useWindowWidth = (initialValue = 0, options) =>
+  useSizeHook('clientWidth', initialValue, options)
 
-exports.useWindowWidth = useWindowWidth;
+exports.useWindowWidth = useWindowWidth
 
-const useWindowSize = (initialWidth, initialHeight, opt) => [useWindowWidth(initialWidth, opt), useWindowHeight(initialHeight, opt)];
+const useWindowSize = (initialWidth, initialHeight, options) => [
+  useWindowWidth(initialWidth, options),
+  useWindowHeight(initialHeight, options),
+]
 
-exports.useWindowSize = useWindowSize;
-var _default = useWindowSize;
-exports.default = _default;
+exports.useWindowSize = useWindowSize
+var _default = useWindowSize
+exports.default = _default

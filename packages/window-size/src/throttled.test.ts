@@ -3,7 +3,8 @@ import {useWindowSize} from './throttled'
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import * as raf from 'raf'
 
-const renderWindowSize = (...args) => renderHook(() => useWindowSize(...args))
+const renderWindowSize = (...args): any =>
+  renderHook(() => useWindowSize(...args))
 
 describe('throttled', () => {
   beforeEach(() => {
