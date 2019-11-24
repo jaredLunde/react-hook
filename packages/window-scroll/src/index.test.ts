@@ -2,15 +2,15 @@ import {renderHook, act} from '@testing-library/react-hooks'
 import useWindowScroll from './index'
 import * as raf from 'raf'
 
-const renderWindowScroll = (...args) =>
+const renderWindowScroll = (...args): any =>
   renderHook(() => useWindowScroll(...args))
 const scrollEvent = document.createEvent('Event')
 scrollEvent.initEvent('scroll', true, true)
-const scrollTo = value => {
+const scrollTo = (value): void => {
   Object.defineProperty(window, 'scrollY', {value, configurable: true})
   window.dispatchEvent(scrollEvent)
 }
-const resetScroll = () => {
+const resetScroll = (): void => {
   scrollTo(0)
 }
 

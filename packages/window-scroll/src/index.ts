@@ -1,15 +1,15 @@
 import {useEffect} from 'react'
 import {useThrottle} from '@react-hook/throttle'
-import emptyArr from 'empty/array'
 
-const getScrollY = () =>
+const emptyArr = []
+const getScrollY = (): number =>
   window.scrollY !== void 0
     ? window.scrollY
     : window.pageYOffset === void 0
     ? 0
     : window.pageYOffset
 
-export default (fps = 30) => {
+export const useWindowScroll = (fps = 30): number => {
   const [scrollY, setThrottledScroll] = useThrottle(
     typeof window === 'undefined' ? 0 : getScrollY,
     fps,
@@ -17,12 +17,14 @@ export default (fps = 30) => {
   )
 
   useEffect(() => {
-    const handleScroll = () => setThrottledScroll(getScrollY())
+    const handleScroll = (): void => setThrottledScroll(getScrollY())
     window.addEventListener('scroll', handleScroll)
-    return () => {
+    return (): void => {
       window.removeEventListener('scroll', handleScroll)
     }
   }, emptyArr)
 
   return scrollY
 }
+
+export default useWindowScroll
