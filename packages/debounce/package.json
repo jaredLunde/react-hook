@@ -1,13 +1,20 @@
 {
   "name": "@react-hook/debounce",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/debounce#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
   "description": "A React hook for debouncing setState and other callbacks",
   "keywords": [
-    "debounce"
+    "react",
+    "react hook",
+    "hook",
+    "react hooks",
+    "hooks",
+    "debounce",
+    "debounce hook",
+    "react hook debounce"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
