@@ -125,6 +125,8 @@ const Component = props => {
 | ------ | -------- | ---------------------------------------- |
 | height | `number` | The current `clientHeight` of the window |
 
+---
+
 ## Throttled API
 
 To use these throttled hooks instead of debounced hooks, import with `import {...} from '@react-hook/window-size/throttled`
