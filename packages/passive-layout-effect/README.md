@@ -1,24 +1,36 @@
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/passive-layout-effect?style=plastic)](https://bundlephobia.com/result?p=@react-hook/passive-layout-effect)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+<hr>
+<div align="center">
+  <h1 align="center">
+    usePassiveLayoutEffect()
+  </h1>
+</div>
 
----
+<p align="center">
+  <a href="https://bundlephobia.com/result?p=@react-hook/passive-layout-effect">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/passive-layout-effect?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/passive-layout-effect">
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/passive-layout-effect?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/passive-layout-effect">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/passive-layout-effect?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/@react-hook/passive-layout-effect?style=for-the-badge&labelColor=24292e">
+  </a>
+</p>
 
-# @react-hook/passive-layout-effect
+<pre align="center">npm i @react-hook/passive-layout-effect</pre>
+<hr>
 
 A React hook that uses `useEffect()` on the server and `useLayoutEffect()` in the browser
 
-## Installation
-
-#### `npm i @react-hook/passive-layout-effect`
-
-#### `yarn add @react-hook/passive-layout-effect`
-
-## Usage
+## Quick Start
 
 ```jsx harmony
 import usePassiveLayoutEffect from '@react-hook/passive-layout-effect'
 
-const F = ({foo, bar}) => {
+const Component = ({foo, bar}) => {
   // Used the same way useEffect() and useLayoutEffect() are
   usePassiveLayoutEffect(() => {}, [foo, bar])
 }
