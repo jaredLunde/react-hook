@@ -1,13 +1,16 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    @react-hook/window-size
+    useWindowSize()
   </h1>
 </div>
 
 <p align="center">
   <a href="https://bundlephobia.com/result?p=@react-hook/window-size">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/window-size?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/window-size">
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/window-size?style=for-the-badge&labelColor=24292e">
   </a>
   <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/window-size">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/window-size?style=for-the-badge&labelColor=24292e">

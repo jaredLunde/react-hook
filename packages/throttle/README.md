@@ -1,13 +1,16 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    @react-hook/throttle
+    useThrottle()
   </h1>
 </div>
 
 <p align="center">
   <a href="https://bundlephobia.com/result?p=@react-hook/throttle">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/throttle">
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
   </a>
   <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/throttle">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/throttle?style=for-the-badge&labelColor=24292e">
