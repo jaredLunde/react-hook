@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    @react-hook/merged-ref
+    useMergedRef()
   </h1>
 </div>
 
