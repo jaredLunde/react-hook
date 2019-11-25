@@ -8,6 +8,8 @@ const setRef = (ref, value) => {
   }
 }
 
+type ReactRef = {}
+
 const useMergedRef = (...args) => {
   return useCallback(element => {
     if (args.length === 2) {

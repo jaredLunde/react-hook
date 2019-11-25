@@ -1,30 +1,54 @@
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/merged-ref?style=plastic)](https://bundlephobia.com/result?p=@react-hook/merged-ref)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+<hr>
+<div align="center">
+  <h1 align="center">
+    @react-hook/merged-ref
+  </h1>
+</div>
 
----
+<p align="center">
+  <a href="https://bundlephobia.com/result?p=@react-hook/merged-ref">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/merged-ref?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/merged-ref">
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/merged-ref?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/merged-ref">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/merged-ref?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/@react-hook/merged-ref?style=for-the-badge&labelColor=24292e">
+  </a>
+</p>
 
-# @react-hook/merged-ref
+<pre align="center">npm i @react-hook/merged-ref</pre>
+<hr>
 
 A React hook for merging multiple refs into one ref
 
-## Installation
-
-#### `npm i merged-ref`
-
-#### `yarn add merged-ref`
-
-## Usage
+## Quick Start
 
 ```jsx harmony
 import React from 'react'
 import useMergedRef from '@react-hook/merged-ref'
 
-const F = React.forwardRef((props, ref) => {
+const Component = React.forwardRef((props, ref) => {
   const otherRef = React.useRef(null)
   const multiRef = useMergedRef(ref, otherRef)
   return <div ref={multiRef} />
 })
 ```
+
+## API
+
+### `useMergedRef(...refs: ReactRef[]): CallbackRef`
+
+| Argument | Description                                                        |
+| -------- | ------------------------------------------------------------------ |
+| refs     | React callback refs or refs created with `useRef()`, `createRef()` |
+
+#### Returns `ref: CallbackRef`
+
+Returns a callback ref
 
 ## LICENSE
 
