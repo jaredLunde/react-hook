@@ -1,5 +1,5 @@
 # @react-hook/click
-A React hoook for conditionally firing a function when an element is
+A React hook for conditionally firing a function when an element is
 clicked - for instance if you only want a click even to fire on
 double-clicks.
 
