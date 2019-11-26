@@ -1,27 +1,27 @@
 <hr>
 <div align="center">
-<h1 align="center">
-useIntersectionObserver()
-</h1>
+  <h1 align="center">
+    useIntersectionObserver()
+  </h1>
 </div>
 
 <p align="center">
-<a href="https://bundlephobia.com/result?p=@react-hook/intersection-observer" rel="nofollow" class="rich-diff-level-one">
-<img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
-</a>
-<a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/intersection-observer">
-<img alt="" src="https://img.shields.io/npm/v/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
-</a>
-<a aria-label="License" href="https://jaredlunde.mit-license.org/">
-<img alt="" src="https://img.shields.io/npm/l/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
-</a>
+  <a href="https://bundlephobia.com/result?p=@react-hook/intersection-observer">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/intersection-observer">
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/intersection-observer">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/@react-hook/intersection-observer?style=for-the-badge&labelColor=24292e">
+  </a>
 </p>
 
-<pre align="center">
-npm i @react-hook/intersection-observer
-</pre>
+<pre align="center">npm i @react-hook/intersection-observer</pre>
 <hr>
-
 A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available
 
 The Intersection Observer API provides a way to asynchronously observe changes in
@@ -45,9 +45,9 @@ const Component = () => {
 
 ## API
 
-### `useIntersectionObserver(options?: Object): [entry, ref]`
+### `useIntersectionObserver(options?: IntersectionObserverOptions)`
 
-#### Options
+#### IntersectionObserverOptions
 
 | Property              | Type                              | Default     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | --------------------- | --------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -58,7 +58,7 @@ const Component = () => {
 | useMutationObserver   | `bool`                            | `true`      | You can also choose to not check for intersections in the polyfill when the DOM changes by setting this to `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | initialIsIntersecting | `bool`                            | `false`     | Changes the default value of `isIntersecting` for use in places like SSR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-#### Returns `[entry, ref]`
+#### Returns `[entry: IntersectionObserverEntry, ref: (element: HTMLElement) => void]`
 
 | Variable | Type                        | Description                                                                                                                                                                 |
 | -------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

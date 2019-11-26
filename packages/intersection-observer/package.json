@@ -1,12 +1,12 @@
 {
   "name": "@react-hook/intersection-observer",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/intersection-observer#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
-  "description": "",
+  "description": "A React hook for the IntersectionObserver API that uses a polyfill when the native API is not available",
   "keywords": [
     "react",
     "react hook",
@@ -14,7 +14,9 @@
     "react hooks",
     "hooks",
     "intersection",
-    "intersection observer"
+    "intersection observer",
+    "use intersection observer",
+    "useintersectionobserver"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -23,53 +25,55 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "format": "prettier --write \"**/*.{js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint .",
+    "build": "npm run build:cjs && npm run build:es && npm run build:types",
+    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run lint && npm run test -- --coverage"
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run build:types"
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "**/*.{ts,js}": [
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json,babelrc,eslintrc,prettierrc}": [
+    "**/*.{md,yml,json}": [
       "prettier --write"
     ]
   },
   "devDependencies": {
-    "@babel/preset-react": "latest",
     "@lunde/babel-preset-es": "latest",
-    "@testing-library/jest-dom": "latest",
-    "@testing-library/react": "latest",
-    "@testing-library/react-hooks": "latest",
-    "babel-eslint": "latest",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
     "eslint-plugin-jest": "latest",
-    "eslint-plugin-react": "latest",
-    "eslint-plugin-react-hooks": "latest",
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
     "prettier": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-test-renderer": "latest",
-    "rimraf": "^2.6.3"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-test-renderer": "^16.12.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.0.1",
+    "@react-hook/passive-layout-effect": "^1.0.2",
     "intersection-observer": "^0.7.0"
   },
   "peerDependencies": {

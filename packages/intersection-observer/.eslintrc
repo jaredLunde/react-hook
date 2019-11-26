@@ -1,31 +1,22 @@
 {
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true,
-      "experimentalObjectRestSpread": true
-    }
-  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "jest"],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["jest", "react", "react-hooks"],
   "rules": {
     "no-console": "off",
     "no-prototype-builtins": "off",
-    "react/no-children-prop": "off",
-    "react/display-name": "off",
-    "react/prop-types": [2, {"ignore": ["children"]}]
-  },
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "detect"
-    }
+    "no-constant-condition": "off",
+    "no-undef": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-use-before-define": "off"
   },
   "env": {
     "browser": true,
@@ -38,7 +29,7 @@
   },
   "overrides": [
     {
-      "files": ["**/test.js", "**/*.test.js"],
+      "files": ["**/test.ts", "**/*.test.ts"],
       "settings": {
         "import/resolver": {
           "jest": {

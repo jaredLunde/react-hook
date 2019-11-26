@@ -1,13 +1,26 @@
 const path = require('path')
-const snapshots = 'test/__snapshots__'
-const src = path.join(__dirname, '../src')
+const snapshots = '__snapshots__'
 
 module.exports = {
   resolveSnapshotPath: (testPath, snapshotExtension) =>
-    path.join(snapshots, path.relative(src, testPath)) + snapshotExtension,
+    path.join(
+      testPath
+        .split('/')
+        .slice(0, -1)
+        .join('/'),
+      snapshots,
+      testPath.split('/').pop() + snapshotExtension
+    ),
   resolveTestPath: (snapshotFilePath, snapshotExtension) =>
-    snapshotFilePath
-      .replace(snapshots, 'src')
-      .slice(0, -snapshotExtension.length),
+    path.join(
+      snapshotFilePath
+        .split('/')
+        .slice(0, -2)
+        .join('/'),
+      snapshotFilePath
+        .split('/')
+        .pop()
+        .slice(0, -snapshotExtension.length)
+    ),
   testPathForConsistencyCheck: 'src/foo.test.js',
 }
