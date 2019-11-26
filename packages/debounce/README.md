@@ -23,6 +23,8 @@
 <pre align="center">npm i @react-hook/debounce</pre>
 <hr>
 
+A React hook for debouncing setState and other callbacks
+
 ## Quick Start
 
 ```jsx harmony

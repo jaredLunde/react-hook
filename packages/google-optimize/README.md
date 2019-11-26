@@ -26,7 +26,7 @@
 <pre align="center">npm i @react-hook/google-optimize</pre>
 <hr>
 
-A React hook for adding Google Optimize variants to components
+###### A React hook for adding Google Optimize variants to components
 
 ## Quick Start
 

@@ -23,6 +23,8 @@
 <pre align="center">npm i @react-hook/throttle</pre>
 <hr>
 
+A React hook for throttling setState and other callbacks.
+
 ## Quick Start
 
 ```jsx harmony
