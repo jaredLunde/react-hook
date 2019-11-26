@@ -1,9 +1,9 @@
 <div align="center">
   <h1 align="center">
     ↩ react-hook
+    <br>
+    <br>
   </h1>
-  <br>
-  <br>
 </div>
 
 #### [`@react-hook/click`](packages/click)
