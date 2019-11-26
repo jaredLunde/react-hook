@@ -63,7 +63,7 @@ const Component = () => {
 | Variable | Type                        | Description                                                                                                                                                                 |
 | -------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | entry    | `IntersectionObserverEntry` | This is the [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) object returned by the `IntersectionObserver` callback. |
-| ref      | `React.ref`                 | Provide this to the React element you want to monitor via the `ref` property                                                                                                |
+| ref      | `Callback Ref`                 | Provide this to the React element you want to monitor via the `ref` property                                                                                                |
 
 ## LICENSE
 
