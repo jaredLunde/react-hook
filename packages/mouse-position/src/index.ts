@@ -56,34 +56,29 @@ export const useMousePosition = (
     }
   }
 
-  const onMove_ = useCallback((e: MouseEvent): void => {
-    if (!canHover() || !entered.current) return
+  const onMove_ = useCallback(
+    (e: MouseEvent): void => {
+      if (!canHover() || !entered.current || !element) return
 
-    const {
-        target,
+      const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = e,
+        rect = element.getBoundingClientRect()
+
+      setState({
+        x: pageX - rect.left - (window.pageXOffset || window.scrollX),
+        y: pageY - rect.top - (window.pageYOffset || window.scrollY),
+        pageX,
+        pageY,
         clientX,
         clientY,
         screenX,
         screenY,
-        pageX = 0,
-        pageY = 0,
-      } = e,
-      rect = (target as HTMLElement).getBoundingClientRect()
-
-    setState({
-      x: pageX - rect.left - (window.pageXOffset || window.scrollX),
-      y: pageY - rect.top - (window.pageYOffset || window.scrollY),
-      pageX,
-      pageY,
-      clientX,
-      clientY,
-      screenX,
-      screenY,
-      elementWidth: rect.width,
-      elementHeight: rect.height,
-      isOver: true,
-    })
-  }, [])
+        elementWidth: rect.width,
+        elementHeight: rect.height,
+        isOver: true,
+      })
+    },
+    [element]
+  )
 
   const onMove = useThrottleCallback(onMove_, fps, true)
 
