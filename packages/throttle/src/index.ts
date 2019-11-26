@@ -2,10 +2,10 @@ import {useEffect, useCallback, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
 export const useThrottleCallback = (
-  callback: Function,
+  callback: (...args: any[]) => any,
   fps = 30,
   leading = false
-): Function => {
+): ((...args: any[]) => any) => {
   const nextTimeout = useRef(null),
     tailTimeout = useRef(null),
     calledLeading = useRef(false),
@@ -43,7 +43,7 @@ export const useThrottleCallback = (
           callback.apply(self, args)
         }
 
-        if (leading && calledLeading.current === false) {
+        if (leading && !calledLeading.current) {
           // leading
           next()
           calledLeading.current = true

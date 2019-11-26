@@ -2,10 +2,10 @@ import {useCallback, useEffect, useState, useRef} from 'react'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 
 export const useDebounceCallback = (
-  callback: Function,
+  callback: (...args: any[]) => any,
   wait = 100,
   leading = false
-): Function => {
+): ((...args: any[]) => any) => {
   const timeout = useRef(null)
 
   // cleans up pending timeouts when the function changes

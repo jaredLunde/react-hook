@@ -1,22 +1,12 @@
 {
   "name": "@react-hook/mouse-position",
-  "version": "1.0.3",
-  "main": "dist/cjs/index.js",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "version": "2.0.0",
+  "homepage": "https://github.com/jaredLunde/react-hook#readme",
+  "repository": "github:jaredLunde/react-hook",
+  "bugs": "https://github.com/jaredLunde/react-hook/issues",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
   "license": "MIT",
-  "sideEffects": false,
-  "module": "dist/es/index.js",
-  "repository": "https://github.com/jaredLunde/react-hook/tree/master/packages/mouse-position",
-  "scripts": {
-    "build": "yarn run build:es && yarn run build:cjs",
-    "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es && npm run prettier:es",
-    "build:cjs": "rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs && npm run prettier:cjs",
-    "watch:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src -w --out-dir dist/es",
-    "prettier": "prettier --single-quote --no-semi --no-bracket-spacing --trailing-comma es5 --write",
-    "prettier:es": "yarn prettier \"dist/es/**/*.js\"",
-    "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
-    "prepublishOnly": "yarn build"
-  },
+  "description": "A React hook for tracking the position of the mouse as it moves around an element.",
   "keywords": [
     "react",
     "react hook",
@@ -25,21 +15,68 @@
     "hooks",
     "mousemove",
     "mouse position",
-    "mouse tracker"
+    "mouse tracker",
+    "use mouse position",
+    "usemouseposition"
   ],
-  "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.4",
-    "@stellar-apps/babel-preset-react": "^1.0.1",
-    "prettier": "^1.16.4",
-    "rimraf": "^2.6.3"
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "files": [
+    "/dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:es && npm run build:types",
+    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts",
+    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
+    "test": "jest",
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
-  "peerDependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^16.8.0"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run build:types"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,js}": [
+      "eslint",
+      "prettier --write"
+    ],
+    "**/*.{md,yml,json}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@lunde/babel-preset-es": "latest",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "cross-env": "latest",
+    "eslint": "latest",
+    "eslint-import-resolver-jest": "latest",
+    "eslint-plugin-jest": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "prettier": "latest",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-test-renderer": "^16.12.0",
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
-    "@essentials/request-timeout": "^1.0.0",
-    "@react-hook/hover": "^1.0.1",
-    "@react-hook/throttle": "^1.0.0"
+    "@react-hook/throttle": "^1.0.9"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
   }
 }
