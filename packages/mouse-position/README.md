@@ -67,7 +67,7 @@ const Component = props => {
 | `state`  | The mouse position data for the ref'd element                                             |
 | `ref`    | The callback ref you must provide to the element you want to track mouse data position of |
 
-#### MousePosition
+#### state: MousePosition
 
 | Key           | Type      | Default | Description                                                                                       |
 | ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------- |
