@@ -1,4 +1,4 @@
-import {useRef, useMemo, useEffect, useCallback, useState} from 'react'
+import {useRef, useState, useMemo, useEffect, useCallback} from 'react'
 
 export const canHover = (): boolean =>
   typeof window !== 'undefined'
@@ -11,10 +11,10 @@ type EffectReturn = void | (() => void)
 const useHover = (
   enterDelay?: number,
   leaveDelay?: number
-): [boolean, {current: HTMLElement | null}] => {
-  const [isHovering, setHovering] = useState(false)
-  const timeout = useRef<number | null>(null)
-  const element = useRef<HTMLElement | null>(null)
+): [boolean, (element: HTMLElement) => void] => {
+  const [isHovering, setHovering] = useState<boolean>(false)
+  const timeout = useRef<number | undefined>()
+  const [element, setElement] = useState<HTMLElement | null>(null)
   const hasHover = useMemo(canHover, [])
   // here for compatibility reasons with certain libs
   const toggle = useCallback((value, delay) => {
@@ -22,7 +22,7 @@ const useHover = (
 
     if (timeout.current !== null) {
       window.clearTimeout(timeout.current)
-      timeout.current = null
+      timeout.current = void 0
     }
 
     if (delay) {
@@ -43,17 +43,16 @@ const useHover = (
   ])
 
   useEffect((): EffectReturn => {
-    const el = element.current
-    if (el !== null) {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
+    if (element !== null) {
+      element.addEventListener('mouseenter', onEnter)
+      element.addEventListener('mouseleave', onLeave)
 
       return (): void => {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
+        element.removeEventListener('mouseenter', onEnter)
+        element.removeEventListener('mouseleave', onLeave)
       }
     }
-  }, [element.current, onEnter, onLeave])
+  }, [element, onEnter, onLeave])
   // cleans up timeout on unmount
   useEffect(
     () => (): void => {
@@ -62,7 +61,7 @@ const useHover = (
     emptyArr
   )
 
-  return [isHovering, element]
+  return [isHovering, setElement]
 }
 
 export default useHover

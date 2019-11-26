@@ -5,10 +5,10 @@ import useHover from './index'
 it('responds to enters and leaves', () => {
   const element = document.createElement('div')
 
-  const {result} = renderHook(() => {
-    const result = useHover()
-    result[1].current = element
-    return result
+  const {result} = renderHook(() => useHover())
+
+  act(() => {
+    result.current[1](element)
   })
 
   expect(result.current[0]).toBe(false)
@@ -30,10 +30,10 @@ it('responds to enter delay', () => {
   jest.useFakeTimers()
   const element = document.createElement('div')
 
-  const {result} = renderHook(() => {
-    const result = useHover(1000)
-    result[1].current = element
-    return result
+  const {result} = renderHook(() => useHover(1000))
+
+  act(() => {
+    result.current[1](element)
   })
 
   expect(result.current[0]).toBe(false)
@@ -61,10 +61,10 @@ it('responds to leave delay', () => {
   jest.useFakeTimers()
   const element = document.createElement('div')
 
-  const {result} = renderHook(() => {
-    const result = useHover(0, 1000)
-    result[1].current = element
-    return result
+  const {result} = renderHook(() => useHover(0, 1000))
+
+  act(() => {
+    result.current[1](element)
   })
 
   expect(result.current[0]).toBe(false)

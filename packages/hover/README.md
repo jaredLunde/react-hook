@@ -49,12 +49,12 @@ const Component = props => {
 | enterDelay | number | Delays setting `isHovering` to `true` for this amount in `ms`  |
 | leaveDelay | number | Delays setting `isHovering` to `false` for htis amount in `ms` |
 
-#### Returns `[isHovering: boolean, ref: {current: HTMLElement | null}]`
+#### Returns `[isHovering: boolean, ref: (element: HTMLElement) => void]`
 
-| Variable   | Type                | Description                                                                                                                                               |
-| ---------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| isHovering | boolean             | `true` if the element in `ref` is in a hover state, otherwise `false`. This value is always `false` on devices that don't have hover states, i.e. phones. |
-| ref        | typeof React.useRef | Provide this `ref` to the React element whose hover state you want to observe                                                                             |
+| Variable   | Type                             | Description                                                                                                                                               |
+| ---------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| isHovering | `boolean`                        | `true` if the element in `ref` is in a hover state, otherwise `false`. This value is always `false` on devices that don't have hover states, i.e. phones. |
+| ref        | `(element: HTMLElement) => void` | Provide this `ref` to the React element whose hover state you want to observe                                                                             |
 
 ## LICENSE
 
