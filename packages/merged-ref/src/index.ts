@@ -12,7 +12,7 @@ export interface CallbackRef extends Function {
   (element: any): any | void
 }
 
-export type ReactRef = CallbackRef | MutableRefObject<any>
+export type ReactRef = CallbackRef | MutableRefObject<any | unknown>
 
 const useMergedRef = (...args: ReactRef[]): CallbackRef =>
   useCallback((element: any): void => {
