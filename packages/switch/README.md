@@ -1,28 +1,41 @@
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/@react-hook/switch?style=plastic)](https://bundlephobia.com/result?p=@react-hook/switch)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+<hr>
+<div align="center">
+  <h1 align="center">
+    @react-hook/switch
+  </h1>
+</div>
 
----
+<p align="center">
+  <a href="https://bundlephobia.com/result?p=@react-hook/switch">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/switch?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/switch">
+      <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/switch?style=for-the-badge&labelColor=24292e">
+    </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/switch">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/switch?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/@react-hook/switch?style=for-the-badge&labelColor=24292e">
+  </a>
+</p>
 
-# @react-hook/switch
+<pre align="center">npm i @react-hook/switch</pre>
+<hr>
 
-A react hook for controlling a boolean value with toggle, on, and off callbacks
+A React hook for controlling a boolean value with toggle, on, and off callbacks
 
-## Installation
-
-#### `npm i @react-hook/switch`
-
-#### `yarn add @react-hook/switch`
-
-## Usage
+## Quick Start
 
 ```jsx harmony
 import useSwitch from '@react-hook/switch'
 
-const F = props => {
+const Component = props => {
   const [value, toggle] = useSwitch(false /*default value*/)
 
   return (
     <>
+      Value: ${value}
       {/* toggles the current value to its opposite*/}
       <button onClick={toggle}>Toggle</button>
       {/* toggles the current value to true*/}
@@ -34,21 +47,29 @@ const F = props => {
 }
 ```
 
-### `useSwitch(initialValue: boolean): function`
+## API
 
-- `initialValue` `<boolean>`
-  - **default** `false`
-  - Sets the initial value
+### `useSwitch(defaultValue?: boolean)`
 
-#### Returns `[value: boolean, toggle: function]: Array`
+#### Arguments
 
-- `toggle`
-  - Toggles the current value to its opposite. If `true`, then `false`.
-  - **Methods**
-    - `on` `<function>`
-      - Sets the value to `true`
-    - `off` `<function>`
-      - Sets the value to `false`
+| Argument     | Type      | Default | Required? | Description               |
+| ------------ | --------- | ------- | --------- | ------------------------- |
+| defaultValue | `boolean` | `false` | `false`   | Defines the initial value |
+
+#### Returns `[value: boolean, toggle: ToggleFn]`
+
+| Variable | Type       | Description                                                                |
+| -------- | ---------- | -------------------------------------------------------------------------- |
+| value    | `boolean`  | Defines the initial value                                                  |
+| toggle   | `ToggleFn` | If the `value` is `true`, calling this will make it `false` and vice-versa |
+
+#### `ToggleFn`
+
+| Method | Type         | Description                     |
+| ------ | ------------ | ------------------------------- |
+| on     | `() => void` | Switches the `value` to `true`  |
+| off    | `() => void` | Switches the `value` to `false` |
 
 ## LICENSE
 

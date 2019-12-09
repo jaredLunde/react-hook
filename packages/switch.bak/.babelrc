@@ -8,11 +8,11 @@
           "targets": {
             "node": "8"
           }
-        }
+        },
+        "typescript": false
       }
     ]
   ],
-  "plugins": ["optimize-react"],
   "env": {
     "es": {
       "presets": [
@@ -25,7 +25,7 @@
                 "browsers": "> 2%"
               }
             },
-            "objectAssign": false
+            "typescript": false
           }
         ]
       ]

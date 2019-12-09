@@ -1,0 +1,23 @@
+{
+  "include": ["src"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/test.ts",
+    "src/**/*.test.tsx",
+    "src/**/test.tsx"
+  ],
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": true
+  }
+}

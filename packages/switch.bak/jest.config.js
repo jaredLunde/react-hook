@@ -7,11 +7,10 @@ module.exports = {
     path.join(__dirname, 'src'),
     path.join(__dirname, 'test'),
   ],
-  testMatch: ['<rootDir>/src/**/?(*.)test.{ts,tsx}'],
-  collectCoverageFrom: ['**/src/**/*.{ts,tsx}'],
   // moduleNameMapper: {},
   setupFilesAfterEnv: [require.resolve('./test/setup.js')],
   snapshotResolver: require.resolve('./test/resolve-snapshot.js'),
+  collectCoverageFrom: ['**/src/**/*.{js,jsx}'],
   // coverageThreshold: {
   //   global: {
   //     statements:17,
