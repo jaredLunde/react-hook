@@ -52,7 +52,7 @@ export const useWindowSize = (
   initialWidth?: number,
   initialHeight?: number,
   options?: ThrottleOptions
-): number[] => [
+): [number, number] => [
   useWindowWidth(initialWidth, options),
   useWindowHeight(initialHeight, options),
 ]
