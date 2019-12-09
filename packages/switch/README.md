@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    @react-hook/switch
+    useSwitch()
   </h1>
 </div>
 
@@ -35,7 +35,7 @@ const Component = props => {
 
   return (
     <>
-      Value: ${value}
+      <span>Value: {value}</span>
       {/* toggles the current value to its opposite*/}
       <button onClick={toggle}>Toggle</button>
       {/* toggles the current value to true*/}
