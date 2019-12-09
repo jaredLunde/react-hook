@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {useCallback, MutableRefObject} from 'react'
 
 const setRef = (ref: ReactRef, value: any): void => {
   if (typeof ref === 'function') {
@@ -8,15 +8,11 @@ const setRef = (ref: ReactRef, value: any): void => {
   }
 }
 
-export interface ObjectRef {
-  current: any
-}
-
 export interface CallbackRef extends Function {
   (element: any): any | void
 }
 
-export type ReactRef = CallbackRef | ObjectRef
+export type ReactRef = CallbackRef | MutableRefObject<any>
 
 const useMergedRef = (...args: ReactRef[]): CallbackRef =>
   useCallback((element: any): void => {
