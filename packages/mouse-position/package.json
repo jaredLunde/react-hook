@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/mouse-position",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/mouse-position#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -58,6 +58,7 @@
     "@types/jest": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "babel-plugin-optimize-react": "^0.0.4",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
