@@ -20,7 +20,7 @@ const useMergedRef = (...args: ReactRef[]): CallbackRef =>
       setRef(args[0], element)
       setRef(args[1], element)
     } else {
-      for (const ref of args) setRef(ref, element)
+      for (let i = 0; i < args.length; i++) setRef(args[i], element)
     }
   }, args)
 
