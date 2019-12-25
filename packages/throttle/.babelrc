@@ -11,6 +11,7 @@
       }
     ]
   ],
+  "plugins": ["optimize-react"],
   "env": {
     "es": {
       "presets": [
