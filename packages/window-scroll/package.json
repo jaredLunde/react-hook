@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-scroll",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-scroll#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -58,6 +58,7 @@
     "@types/jest": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "babel-plugin-optimize-react": "^0.0.4",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
