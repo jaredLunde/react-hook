@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -66,6 +66,7 @@
     "@types/jest": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "babel-plugin-optimize-react": "^0.0.4",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",

@@ -3,7 +3,7 @@
 exports.__esModule = true
 exports.default = exports.useWindowSize = exports.useWindowWidth = exports.useWindowHeight = void 0
 
-var _react = require('react')
+var _react = _interopRequireDefault(require('react'))
 
 var _throttle = _interopRequireDefault(require('@react-hook/throttle'))
 
@@ -11,6 +11,7 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {default: obj}
 }
 
+const {useEffect} = _react.default
 const emptyArr = []
 const emptyObj = {}
 
@@ -28,7 +29,7 @@ const useSizeHook = (dim, initialValue, options = emptyObj) => {
     return setThrottledSize(document.documentElement[dim])
   }
 
-  ;(0, _react.useEffect)(() => {
+  useEffect(() => {
     const setSize = _ref
     window.addEventListener('resize', setSize)
     window.addEventListener('orientationchange', setSize)
