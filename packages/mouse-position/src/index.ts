@@ -13,6 +13,7 @@ export interface MousePosition {
   elementWidth: number | null
   elementHeight: number | null
   isOver: boolean
+  isDown: boolean
 }
 
 const initialState: MousePosition = {
@@ -27,6 +28,7 @@ const initialState: MousePosition = {
   elementWidth: null,
   elementHeight: null,
   isOver: false,
+  isDown: false,
 }
 
 export const useMousePosition = (
@@ -55,7 +57,7 @@ export const useMousePosition = (
       const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = e,
         rect = element.getBoundingClientRect()
 
-      setState({
+      setState(prev => ({
         x: pageX - rect.left - (window.pageXOffset || window.scrollX),
         y: pageY - rect.top - (window.pageYOffset || window.scrollY),
         pageX,
@@ -67,7 +69,8 @@ export const useMousePosition = (
         elementWidth: rect.width,
         elementHeight: rect.height,
         isOver: true,
-      })
+        isDown: prev.isDown,
+      }))
     },
     [element]
   )
@@ -88,25 +91,45 @@ export const useMousePosition = (
           setState(initialState)
         })
       }
+      const onDown = (): void => {
+        delay(enterDelay, (): void => {
+          entered.current = true
+          setState(prev => ({...prev, isDown: true}))
+        })
+      }
+      const onUp = (): void => {
+        delay(leaveDelay, (): void => {
+          entered.current = false
+          setState(prev => ({...prev, isDown: false}))
+        })
+      }
 
-      element.addEventListener('mouseenter', onEnter)
-      element.addEventListener('mousemove', onMove)
-      element.addEventListener('mouseleave', onLeave)
-      element.addEventListener('touchstart', onEnter)
-      element.addEventListener('touchmove', onMove)
-      element.addEventListener('touchend', onLeave)
+      const addEvent = element.addEventListener.bind(element)
+      addEvent('mouseenter', onEnter)
+      addEvent('mousemove', onMove)
+      addEvent('mouseleave', onLeave)
+      addEvent('mousedown', onDown)
+      addEvent('mouseup', onUp)
+      addEvent('touchstart', onEnter)
+      addEvent('touchstart', onDown)
+      addEvent('touchmove', onMove)
+      addEvent('touchend', onLeave)
 
       return (): void => {
         timeout.current !== null && window.clearTimeout(timeout.current)
         timeout.current = undefined
 
         if (element !== null) {
-          element.removeEventListener('mouseenter', onEnter)
-          element.removeEventListener('mousemove', onMove)
-          element.removeEventListener('mouseleave', onLeave)
-          element.removeEventListener('touchstart', onEnter)
-          element.removeEventListener('touchmove', onMove)
-          element.removeEventListener('touchend', onLeave)
+          const removeEvent = element.removeEventListener.bind(element)
+          removeEvent('mouseenter', onEnter)
+          removeEvent('mousemove', onMove)
+          removeEvent('mouseleave', onLeave)
+          removeEvent('mousedown', onDown)
+          removeEvent('mouseup', onUp)
+          removeEvent('touchstart', onEnter)
+          removeEvent('touchstart', onDown)
+          removeEvent('touchmove', onMove)
+          removeEvent('touchend', onLeave)
         }
       }
     }

@@ -84,6 +84,7 @@ const Component = props => {
 | elementWidth  | `number`  | `null`  | `DOMRect.width` of the element, `null` if mouse is not over the element                           |
 | elementHeight | `number`  | `null`  | `DOMRect.height` of the element, `null` if mouse is not over the element                          |
 | isOver        | `boolean` | `false` | `true` if the mouse is currently hovering over the element                                        |
+| isDown        | `boolean` | `false` | `true` if the mouse is currently hovering over the element AND is down                            |
 
 ## LICENSE
 
