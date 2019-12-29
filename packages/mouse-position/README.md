@@ -23,7 +23,9 @@
 <pre align="center">npm i @react-hook/mouse-position</pre>
 <hr>
 
-A React hook for tracking the position of the mouse as it moves around an element.
+A React hook for tracking the position of the mouse as it moves around an element. This
+hook also provides an interop between touch and desktop devices and will treat
+`ontouch` events the same as `onmouse` ones.
 
 ## Quick Start
 

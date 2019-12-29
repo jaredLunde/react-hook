@@ -1,11 +1,6 @@
 import {useState, useRef, useCallback, useEffect} from 'react'
 import {useThrottleCallback} from '@react-hook/throttle'
 
-export const canHover = (): boolean =>
-  typeof window !== 'undefined'
-    ? !window.matchMedia('(hover: none)').matches
-    : false
-
 export interface MousePosition {
   x: number | null
   y: number | null
@@ -45,8 +40,6 @@ export const useMousePosition = (
     timeout = useRef<number | undefined>()
 
   const delay = (amt, fn): void => {
-    if (!canHover()) return
-
     timeout.current && window.clearTimeout(timeout.current)
 
     if (amt) {
@@ -58,8 +51,7 @@ export const useMousePosition = (
 
   const onMove_ = useCallback(
     (e: MouseEvent): void => {
-      if (!canHover() || !entered.current || !element) return
-
+      if (!element) return
       const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = e,
         rect = element.getBoundingClientRect()
 
@@ -100,6 +92,9 @@ export const useMousePosition = (
       element.addEventListener('mouseenter', onEnter)
       element.addEventListener('mousemove', onMove)
       element.addEventListener('mouseleave', onLeave)
+      element.addEventListener('touchstart', onEnter)
+      element.addEventListener('touchmove', onMove)
+      element.addEventListener('touchend', onLeave)
 
       return (): void => {
         timeout.current !== null && window.clearTimeout(timeout.current)
@@ -109,6 +104,9 @@ export const useMousePosition = (
           element.removeEventListener('mouseenter', onEnter)
           element.removeEventListener('mousemove', onMove)
           element.removeEventListener('mouseleave', onLeave)
+          element.removeEventListener('touchstart', onEnter)
+          element.removeEventListener('touchmove', onMove)
+          element.removeEventListener('touchend', onLeave)
         }
       }
     }
