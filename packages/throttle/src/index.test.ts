@@ -2,9 +2,9 @@ import {renderHook, act} from '@testing-library/react-hooks'
 import {useThrottle, useThrottleCallback} from './index'
 import * as raf from 'raf'
 
-const renderThrottle = (callback, ...args): any =>
+const renderThrottle = (callback, ...args) =>
   renderHook(() => useThrottle(callback, ...args))
-const renderThrottleCallback = (callback, ...args): any =>
+const renderThrottleCallback = (callback, ...args) =>
   renderHook(() => useThrottleCallback(callback, ...args))
 
 describe('throttle', () => {

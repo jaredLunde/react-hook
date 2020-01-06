@@ -1,14 +1,14 @@
-import {useEffect, useCallback, useState, useRef} from 'react'
-import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
+import { useEffect, useCallback, useState, useRef, Dispatch, SetStateAction } from 'react'
+import {requestTimeout, clearRequestTimeout, RequestTimeoutHandle} from '@essentials/request-timeout'
 
-export const useThrottleCallback = (
-  callback: (...args: any[]) => any,
+export const useThrottleCallback = <CallbackArgs extends any[]>(
+  callback: (...args: CallbackArgs) => any,
   fps = 30,
   leading = false
-): ((...args: any[]) => any) => {
-  const nextTimeout = useRef(null),
-    tailTimeout = useRef(null),
-    calledLeading = useRef(false),
+): ((...args: CallbackArgs) => void) => {
+  const nextTimeout = useRef<RequestTimeoutHandle | null>(null),
+    tailTimeout = useRef<RequestTimeoutHandle | null>(null),
+    calledLeading = useRef<boolean>(false),
     wait = 1000 / fps
 
   // cleans up pending timeouts when the function changes
@@ -30,11 +30,9 @@ export const useThrottleCallback = (
   )
 
   return useCallback(
-    function() {
+    function(...args) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this,
-        // eslint-disable-next-line prefer-rest-params
-        args = arguments
+      const self = this;
 
       if (nextTimeout.current === null) {
         const next = (): void => {
@@ -65,12 +63,12 @@ export const useThrottleCallback = (
   )
 }
 
-export const useThrottle = (
-  initialState: any,
+export const useThrottle = <State>(
+  initialState: State | (() => State),
   fps?: number,
   leading?: boolean
-): any[] => {
-  const [state, setState] = useState(initialState)
+): [State, Dispatch<SetStateAction<State>>] => {
+  const [state, setState] = useState<State>(initialState);
   return [state, useThrottleCallback(setState, fps, leading)]
 }
 
