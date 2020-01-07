@@ -1,5 +1,16 @@
-import { useCallback, useEffect, useState, useRef, Dispatch, SetStateAction } from 'react'
-import {requestTimeout, clearRequestTimeout, RequestTimeoutHandle} from '@essentials/request-timeout'
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react'
+import {
+  requestTimeout,
+  clearRequestTimeout,
+  RequestTimeoutHandle,
+} from '@essentials/request-timeout'
 
 export const useDebounceCallback = <CallbackArgs extends any[]>(
   callback: (...args: CallbackArgs) => any,
