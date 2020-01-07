@@ -1,12 +1,12 @@
-import {useCallback, useEffect, useState, useRef} from 'react'
-import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
+import { useCallback, useEffect, useState, useRef, Dispatch, SetStateAction } from 'react'
+import {requestTimeout, clearRequestTimeout, RequestTimeoutHandle} from '@essentials/request-timeout'
 
-export const useDebounceCallback = (
-  callback: (...args: any[]) => any,
+export const useDebounceCallback = <CallbackArgs extends any[]>(
+  callback: (...args: CallbackArgs) => any,
   wait = 100,
   leading = false
-): ((...args: any[]) => any) => {
-  const timeout = useRef(null)
+): ((...args: CallbackArgs) => void) => {
+  const timeout = useRef<RequestTimeoutHandle | null>(null)
 
   // cleans up pending timeouts when the function changes
   useEffect(
@@ -20,11 +20,9 @@ export const useDebounceCallback = (
   )
 
   return useCallback(
-    function() {
+    function(...args) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
-      // eslint-disable-next-line prefer-rest-params
-      const args = arguments
 
       if (timeout.current === null && leading) callback.apply(self, args)
       else if (timeout.current !== null) clearRequestTimeout(timeout.current)
@@ -38,11 +36,11 @@ export const useDebounceCallback = (
   )
 }
 
-export const useDebounce = (
-  initialState: any,
+export const useDebounce = <State>(
+  initialState: State | (() => State),
   wait?: number,
   leading?: boolean
-): any[] => {
+): [State, Dispatch<SetStateAction<State>>] => {
   const [state, setState] = useState(initialState)
   return [state, useDebounceCallback(setState, wait, leading)]
 }

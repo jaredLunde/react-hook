@@ -2,9 +2,9 @@ import {renderHook, act} from '@testing-library/react-hooks'
 import {useDebounce, useDebounceCallback} from './index'
 import * as raf from 'raf'
 
-const renderDebounce = (fn, ...args: any[]): any =>
-  renderHook(() => useDebounce(fn, ...args))
-const renderDebounceCallback = (fn, ...args: any[]): any =>
+const renderDebounce = (callback, ...args) =>
+  renderHook(() => useDebounce(callback, ...args))
+const renderDebounceCallback = (fn, ...args) =>
   renderHook(() => useDebounceCallback(fn, ...args))
 
 describe('debounce', () => {
