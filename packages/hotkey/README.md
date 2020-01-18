@@ -257,7 +257,7 @@ interface Modifiers {
 
 ## Credits
 
-Full credit for the key code interop portion goes to [Ian Storm Taylor])https://github.com/ianstormtaylor)
+Full credit for the key code interop portion goes to [Ian Storm Taylor](https://github.com/ianstormtaylor)
 and his library [is-hotkey](https://github.com/ianstormtaylor/is-hotkey).
 
 ## LICENSE
