@@ -1,12 +1,11 @@
 {
   "name": "@react-hook/google-optimize",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/google-optimize#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
   "license": "MIT",
-  "description": "",
+  "description": "A React hook for adding Google Optimize variants to components",
   "keywords": [
     "react",
     "react hook",
@@ -14,31 +13,39 @@
     "optimize",
     "react a/b test",
     "a/b test",
-    "ab test"
+    "ab test",
+    "google optimize hook",
+    "use google optimize",
+    "use optimize",
+    "optimize hook",
+    "ab test hook"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
+  "types": "dist/cjs/index.d.ts",
   "files": [
     "/dist"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "format": "prettier --write \"**/*.{js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint .",
+    "build": "npm run build:cjs && npm run build:es && npm run build:types",
+    "build:cjs": "babel src -d dist/cjs -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run lint && npm run test -- --coverage"
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run build:types"
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "eslint",
       "prettier --write"
     ],
@@ -52,7 +59,13 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/react-hooks": "latest",
-    "babel-eslint": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "babel-plugin-optimize-react": "latest",
+    "babel-plugin-typescript-to-proptypes": "latest",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
@@ -66,10 +79,15 @@
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/gtag.js": "^0.0.3"
+  },
   "peerDependencies": {
-    "react": ">=16.8"
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
   }
 }
