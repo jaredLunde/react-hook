@@ -26,7 +26,7 @@
 <pre align="center">npm i @react-hook/google-optimize</pre>
 <hr>
 
-###### A React hook for adding Google Optimize variants to components
+A React hook for adding Google Optimize variants to components
 
 ## Quick Start
 
@@ -55,24 +55,24 @@ const CartABValueTest = props => {
 
 ## API
 
-### useGoogleOptimize(experimentId: string, variants: any[], timeout: int): any
+### useGoogleOptimize&lt;T&gt;(experimentId: string, variants: T[], timeout: int): T | null
 
 #### Arguments
 
 | Argument     | Type     | Default     | Required? | Description                                                                                                                                                             |
 | ------------ | -------- | ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| experimentId | `string` | `undefined` | `true`    | Your Google Optimize experiment id                                                                                                                                      |
-| variants     | `Array`  | `undefined` | `true`    | Two or more experiment variants                                                                                                                                         |
-| timeout      | `int`    | `Infinity`  | `false`   | This hook will timeout and select the first variant by default if Google Optimize doesn't load within `timeout` milliseconds. By default, this hook will never timeout. |
+| experimentId | `string` | `undefined` | Yes       | Your Google Optimize experiment id                                                                                                                                      |
+| variants     | `T[]`    | `undefined` | Yes       | Two or more experiment variants. The first variant is considered the default.                                                                                           |
+| timeout      | `number` | `Infinity`  | No        | This hook will timeout and select the first variant by default if Google Optimize doesn't load within `timeout` milliseconds. By default, this hook will never timeout. |
 
-#### Returns `any`
+#### Returns `T | null`
 
 This hook returns the variant selected by Google Optimize. While the variant selection is loading,
 this hook returns `null`.
 
 ## Future work
 
-In the future this hook will cause the component to suspend until the variant is available.
+In the future this hook snould cause the component to suspend until the variant is available.
 
 ## LICENSE
 

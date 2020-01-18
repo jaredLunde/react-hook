@@ -1,14 +1,18 @@
 import {useEffect, useState} from 'react'
 
 // Usage:
-// const Page = useGoogleOptimize('hhWP8gOsTvvT2P_KlFjw', [ComponentA, ComponentB])
+// const Page = useGoogleOptimize('hhWP8gOsTvvT2P_KlFjw', [PageA, PageB])
 // return <Page/>
-const useGoogleOptimize = (experimentId, variants, timeout = Infinity) => {
-  const [variant, setVariant] = useState(null)
+function useGoogleOptimize<T>(
+  experimentId: string,
+  variants: T[],
+  timeout = Infinity
+): T | null {
+  const [variant, setVariant] = useState<null | number>(null)
 
   useEffect(
     () => {
-      // Sets a tineout
+      // Sets a timeout
       let optimizeTimedOut
 
       if (timeout !== Infinity) {
@@ -34,7 +38,7 @@ const useGoogleOptimize = (experimentId, variants, timeout = Infinity) => {
       const removeCallback = () =>
         window.gtag('event', 'optimize.callback', {
           name: experimentId,
-          callback: () => {},
+          callback,
           remove: true,
         })
       // Unregisters the event when the parent is unmounted or the experiment
@@ -46,7 +50,7 @@ const useGoogleOptimize = (experimentId, variants, timeout = Infinity) => {
   )
   // When testing functions you should use null checks. No special treatment
   // is necessary with React components.
-  return variant !== null ? variants[variant] : null
+  return variant === null ? null : variants[variant]
 }
 
 export default useGoogleOptimize

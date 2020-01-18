@@ -23,6 +23,11 @@ A React hook for debouncing setState and other callbacks.
 #### useGoogleOptimize() [`@react-hook/google-optimize`](packages/google-optimize)
 A React hook for adding Google Optimize variants to components.
 
+#### useHotkey() [`@react-hook/hotkey`](packages/hotkey)
+A React hook for invoking a callback when hotkeys are pressed. This hook also
+provides interop between `event.key` and `event.which` - you provide a string, and
+the library turns it into an `event.which` key code if it has to.
+
 #### useHover() [`@react-hook/hover`](packages/hover)
 A React hook for tracking the hover state of DOM elements in browsers
 where hover is enabled. If the browser does not support hover states

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useOptimize should pick "3": <div>3</div> 1`] = `
+<DocumentFragment>
+  <div>
+    3
+  </div>
+</DocumentFragment>
+`;
+
+exports[`useOptimize should timeout and default to "1": <div>1</div> 1`] = `
+<DocumentFragment>
+  <div>
+    1
+  </div>
+</DocumentFragment>
+`;
+
+exports[`useOptimize should timeout and default to "1": <div>null</div> 1`] = `
+<DocumentFragment>
+  <div>
+    null
+  </div>
+</DocumentFragment>
+`;
