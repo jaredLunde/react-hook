@@ -52,7 +52,7 @@ const CartABValueTest = props => {
 
 ## API
 
-### useGoogleOptimize&lt;T&gt;(experimentId: string, variants: T[], timeout: int): T | null
+### useGoogleOptimize&lt;T&gt;(experimentId: string, variants: T[], timeout: number): T | null
 
 #### Arguments
 
