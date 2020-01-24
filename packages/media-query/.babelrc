@@ -1,0 +1,36 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@lunde/es",
+      {
+        "env": {
+          "targets": {
+            "node": "8"
+          }
+        },
+        "devExpression": false
+      }
+    ]
+  ],
+  "plugins": ["optimize-react", "typescript-to-proptypes"],
+  "env": {
+    "es": {
+      "presets": [
+        [
+          "@lunde/es",
+          {
+            "env": {
+              "modules": false,
+              "targets": {
+                "browsers": "> 2%"
+              }
+            },
+            "devExpression": false,
+            "objectAssign": false
+          }
+        ]
+      ]
+    }
+  }
+}
