@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/media-query",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/media-query#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",

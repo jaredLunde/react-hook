@@ -40,7 +40,7 @@ const Component = () => {
 const Component = () => {
   const {matches, matchesAny, matchesAll} = useMediaQueries({
     screen: 'screen',
-    width: 'min-width: 400px'
+    width: '(min-width: 400px)'
   })
 
   return (
