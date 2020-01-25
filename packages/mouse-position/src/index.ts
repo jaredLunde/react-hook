@@ -53,7 +53,7 @@ export const useMousePosition = (
 
   const onMove_ = useCallback(
     (e: MouseEvent): void => {
-      if (!element) return
+      if (!element || !entered.current) return
       const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = e,
         rect = element.getBoundingClientRect()
 
