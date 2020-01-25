@@ -127,7 +127,7 @@ Packages must be installed individually. They must also be installed using the `
 
 ### Submitting a pull request
 
-Prior to submitting a pull request please ensure that `yarn validate` passes
+Prior to submitting a pull request please ensure that `yarn validate` passes. Please also include a tag with the packages you updated in your commit message e.g. `[throttle] Fixes issue where setState was not called on the leading edge`.
 
 ## LICENSE
 
