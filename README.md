@@ -103,6 +103,8 @@ Packages must be installed individually. They must also be installed using the `
 
 ### Development scripts
 
+Each individual package includes the following scripts:
+
 - `build`: Builds CJS and ES modules, as well as types
 - `build:cjs`: Builds CJS module
 - `build:es`: Builds ES module
