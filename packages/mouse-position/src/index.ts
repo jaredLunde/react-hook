@@ -1,4 +1,11 @@
-import {useState, useRef, useCallback, useEffect} from 'react'
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  // @ts-ignore
+  unstable_batchedUpdates,
+} from 'react'
 import {useThrottleCallback} from '@react-hook/throttle'
 
 export interface MousePosition {
@@ -31,35 +38,45 @@ const initialState: MousePosition = {
   isDown: false,
 }
 
+const batchUpdates =
+  typeof unstable_batchedUpdates === 'function'
+    ? unstable_batchedUpdates
+    : (fn: () => void): void => fn()
+
 export const useMousePosition = (
   enterDelay = 0,
   leaveDelay = 0,
   fps = 30
 ): [MousePosition, (element: HTMLElement) => void] => {
-  const [state, setState] = useState<MousePosition>(initialState),
-    entered = useRef(false),
-    [element, setElement] = useState<HTMLElement | null>(null),
-    timeout = useRef<number | undefined>()
+  const [state, setState] = useState<MousePosition>(initialState)
+  const [entered, setEntered] = useState<boolean>(false)
+  const touchEnded = useRef<boolean>(false)
+  const [active, setActive] = useState<boolean>(false)
+  const [element, setElement] = useState<HTMLElement | null>(null)
+  const onMoveCallback = useThrottleCallback(
+    useCallback((e: MouseEvent | TouchEvent): void => {
+      let event: MouseEvent | Touch
+      const isTouch = typeof (e as TouchEvent).touches !== 'undefined'
+      if (isTouch) {
+        event = (e as TouchEvent).touches[0]
+      } else {
+        event = e as MouseEvent
+      }
 
-  const delay = (amt, fn): void => {
-    timeout.current && window.clearTimeout(timeout.current)
-
-    if (amt) {
-      timeout.current = window.setTimeout(fn, amt)
-    } else {
-      fn()
-    }
-  }
-
-  const onMove_ = useCallback(
-    (e: MouseEvent): void => {
-      if (!element || !entered.current) return
-      const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = e,
-        rect = element.getBoundingClientRect()
+      const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = event
+      const rect = (e.target as HTMLElement).getBoundingClientRect()
+      const x = pageX - rect.left - (window.pageXOffset || window.scrollX)
+      const y = pageY - rect.top - (window.pageYOffset || window.scrollY)
+      // shims a mouseleave event for touch devices
+      if (isTouch && (x < 0 || y < 0 || x > rect.width || y > rect.height)) {
+        setEntered(false)
+        touchEnded.current = true
+        return
+      }
 
       setState(prev => ({
-        x: pageX - rect.left - (window.pageXOffset || window.scrollX),
-        y: pageY - rect.top - (window.pageYOffset || window.scrollY),
+        x,
+        y,
         pageX,
         pageY,
         clientX,
@@ -71,71 +88,95 @@ export const useMousePosition = (
         isOver: true,
         isDown: prev.isDown,
       }))
-    },
-    [element]
+    }, []),
+    fps,
+    true
   )
-
-  const onMove = useThrottleCallback(onMove_, fps, true)
 
   useEffect((): void | (() => void) => {
     if (element !== null) {
-      const onEnter = (e: MouseEvent): void => {
-        delay(enterDelay, (): void => {
-          entered.current = true
-          onMove(e)
-        })
+      const setDown = (): void => setState(prev => ({...prev, isDown: true}))
+      const onMove = (e: MouseEvent): void => {
+        if (!touchEnded.current) {
+          batchUpdates(() => {
+            setEntered(true)
+            onMoveCallback(e)
+          })
+        }
       }
-      const onLeave = (): void => {
-        delay(leaveDelay, (): void => {
-          entered.current = false
-          setState(initialState)
-        })
+      const onLeave = (): void => setEntered(false)
+      const onDown = (e: MouseEvent): void => {
+        if (!touchEnded.current) {
+          batchUpdates(() => {
+            setEntered(true)
+            onMoveCallback(e)
+          })
+        }
       }
-      const onDown = (): void => {
-        delay(enterDelay, (): void => {
-          entered.current = true
-          setState(prev => ({...prev, isDown: true}))
-        })
+      const onUp = (): void => setState(prev => ({...prev, isDown: false}))
+      const onTouchStart = (e: MouseEvent): void => {
+        touchEnded.current = false
+        onDown(e)
       }
-      const onUp = (): void => {
-        delay(leaveDelay, (): void => {
-          entered.current = false
-          setState(prev => ({...prev, isDown: false}))
+      const onTouchMove = (e: MouseEvent): void => {
+        touchEnded.current = false
+        onMoveCallback(e)
+      }
+      const onTouchEnd = (): void => {
+        touchEnded.current = true
+        batchUpdates(() => {
+          setEntered(false)
+          onUp()
         })
       }
 
       const addEvent = element.addEventListener.bind(element)
-      addEvent('mouseenter', onEnter)
+      addEvent('mouseenter', onMove)
       addEvent('mousemove', onMove)
       addEvent('mouseleave', onLeave)
       addEvent('mousedown', onDown)
-      addEvent('mouseup', onUp)
-      addEvent('touchstart', onEnter)
-      addEvent('touchstart', onDown)
-      addEvent('touchmove', onMove)
-      addEvent('touchend', onLeave)
+      window.addEventListener('mousedown', setDown)
+      window.addEventListener('mouseup', onUp)
+      addEvent('touchstart', onTouchStart)
+      addEvent('touchmove', onTouchMove)
+      addEvent('touchend', onTouchEnd)
+      addEvent('touchcancel', onTouchEnd)
 
       return (): void => {
-        timeout.current !== null && window.clearTimeout(timeout.current)
-        timeout.current = undefined
-
-        if (element !== null) {
-          const removeEvent = element.removeEventListener.bind(element)
-          removeEvent('mouseenter', onEnter)
-          removeEvent('mousemove', onMove)
-          removeEvent('mouseleave', onLeave)
-          removeEvent('mousedown', onDown)
-          removeEvent('mouseup', onUp)
-          removeEvent('touchstart', onEnter)
-          removeEvent('touchstart', onDown)
-          removeEvent('touchmove', onMove)
-          removeEvent('touchend', onLeave)
-        }
+        const removeEvent = element.removeEventListener.bind(element)
+        removeEvent('mouseenter', onMove)
+        removeEvent('mousemove', onMove)
+        removeEvent('mouseleave', onLeave)
+        removeEvent('mousedown', onDown)
+        window.removeEventListener('mousedown', setDown)
+        window.removeEventListener('mouseup', onUp)
+        removeEvent('touchstart', onTouchStart)
+        removeEvent('touchmove', onTouchMove)
+        removeEvent('touchend', onTouchEnd)
+        removeEvent('touchcancel', onTouchEnd)
       }
     }
-  }, [element, enterDelay, leaveDelay, onMove])
+  }, [element, enterDelay, leaveDelay, onMoveCallback])
 
-  return [state, setElement]
+  useEffect((): void | (() => void) => {
+    if (entered) {
+      if (enterDelay) {
+        const timeout = setTimeout(() => setActive(true), enterDelay)
+        return (): void => clearTimeout(timeout)
+      }
+
+      setActive(true)
+    } else {
+      if (leaveDelay) {
+        const timeout = setTimeout(() => setActive(false), leaveDelay)
+        return (): void => clearTimeout(timeout)
+      }
+
+      setActive(false)
+    }
+  }, [entered])
+
+  return [active ? state : initialState, setElement]
 }
 
 export default useMousePosition
