@@ -54,41 +54,44 @@ export const useMousePosition = (
   const [active, setActive] = useState<boolean>(false)
   const [element, setElement] = useState<HTMLElement | null>(null)
   const onMoveCallback = useThrottleCallback(
-    useCallback((e: MouseEvent | TouchEvent): void => {
-      let event: MouseEvent | Touch
-      const isTouch = typeof (e as TouchEvent).touches !== 'undefined'
-      if (isTouch) {
-        event = (e as TouchEvent).touches[0]
-      } else {
-        event = e as MouseEvent
-      }
+    useCallback(
+      (e: MouseEvent | TouchEvent): void => {
+        let event: MouseEvent | Touch
+        const isTouch = typeof (e as TouchEvent).touches !== 'undefined'
+        if (isTouch) {
+          event = (e as TouchEvent).touches[0]
+        } else {
+          event = e as MouseEvent
+        }
 
-      const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = event
-      const rect = (e.target as HTMLElement).getBoundingClientRect()
-      const x = pageX - rect.left - (window.pageXOffset || window.scrollX)
-      const y = pageY - rect.top - (window.pageYOffset || window.scrollY)
-      // shims a mouseleave event for touch devices
-      if (isTouch && (x < 0 || y < 0 || x > rect.width || y > rect.height)) {
-        setEntered(false)
-        touchEnded.current = true
-        return
-      }
+        const {clientX, clientY, screenX, screenY, pageX = 0, pageY = 0} = event
+        const rect = (element as HTMLElement).getBoundingClientRect()
+        const x = pageX - rect.left - (window.pageXOffset || window.scrollX)
+        const y = pageY - rect.top - (window.pageYOffset || window.scrollY)
+        // shims a mouseleave event for touch devices
+        if (isTouch && (x < 0 || y < 0 || x > rect.width || y > rect.height)) {
+          setEntered(false)
+          touchEnded.current = true
+          return
+        }
 
-      setState(prev => ({
-        x,
-        y,
-        pageX,
-        pageY,
-        clientX,
-        clientY,
-        screenX,
-        screenY,
-        elementWidth: rect.width,
-        elementHeight: rect.height,
-        isOver: true,
-        isDown: prev.isDown,
-      }))
-    }, []),
+        setState((prev: MousePosition) => ({
+          x,
+          y,
+          pageX,
+          pageY,
+          clientX,
+          clientY,
+          screenX,
+          screenY,
+          elementWidth: rect.width,
+          elementHeight: rect.height,
+          isOver: true,
+          isDown: prev.isDown,
+        }))
+      },
+      [element]
+    ),
     fps,
     true
   )
