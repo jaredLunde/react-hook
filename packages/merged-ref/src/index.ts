@@ -1,6 +1,6 @@
 import {useCallback, MutableRefObject} from 'react'
 
-const setRef = (ref: ReactRef, value: any): void => {
+const setRef = <T>(ref: ReactRef<T>, value: T): void => {
   if (typeof ref === 'function') {
     ref(value)
   } else if (ref !== null && typeof ref === 'object') {
@@ -8,14 +8,12 @@ const setRef = (ref: ReactRef, value: any): void => {
   }
 }
 
-export interface CallbackRef extends Function {
-  (element: any): any | void
-}
+export type CallbackRef<T> = (element: T) => void
 
-export type ReactRef = CallbackRef | MutableRefObject<any | unknown> | null
+export type ReactRef<T> = CallbackRef<T> | MutableRefObject<T | unknown> | null
 
-const useMergedRef = (...args: ReactRef[]): CallbackRef =>
-  useCallback((element: any): void => {
+const useMergedRef = <T = any>(...args: ReactRef<T>[]): CallbackRef<T> =>
+  useCallback((element: T): void => {
     if (args.length === 2) {
       setRef(args[0], element)
       setRef(args[1], element)

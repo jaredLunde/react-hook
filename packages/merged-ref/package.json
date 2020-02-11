@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/merged-ref",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/merged-ref#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -13,7 +13,13 @@
     "merged ref",
     "merge two refs",
     "combine refs",
-    "multiple refs"
+    "multiple refs",
+    "merge refs",
+    "merge react refs",
+    "usemergerefs",
+    "use merge refs",
+    "usemergedref",
+    "use merged ref"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -51,7 +57,7 @@
     "@lunde/babel-preset-es": "latest",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "latest",
+    "@types/jest": "^25.1.2",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "babel-plugin-optimize-react": "^0.0.4",

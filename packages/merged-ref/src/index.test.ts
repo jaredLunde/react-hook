@@ -8,9 +8,9 @@ const render = (children: any): any => renderComponent(children)
 it('merges object and function refs', () => {
   const refValues: any = {}
   const RefComponent: React.FC = () => {
-    const refA = React.useRef(null)
-    const refB_ = React.useRef(null)
-    const refB = (el): void => {
+    const refA = React.useRef<HTMLDivElement>(null)
+    const refB_ = React.useRef<HTMLDivElement>(null)
+    const refB = (el: HTMLDivElement): void => {
       refB_.current = el
     }
     const ref = useMergedRef(refA, refB)
@@ -18,6 +18,7 @@ it('merges object and function refs', () => {
       refValues.a = refA.current
       refValues.b = refB_.current
     })
+
     return React.createElement('div', {ref})
   }
   render(React.createElement(RefComponent))
