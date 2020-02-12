@@ -9,8 +9,10 @@ const setRef = <T>(ref: ReactRef<T>, value: T): void => {
 }
 
 export type CallbackRef<T> = (element: T) => void
-
-export type ReactRef<T> = CallbackRef<T> | MutableRefObject<T | unknown> | null
+export type ReactRef<T> =
+  | CallbackRef<T | null>
+  | MutableRefObject<T | null>
+  | null
 
 const useMergedRef = <T = any>(...args: ReactRef<T>[]): CallbackRef<T> =>
   useCallback((element: T): void => {
