@@ -3,29 +3,36 @@ import useDebounce from '@react-hook/debounce'
 
 const emptyArr = []
 const emptyObj = {}
-type Dimension = 'clientWidth' | 'clientHeight'
 
 export interface DebounceOptions {
   wait?: number
   leading?: boolean
 }
 
-const useSizeHook = (
-  dim: Dimension,
-  initialValue?: number,
+export const useWindowSize = (
+  initialWidth?: number,
+  initialHeight?: number,
   options: DebounceOptions = emptyObj
-): number => {
+): [number, number] => {
   const {wait, leading} = options
   const [size, setDebouncedSize] = useDebounce(
+    /* istanbul ignore next */
     typeof document === 'undefined'
-      ? initialValue
-      : document.documentElement[dim],
+      ? [initialWidth, initialHeight]
+      : [
+          document.documentElement.clientWidth,
+          document.documentElement.clientHeight,
+        ],
     wait,
     leading
   )
 
   useEffect(() => {
-    const setSize = (): void => setDebouncedSize(document.documentElement[dim])
+    const setSize = (): void =>
+      setDebouncedSize([
+        document.documentElement.clientWidth,
+        document.documentElement.clientHeight,
+      ])
     window.addEventListener('resize', setSize)
     window.addEventListener('orientationchange', setSize)
 
@@ -41,20 +48,11 @@ const useSizeHook = (
 export const useWindowHeight = (
   initialValue = 0,
   options?: DebounceOptions
-): number => useSizeHook('clientHeight', initialValue, options)
+): number => useWindowSize(0, initialValue, options)[1]
 
 export const useWindowWidth = (
   initialValue = 0,
   options?: DebounceOptions
-): number => useSizeHook('clientWidth', initialValue, options)
-
-export const useWindowSize = (
-  initialWidth?: number,
-  initialHeight?: number,
-  options?: DebounceOptions
-): [number, number] => [
-  useWindowWidth(initialWidth, options),
-  useWindowHeight(initialHeight, options),
-]
+): number => useWindowSize(initialValue, 0, options)[0]
 
 export default useWindowSize

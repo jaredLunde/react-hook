@@ -3,29 +3,41 @@ import useThrottle from '@react-hook/throttle'
 
 const emptyArr = []
 const emptyObj = {}
-type Dimension = 'clientWidth' | 'clientHeight'
 
 export interface ThrottleOptions {
   fps?: number
   leading?: boolean
 }
 
-const useSizeHook = (
-  dim: Dimension,
-  initialValue?: number,
+export interface ThrottleOptions {
+  wait?: number
+  leading?: boolean
+}
+
+export const useWindowSize = (
+  initialWidth?: number,
+  initialHeight?: number,
   options: ThrottleOptions = emptyObj
-): number => {
+): [number, number] => {
   const {fps, leading} = options
   const [size, setThrottledSize] = useThrottle(
+    /* istanbul ignore next */
     typeof document === 'undefined'
-      ? initialValue
-      : document.documentElement[dim],
+      ? [initialWidth, initialHeight]
+      : [
+          document.documentElement.clientWidth,
+          document.documentElement.clientHeight,
+        ],
     fps,
     leading
   )
 
   useEffect(() => {
-    const setSize = (): void => setThrottledSize(document.documentElement[dim])
+    const setSize = (): void =>
+      setThrottledSize([
+        document.documentElement.clientWidth,
+        document.documentElement.clientHeight,
+      ])
     window.addEventListener('resize', setSize)
     window.addEventListener('orientationchange', setSize)
 
@@ -41,20 +53,11 @@ const useSizeHook = (
 export const useWindowHeight = (
   initialValue = 0,
   options?: ThrottleOptions
-): number => useSizeHook('clientHeight', initialValue, options)
+): number => useWindowSize(0, initialValue, options)[1]
 
 export const useWindowWidth = (
   initialValue = 0,
   options?: ThrottleOptions
-): number => useSizeHook('clientWidth', initialValue, options)
-
-export const useWindowSize = (
-  initialWidth?: number,
-  initialHeight?: number,
-  options?: ThrottleOptions
-): [number, number] => [
-  useWindowWidth(initialWidth, options),
-  useWindowHeight(initialHeight, options),
-]
+): number => useWindowSize(initialValue, 0, options)[0]
 
 export default useWindowSize
