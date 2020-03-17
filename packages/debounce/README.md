@@ -35,24 +35,30 @@ const Component = props => {
   const [value, setValue] = useDebounce('initialValue')
 }
 
-const useMyCallback = (initialState, wait, leading) => {
+const useMyCallback = (initialState, {wait, leading}) => {
   // this is the same code useDebounce() uses to debounce setState
   const [state, setState] = useState(initialState)
-  return [state, useDebounceCallback(setState, wait, leading)]
+  return [state, useDebounceCallback(setState, {wait, leading})]
 }
 ```
 
 ## API
 
-### `useDebounce(initialState: any, wait?: number, leading?: boolean)`
+### `useDebounce(initialState: any, options?: {wait?: number, leading?: boolean})`
 
 #### Options
 
-| Property     | Type      | Default | Description                                                                                                                |
-| ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `any`     |         | The initial state stored in `useState`                                                                                     |
-| wait         | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
-| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property        | Type              | Default | Description                            |
+| --------------- | ----------------- | ------- | -------------------------------------- |
+| initialState    | `any`             |         | The initial state stored in `useState` |
+| debounceOptions | `DebounceOptions` |         | Defines debouncing options             |
+
+##### DebounceOptions
+
+| Key     | Type      | Default | Description                                                                                                               |
+| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| wait    | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
+| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
 
 #### Returns `[state, setState]`
 
@@ -63,15 +69,21 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ---
 
-### `useDebounceCallback(callback: Function, wait?: number, leading?: boolean)`
+### `useDebounceCallback(callback: Function, options?: {wait?: number, leading?: boolean})`
 
 #### Options
 
-| Property | Type       | Default | Description                                                                                                                |
-| -------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| callback | `Function` |         | This is the callback you want to debounce                                                                                  |
-| wait     | `number`   | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
-| leading  | `boolean`  | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property        | Type              | Default | Description                               |
+| --------------- | ----------------- | ------- | ----------------------------------------- |
+| callback        | `Function`        |         | This is the callback you want to debounce |
+| debounceOptions | `DebounceOptions` |         | Defines debouncing options                |
+
+##### DebounceOptions
+
+| Key     | Type      | Default | Description                                                                                                               |
+| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| wait    | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
+| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
 
 #### Returns `debouncedCallback`
 

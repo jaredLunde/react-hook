@@ -12,15 +12,28 @@ import {
   RequestTimeoutHandle,
 } from '@essentials/request-timeout'
 
+export interface ThrottleOptions {
+  fps?: number
+  leading?: boolean
+}
+
+export interface ThrottleOptions {
+  wait?: number
+  leading?: boolean
+}
+
 export const useThrottleCallback = <CallbackArgs extends any[]>(
   callback: (...args: CallbackArgs) => any,
-  fps = 30,
-  leading = false
+  options: ThrottleOptions = {}
 ): ((...args: CallbackArgs) => void) => {
+  const {leading = false} = options
+  const fpsOption = options.fps ?? 30
+  const wait = options.wait ?? 1000 / fpsOption
+  const fps = 1000 / wait
+
   const nextTimeout = useRef<RequestTimeoutHandle | null>(null),
     tailTimeout = useRef<RequestTimeoutHandle | null>(null),
-    calledLeading = useRef<boolean>(false),
-    wait = 1000 / fps
+    calledLeading = useRef<boolean>(false)
 
   // cleans up pending timeouts when the function changes
   useEffect(
@@ -76,11 +89,10 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
 
 export const useThrottle = <State>(
   initialState: State | (() => State),
-  fps?: number,
-  leading?: boolean
+  options?: ThrottleOptions
 ): [State, Dispatch<SetStateAction<State>>] => {
   const [state, setState] = useState<State>(initialState)
-  return [state, useThrottleCallback(setState, fps, leading)]
+  return [state, useThrottleCallback(setState, options)]
 }
 
 export default useThrottle

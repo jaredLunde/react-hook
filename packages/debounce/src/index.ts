@@ -12,11 +12,15 @@ import {
   RequestTimeoutHandle,
 } from '@essentials/request-timeout'
 
+export interface DebounceOptions {
+  wait?: number
+  leading?: boolean
+}
 export const useDebounceCallback = <CallbackArgs extends any[]>(
   callback: (...args: CallbackArgs) => any,
-  wait = 100,
-  leading = false
+  options: DebounceOptions = {},
 ): ((...args: CallbackArgs) => void) => {
+  const {leading = false, wait = 100} = options
   const timeout = useRef<RequestTimeoutHandle | null>(null)
 
   // cleans up pending timeouts when the function changes
@@ -49,11 +53,10 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
 
 export const useDebounce = <State>(
   initialState: State | (() => State),
-  wait?: number,
-  leading?: boolean
+  options: DebounceOptions = {},
 ): [State, Dispatch<SetStateAction<State>>] => {
   const [state, setState] = useState(initialState)
-  return [state, useDebounceCallback(setState, wait, leading)]
+  return [state, useDebounceCallback(setState, options)]
 }
 
 export default useDebounce

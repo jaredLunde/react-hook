@@ -35,10 +35,10 @@ const Component = props => {
   const [value, setValue] = useThrottle('initialValue')
 }
 
-const useMyCallback = (initialState, wait, leading) => {
+const useMyCallback = (initialState, {fps, leading}) => {
   // this is the same code useThrottle() uses to throttle setState
   const [state, setState] = useState(initialState)
-  return [state, useThrottleCallback(setState, wait, leading)]
+  return [state, useThrottleCallback(setState, {fps, leading})]
 }
 ```
 
@@ -48,11 +48,18 @@ const useMyCallback = (initialState, wait, leading) => {
 
 #### Options
 
-| Property     | Type      | Default | Description                                                                                                                |
-| ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `any`     |         | The initial state stored in `useState`                                                                                     |
-| fps          | `number`  | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
-| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property        | Type              | Default | Description                            |
+| --------------- | ----------------- | ------- | -------------------------------------- |
+| initialState    | `any`             |         | The initial state stored in `useState` |
+| throttleOptions | `ThrottleOptions` |         | Defines throttling options             |
+
+##### ThrottleOptions
+
+| Key     | Type      | Default | Description                                                                                                                |
+| ------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| fps     | `number`  | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state.                                     |
+| wait    | `number`  |         |                                                                                                                            |
+| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
 #### Returns `[state, setState]`
 
@@ -67,11 +74,18 @@ const useMyCallback = (initialState, wait, leading) => {
 
 #### Options
 
-| Property | Type       | Default | Description                                                                                                                |
-| -------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| callback | `Function` |         | This is the callback you want to throttle                                                                                  |
-| fps      | `number`   | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
-| leading  | `boolean`  | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property        | Type              | Default | Description                               |
+| --------------- | ----------------- | ------- | ----------------------------------------- |
+| callback        | `Function`        |         | This is the callback you want to throttle |
+| throttleOptions | `ThrottleOptions` |         | Defines throttling options                |
+
+##### ThrottleOptions
+
+| Key     | Type      | Default | Description                                                                                                                |
+| ------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| fps     | `number`  | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state.                                     |
+| wait    | `number`  |         |                                                                                                                            |
+| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
 #### Returns `throttledCallback`
 

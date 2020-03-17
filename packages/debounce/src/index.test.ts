@@ -1,18 +1,18 @@
 import {renderHook, act} from '@testing-library/react-hooks'
-import {useDebounce, useDebounceCallback} from './index'
+import {DebounceOptions, useDebounce, useDebounceCallback} from './index'
 import * as raf from 'raf'
 
-const renderDebounce = (callback, ...args) =>
-  renderHook(() => useDebounce(callback, ...args))
-const renderDebounceCallback = (fn, ...args) =>
-  renderHook(() => useDebounceCallback(fn, ...args))
+const renderDebounce = (callback, options: DebounceOptions) =>
+  renderHook(() => useDebounce(callback, options))
+const renderDebounceCallback = (fn, options: DebounceOptions) =>
+  renderHook(() => useDebounceCallback(fn, options))
 
 describe('debounce', () => {
   beforeEach(raf.reset)
 
   test('callback [30ms]', () => {
     const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 30)
+    const {result} = renderDebounceCallback(cb, {wait: 30})
     for (let i = 0; i < 30; i++) act(result.current)
     act(() => raf.step({count: 60 * 30}))
     for (let i = 0; i < 30; i++) act(result.current)
@@ -22,7 +22,7 @@ describe('debounce', () => {
 
   test('callback [60ms]', () => {
     const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 60)
+    const {result} = renderDebounceCallback(cb, {wait: 60})
     for (let i = 0; i < 60; i++) act(result.current)
     act(() => raf.step({count: 60 * 30}))
     for (let i = 0; i < 60; i++) act(result.current)
@@ -32,7 +32,7 @@ describe('debounce', () => {
 
   test('callback leading', () => {
     const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 30, true)
+    const {result} = renderDebounceCallback(cb, {wait: 30, leading: true})
 
     for (let i = 0; i < 30; i++) act(result.current)
     // add 30ms
@@ -46,7 +46,7 @@ describe('debounce', () => {
   })
 
   test('value [60ms]', () => {
-    const {result} = renderDebounce(1, 60)
+    const {result} = renderDebounce(1, {wait: 60})
 
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(1)
@@ -58,7 +58,7 @@ describe('debounce', () => {
   })
 
   test('value [<60ms]', () => {
-    const {result} = renderDebounce(1, 60)
+    const {result} = renderDebounce(1, {wait: 60})
 
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(1)
@@ -74,7 +74,7 @@ describe('debounce', () => {
   })
 
   test('value leading', () => {
-    const {result} = renderDebounce(1, 60, true)
+    const {result} = renderDebounce(1, {wait: 60, leading: true})
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(2) // leading
     act(() => result.current[1](3))
