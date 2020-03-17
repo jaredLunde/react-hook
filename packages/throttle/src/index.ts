@@ -26,10 +26,10 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
   callback: (...args: CallbackArgs) => any,
   options: ThrottleOptions = {}
 ): ((...args: CallbackArgs) => void) => {
-  const {leading = false} = options
-  const fpsOption = options.fps ?? 30
-  const wait = options.wait ?? 1000 / fpsOption
-  const fps = 1000 / wait
+  const {leading = false} = options,
+    fpsOption = options.fps ?? 30,
+    wait = options.wait ?? 1000 / fpsOption,
+    fps = 1000 / wait
 
   const nextTimeout = useRef<RequestTimeoutHandle | null>(null),
     tailTimeout = useRef<RequestTimeoutHandle | null>(null),
