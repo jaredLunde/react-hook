@@ -63,7 +63,7 @@ const Component = props => {
 |                 | Type              | Default | Description                                                                                                               |
 | --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
 | initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| initialHeight   | `number`          |         | The initial width to use when there is no `window` object                                                                 |
+| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
 | debounceOptions | `DebounceOptions` |         | Options object passed to the [`useDebounce`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce) hook |
 
 #### DebounceOptions
@@ -112,7 +112,7 @@ const Component = props => {
 
 |                 | Type              | Default | Description                                                                                                               |
 | --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialHeight   | `number`          |         | The initial width to use when there is no `window` object                                                                 |
+| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
 | debounceOptions | `DebounceOptions` |         | Options object passed to the [`useDebounce`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce) hook |
 
 #### DebounceOptions
@@ -141,7 +141,7 @@ To use these throttled hooks instead of debounced hooks, import with `import {..
 |                 | Type              | Default | Description                                                                                                               |
 | --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
 | initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| initialHeight   | `number`          |         | The initial width to use when there is no `window` object                                                                 |
+| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
 | throttleOptions | `ThrottleOptions` |         | Options object passed to the [`useThrottle`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle) hook |
 
 #### ThrottleOptions
@@ -190,7 +190,7 @@ To use these throttled hooks instead of debounced hooks, import with `import {..
 
 |                 | Type              | Default | Description                                                                                                               |
 | --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialHeight   | `number`          |         | The initial width to use when there is no `window` object                                                                 |
+| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
 | throttleOptions | `ThrottleOptions` |         | Options object passed to the [`useThrottle`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle) hook |
 
 #### ThrottleOptions
