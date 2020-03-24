@@ -47,7 +47,7 @@ export const useMousePosition = (
   enterDelay = 0,
   leaveDelay = 0,
   fps = 30
-): [MousePosition, (element: HTMLElement) => void] => {
+): [MousePosition, (element: HTMLElement | null) => void] => {
   const [state, setState] = useState<MousePosition>(initialState)
   const [entered, setEntered] = useState<boolean>(false)
   const touchEnded = useRef<boolean>(false)

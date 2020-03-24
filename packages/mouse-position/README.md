@@ -62,7 +62,7 @@ const Component = props => {
 | leaveDelay | `number` | `0`     | The amount of time in `ms` to wait after a final action before setting `mouseleave` events to state   |
 | fps        | `number` | `30`    | The rate in frames-per-second that the state should update                                            |
 
-#### Returns `[state: MousePosition, ref: (element: HTMLElement) => void]`
+#### Returns `[state: MousePosition, ref: (element: HTMLElement | null) => void]`
 
 | Variable | Description                                                                               |
 | -------- | ----------------------------------------------------------------------------------------- |

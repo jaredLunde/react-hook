@@ -11,7 +11,7 @@ type EffectReturn = void | (() => void)
 const useHover = (
   enterDelay?: number,
   leaveDelay?: number
-): [boolean, (element: HTMLElement) => void] => {
+): [boolean, (element: HTMLElement | null) => void] => {
   const [isHovering, setHovering] = useState<boolean>(false)
   const timeout = useRef<number | undefined>()
   const [element, setElement] = useState<HTMLElement | null>(null)

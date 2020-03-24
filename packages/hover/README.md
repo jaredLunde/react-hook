@@ -54,7 +54,7 @@ const Component = props => {
 | Variable   | Type                             | Description                                                                                                                                               |
 | ---------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | isHovering | `boolean`                        | `true` if the element in `ref` is in a hover state, otherwise `false`. This value is always `false` on devices that don't have hover states, i.e. phones. |
-| ref        | `(element: HTMLElement) => void` | Provide this `ref` to the React element whose hover state you want to observe                                                                             |
+| ref        | `(element: HTMLElement | null) => void` | Provide this `ref` to the React element whose hover state you want to observe                                                                             |
 
 ## LICENSE
 
