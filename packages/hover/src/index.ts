@@ -1,4 +1,4 @@
-import {useRef, useState, useMemo, useEffect, useCallback} from 'react'
+import React, {useRef, useState, useMemo, useEffect, useCallback} from 'react'
 
 export const canHover = (): boolean =>
   typeof window !== 'undefined'
@@ -11,7 +11,7 @@ type EffectReturn = void | (() => void)
 const useHover = (
   enterDelay?: number,
   leaveDelay?: number
-): [boolean, (element: HTMLElement | null) => void] => {
+): [boolean, React.Dispatch<React.SetStateAction<HTMLElement | null>>] => {
   const [isHovering, setHovering] = useState<boolean>(false)
   const timeout = useRef<number | undefined>()
   const [element, setElement] = useState<HTMLElement | null>(null)
