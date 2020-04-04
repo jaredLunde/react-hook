@@ -74,6 +74,10 @@ A react hook for controlling a boolean value with toggle, on, and off callbacks.
 
 A React hook for throttling setState and other callbacks.
 
+#### useTimeout() [`@react-hook/timeout`](packages/timeout)
+
+A React hook that executes a callback after a timeout ms have been exceeded and the timeout has been started
+
 #### useToggle() [`@react-hook/toggle`](packages/toggle)
 
 A React hook for toggling between two values with a callback.
