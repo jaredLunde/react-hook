@@ -6,6 +6,11 @@
   </h1>
 </div>
 
+#### useAsync() [`@react-hook/async`](packages/async)
+
+A React hook for gracefully resolving, cancelling, and handling errors for async functions
+and promises.
+
 #### useClick() [`@react-hook/click`](packages/click)
 
 A React hook for conditionally firing a function when an element is
