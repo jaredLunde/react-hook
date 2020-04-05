@@ -2,16 +2,16 @@ import {useReducer, useEffect} from 'react'
 import {useMemoOne, useCallbackOne} from 'use-memo-one'
 
 export function useAsync<
-  PromiseReturnType extends any = any,
+  ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  asyncCallback: (...args: any[]) => Promise<ValueType>,
   dependencies: any[] = []
-): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback] {
+): [AsyncState<ValueType, ErrorType>, AsyncCallback] {
   const [state, dispatch] = useReducer(
     (
-      prev: AsyncReducerState<PromiseReturnType, ErrorType>,
-      action: AsyncAction<PromiseReturnType, ErrorType>
+      prev: AsyncReducerState<ValueType, ErrorType>,
+      action: AsyncAction<ValueType, ErrorType>
     ) => ({
       // This is the current status of the promise or async/await function. A
       // promise or async/await can only be in one state at a time.
@@ -85,13 +85,13 @@ export function useAsync<
 }
 
 export function useAsyncEffect<
-  PromiseReturnType extends any = any,
+  ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  asyncCallback: (...args: any[]) => Promise<ValueType>,
   dependencies?: any[]
-): AsyncState<PromiseReturnType, ErrorType> {
-  const [state, callback] = useAsync<PromiseReturnType, ErrorType>(
+): AsyncState<ValueType, ErrorType> {
+  const [state, callback] = useAsync<ValueType, ErrorType>(
     asyncCallback,
     dependencies || [Math.random()]
   )

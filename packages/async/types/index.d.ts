@@ -1,17 +1,17 @@
 export declare function useAsync<
-  PromiseReturnType extends any = any,
+  ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  asyncCallback: (...args: any[]) => Promise<ValueType>,
   dependencies?: any[]
-): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback]
+): [AsyncState<ValueType, ErrorType>, AsyncCallback]
 export declare function useAsyncEffect<
-  PromiseReturnType extends any = any,
+  ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  asyncCallback: (...args: any[]) => Promise<ValueType>,
   dependencies?: any[]
-): AsyncState<PromiseReturnType, ErrorType>
+): AsyncState<ValueType, ErrorType>
 export interface AsyncReducerState<ValueType, ErrorType> {
   id: number
   status: AsyncStatus
