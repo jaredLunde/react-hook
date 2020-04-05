@@ -110,10 +110,13 @@ describe('useAsyncEffect()', () => {
     expect(result.current.value).toBe(true)
 
     rerender({deps: [false]})
-    expect(result.current.value).toBe(undefined)
+    // Yes, this value should be persisted and not reset
+    expect(result.current.value).toBe(true)
+    expect(result.current.status).toBe('loading')
     act(() => jest.advanceTimersByTime(1000))
     await waitForNextUpdate()
     expect(result.current.value).toBe(false)
+    expect(result.current.status).toBe('success')
   })
 
   it('should handle thrown exceptions', async () => {

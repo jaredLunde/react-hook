@@ -13,18 +13,25 @@ export function useAsync<
       prev: AsyncReducerState<PromiseReturnType, ErrorType>,
       action: AsyncAction<PromiseReturnType, ErrorType>
     ) => ({
+      // This is the current status of the promise or async/await function. A
+      // promise or async/await can only be in one state at a time.
       status: action.status,
-      value: action.status === 'success' ? action.value : void 0,
+      // The value is persisted between 'success' statuses. This means I can
+      // still display things that depend on my current value while my new
+      // value is loading.
+      value: action.status === 'success' ? action.value : prev.value,
+      // Errors get reset each time we leave the error state. There's really
+      // no use in keeping those around. They go stale once we leave.
       error: action.status === 'error' ? action.error : void 0,
+      // The id is used for invalidating callbacks when they're cancelled and
+      // preventing race conditions by keeping the cancelled state local to the
+      // individual callback.
       id: action.status === 'cancelled' ? ++prev.id : prev.id,
     }),
     {
       status: 'idle',
       value: void 0,
       error: void 0,
-      // The id is used for invalidating callbacks when they're cancelled and
-      // preventing race conditions by keeping the cancelled state local to the
-      // individual callback
       id: 0,
     }
   )

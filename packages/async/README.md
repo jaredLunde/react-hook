@@ -143,10 +143,14 @@ function useAsync<
 export interface AsyncState<ValueType, ErrorType> {
   // 'idle' | 'loading' | 'success' | 'error' | 'cancelled'
   status: AsyncStatus
-  // The return value of your async callback or promise
+  // The return value of your async callback or promise. This value is persisted until there
+  // is another successful promise resolution. That means you when you're in an 'error', 'loading',
+  // or 'cancelled' state, you'll still have the most recent successful value here. This is useful
+  // because the status property should be dictating what you're doing in your UI and there are
+  // cases where you won't want to lose the current value.
   value?: ValueType
   // The error object from any exceptions encountered inside the async function
-  // or the value of the promise rejection
+  // or the value of the promise rejection.
   error?: ErrorType
   // Cancels the
   cancel: () => void
