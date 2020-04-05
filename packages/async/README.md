@@ -136,7 +136,7 @@ function useAsync<
 
 ---
 
-### `AsyncState`
+### AsyncState
 
 ```ts
 export interface AsyncState<ValueType, ErrorType> {
@@ -152,7 +152,7 @@ export interface AsyncState<ValueType, ErrorType> {
 }
 ```
 
-### `AsyncCallback`
+### AsyncCallback
 
 ```ts
 export interface AsyncCallback {
