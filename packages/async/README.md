@@ -35,13 +35,15 @@ A React hook for gracefully resolving and cancelling async functions and promise
 
 ## Quick Start
 
+[Check out the example on CodeSandbox](https://codesandbox.io/s/react-hookasync-example-kdghe)
+
 ```jsx harmony
 import {useAsync, useAsyncEffect} from '@react-hook/async'
 
 // Example using a manual invocation
 const CallbackResolver = () => {
   const [{status, cancel, error, value}, call] = useAsync(() => {
-    new Promise((resolve) => setTimeout(() => resolve('Loaded'), 1000))
+    return new Promise((resolve) => setTimeout(() => resolve('Loaded'), 3000))
   }, [])
 
   switch (status) {
@@ -49,14 +51,21 @@ const CallbackResolver = () => {
       return (
         <div>
           <button onClick={cancel}>Cancel</button>
-          Loadng...
+          Loading...
+        </div>
+      )
+    case 'cancelled':
+      return (
+        <div>
+          Cancelled.
+          <button onClick={call}>Try again</button>
         </div>
       )
     case 'error':
       return `Error: ${error}`
     case 'success':
-      return value
-    case 'idle':
+      return value || 'Success!'
+    default:
       return <button onClick={call}>Load me</button>
   }
 }
@@ -66,7 +75,9 @@ const EffectResolver = () => {
   const [curr, setCurr] = useState(0)
   // Will load each time counter changes
   const {status, cancel, error, value} = useAsyncEffect(() => {
-    new Promise((resolve) => setTimeout(() => resolve(`Loaded ${curr}`), 1000))
+    return new Promise((resolve) =>
+      setTimeout(() => resolve(`Loaded ${curr}`), 3000)
+    )
   }, [curr])
 
   switch (status) {
@@ -74,7 +85,14 @@ const EffectResolver = () => {
       return (
         <div>
           <button onClick={cancel}>Cancel</button>
-          Loadng...
+          Loading...
+        </div>
+      )
+    case 'cancelled':
+      return (
+        <div>
+          Cancelled.
+          <button onClick={() => setCurr((curr) => ++curr)}>Try again</button>
         </div>
       )
     case 'error':
@@ -86,8 +104,8 @@ const EffectResolver = () => {
           <button onClick={() => setCurr((curr) => ++curr)}>Load again</button>
         </div>
       )
-    case 'idle':
-      return <button onClick={call}>Load me</button>
+    default:
+      return null
   }
 }
 ```

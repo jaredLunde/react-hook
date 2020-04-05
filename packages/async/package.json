@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/async",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -78,7 +78,9 @@
     "ts-jest": "latest",
     "typescript": "latest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "use-memo-one": "^1.1.1"
+  },
   "peerDependencies": {
     "prop-types": ">=15.6",
     "react": ">=16.8",

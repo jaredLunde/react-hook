@@ -35,6 +35,7 @@ export declare type AsyncAction<ValueType, ErrorType> =
     }
 export interface AsyncCallback {
   (...args: any[]): void
+  cancelled: boolean
 }
 export declare type AsyncStatus =
   | 'idle'
