@@ -32,7 +32,8 @@
 <hr>
 
 A React hook for gracefully resolving, cancelling, and handling errors for async functions
-and promises.
+and promises. These hooks also clean up any lingering promises when your component unmounts
+by cancelling them.
 
 ## Quick Start
 
