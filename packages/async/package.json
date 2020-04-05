@@ -1,7 +1,7 @@
 {
   "name": "@react-hook/async",
-  "version": "1.0.0",
-  "homepage": "https://github.com/jaredLunde/react-hook#readme",
+  "version": "1.0.1",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/async#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
@@ -13,7 +13,14 @@
     "react async hook",
     "react promise hook",
     "async hook",
-    "promise hook"
+    "promise hook",
+    "react cancel promise",
+    "cancelable promise hook",
+    "async effect hook",
+    "use-async-effect",
+    "use-async",
+    "useasync",
+    "useasynceffect"
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
