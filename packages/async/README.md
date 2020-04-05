@@ -132,7 +132,7 @@ function useAsync<
 | asyncCallback | `(...args: any[]) => Promise<PromiseReturnType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
 | dependencies  | `any[]`                                          | `[]`        | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
 
-#### Returns [[`AsyncState<PromiseReturnType, ErrorType>`](#asyncstate), [`AsyncCallback`](#asynccallback)]]
+#### Returns [[`AsyncState<PromiseReturnType, ErrorType>`](#asyncstate), [`AsyncCallback`](#asynccallback)]
 
 ---
 
