@@ -1,5 +1,5 @@
 import {renderHook, act} from '@testing-library/react-hooks'
-import {useAsync} from './index'
+import {useAsync, useAsyncEffect} from './index'
 
 beforeAll(() => {
   jest.useFakeTimers()
@@ -10,7 +10,29 @@ afterAll(() => {
 })
 
 describe('useAsync()', () => {
-  it('should do a thing', async () => {
+  it('should handle Promise.resolve', async () => {
+    const {result, waitForNextUpdate} = renderHook(() =>
+      useAsync(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(() => resolve(true), 1000)
+          }),
+        []
+      )
+    )
+    expect(result.current[0].status).toBe('idle')
+    act(() => {
+      result.current[1]()
+    })
+    expect(result.current[0].status).toBe('loading')
+    act(() => jest.advanceTimersByTime(1000))
+    await waitForNextUpdate()
+    expect(result.current[0].value).toBe(true)
+    expect(result.current[0].status).toBe('success')
+    expect(result.current[0].error).toBe(undefined)
+  })
+
+  it('should cancel the callback', async () => {
     const {result} = renderHook(() =>
       useAsync(
         () =>
@@ -20,15 +42,111 @@ describe('useAsync()', () => {
         []
       )
     )
-    const [state, callback] = result.current
-    let res
+
+    let cancelled
     act(() => {
-      res = callback()
+      cancelled = result.current[1]()
     })
-    console.log(result.current[0], res)
+    expect(result.current[0].status).toBe('loading')
+    act(() => result.current[0].cancel())
     act(() => jest.advanceTimersByTime(1000))
-    await act(async () => await res)
-    console.log(result.current[0], res)
+    await cancelled
+    expect(result.current[0].status).toBe('cancelled')
+    expect(result.current[0].value).toBe(undefined)
+  })
+
+  it('should restart after cancel', async () => {
+    const {result, waitForNextUpdate} = renderHook(() =>
+      useAsync(
+        () =>
+          new Promise((resolve) => {
+            setTimeout(() => resolve(true), 1000)
+          }),
+        []
+      )
+    )
+    // Initial cancellation
+    act(() => {
+      result.current[1]()
+    })
+    act(() => result.current[0].cancel())
+    act(() => jest.advanceTimersByTime(1000))
+    expect(result.current[0].status).toBe('cancelled')
+    expect(result.current[0].value).toBe(undefined)
+    // Try again
+    act(() => {
+      result.current[1]()
+    })
+    expect(result.current[0].status).toBe('loading')
+    act(() => jest.advanceTimersByTime(1000))
+    await waitForNextUpdate()
+    expect(result.current[0].status).toBe('success')
     expect(result.current[0].value).toBe(true)
+  })
+})
+
+describe('useAsyncEffect()', () => {
+  it('should update when deps change', async () => {
+    const {result, rerender, waitForNextUpdate} = renderHook(
+      ({deps}) =>
+        useAsyncEffect(
+          () =>
+            new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(deps[0])
+              }, 1000)
+            }),
+          deps
+        ),
+      {
+        initialProps: {deps: [true]},
+      }
+    )
+
+    expect(result.current.value).toBe(undefined)
+    expect(result.current.status).toBe('loading')
+    act(() => jest.advanceTimersByTime(1000))
+    await waitForNextUpdate()
+    expect(result.current.value).toBe(true)
+
+    rerender({deps: [false]})
+    expect(result.current.value).toBe(undefined)
+    act(() => jest.advanceTimersByTime(1000))
+    await waitForNextUpdate()
+    expect(result.current.value).toBe(false)
+  })
+
+  it('should handle thrown exceptions', async () => {
+    const {result, waitForNextUpdate} = renderHook(() =>
+      useAsyncEffect(async () => {
+        throw new Error('Uh oh')
+      }, [])
+    )
+
+    expect(result.current.status).toBe('loading')
+    await waitForNextUpdate()
+    expect(result.current.status).toBe('error')
+    expect(result.current.value).toBe(undefined)
+    expect(result.current.error).toBeInstanceOf(Error)
+    expect(result.current.error.message).toBe('Uh oh')
+  })
+
+  it('should handle Promise.reject', async () => {
+    const {result, waitForNextUpdate} = renderHook(() =>
+      useAsyncEffect(
+        () =>
+          new Promise((_, reject) => {
+            setTimeout(() => reject('Uh oh'), 1000)
+          }),
+        []
+      )
+    )
+
+    expect(result.current.status).toBe('loading')
+    act(() => jest.advanceTimersByTime(1000))
+    await waitForNextUpdate()
+    expect(result.current.status).toBe('error')
+    expect(result.current.value).toBe(undefined)
+    expect(result.current.error).toBe('Uh oh')
   })
 })

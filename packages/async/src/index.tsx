@@ -6,36 +6,25 @@ export function useAsync<
 >(
   asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
   dependencies: any[] = []
-): [
-  AsyncState<PromiseReturnType, ErrorType>,
-  AsyncCallback<PromiseReturnType>
-] {
+): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback] {
+  const cancelled = useRef<boolean>(false)
   const [state, dispatch_] = useReducer(
-    function asyncCallbackReducer(
+    (
       prev: AsyncReducerState<PromiseReturnType, ErrorType>,
       action: AsyncAction<PromiseReturnType, ErrorType>
-    ) {
-      switch (action.status) {
-        case 'idle':
-        case 'loading':
-        case 'cancelled':
-          return {status: action.status, value: undefined, error: undefined}
-        case 'error':
-          return {status: action.status, value: undefined, error: action.error}
-        case 'success':
-          return {status: action.status, value: action.value, error: undefined}
-      }
-    },
+    ) => ({
+      status: action.status,
+      value: action.status === 'success' ? action.value : void 0,
+      error: action.status === 'error' ? action.error : void 0,
+    }),
     {
       status: 'idle',
-      value: undefined,
-      error: undefined,
+      value: void 0,
+      error: void 0,
     }
   )
-  const cancelled = useRef<boolean>(false)
-  function dispatch(action: AsyncAction<PromiseReturnType, ErrorType>) {
+  const dispatch = (action: AsyncAction<PromiseReturnType, ErrorType>) =>
     !cancelled.current && dispatch_(action)
-  }
 
   // Cancel any pending async stuff on unmount
   useEffect(
@@ -45,17 +34,20 @@ export function useAsync<
     []
   )
 
+  // Creates a stable callback that manages our loading/success/error status updates
+  // as the callback is invoked.
   const callback = useCallback(
     async (...args: any[]) => {
+      cancelled.current = false
       dispatch({status: 'loading'})
 
       try {
-        const value = await asyncCallback(...args)
-        dispatch({status: 'success', value})
-        return value
+        dispatch({
+          status: 'success',
+          value: await asyncCallback(...args),
+        })
       } catch (error) {
         dispatch({status: 'error', error})
-        return
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,13 +56,16 @@ export function useAsync<
 
   return [
     useMemo(
-      () => ({
-        ...state,
-        cancel: () => {
-          cancelled.current = true
-          dispatch({status: 'cancelled'})
-        },
-      }),
+      () =>
+        Object.assign(
+          {
+            cancel: () => {
+              dispatch({status: 'cancelled'})
+              cancelled.current = true
+            },
+          },
+          state
+        ),
       [state]
     ),
     callback,
@@ -82,17 +77,18 @@ export function useAsyncEffect<
   ErrorType extends any = Error
 >(
   asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
-  dependencies: any[] = []
+  dependencies?: any[]
 ): AsyncState<PromiseReturnType, ErrorType> {
   const [state, callback] = useAsync<PromiseReturnType, ErrorType>(
     asyncCallback,
-    dependencies
+    dependencies || [Math.random()]
   )
-
+  // Runs the callback each time the dependencies change and cancels any
+  // pending callbacks that were running previously
   useEffect(
     () => {
       callback()
-      return () => state.cancel()
+      return state.cancel
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     dependencies
@@ -125,8 +121,8 @@ export type AsyncAction<ValueType, ErrorType> =
       error?: ErrorType
     }
 
-export interface AsyncCallback<PromiseReturnType> {
-  (...args: any[]): Promise<PromiseReturnType | undefined>
+export interface AsyncCallback {
+  (...args: any[]): void
 }
 
 export type AsyncStatus = 'idle' | 'loading' | 'success' | 'error' | 'cancelled'

@@ -4,7 +4,7 @@ export declare function useAsync<
 >(
   asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
   dependencies?: any[]
-): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback<PromiseReturnType>]
+): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback]
 export declare function useAsyncEffect<
   PromiseReturnType extends any = any,
   ErrorType extends any = Error
@@ -33,8 +33,8 @@ export declare type AsyncAction<ValueType, ErrorType> =
       status: 'error'
       error?: ErrorType
     }
-export interface AsyncCallback<PromiseReturnType> {
-  (...args: any[]): Promise<PromiseReturnType | undefined>
+export interface AsyncCallback {
+  (...args: any[]): void
 }
 export declare type AsyncStatus =
   | 'idle'
