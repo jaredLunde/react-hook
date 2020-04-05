@@ -47,10 +47,10 @@ const CallbackResolver = () => {
   switch (status) {
     case 'loading':
       return (
-        <>
+        <React.Fragment>
           <button onClick={cancel}>Cancel</button>
           Loadng...
-        </>
+        </React.Fragment>
       )
     case 'error':
       return `Error: ${error}`
@@ -72,19 +72,19 @@ const EffectResolver = () => {
   switch (status) {
     case 'loading':
       return (
-        <>
+        <React.Fragment>
           <button onClick={cancel}>Cancel</button>
           Loadng...
-        </>
+        </React.Fragment>
       )
     case 'error':
       return `Error: ${error}`
     case 'success':
       return (
-        <>
+        <React.Fragment>
           {value}
           <button onClick={() => setCurr((curr) => ++curr)}>Load again</button>
-        </>
+        </React.Fragment>
       )
     case 'idle':
       return <button onClick={call}>Load me</button>
