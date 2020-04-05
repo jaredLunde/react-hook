@@ -31,7 +31,8 @@
 <pre align="center">npm i @react-hook/async</pre>
 <hr>
 
-A React hook for gracefully resolving and cancelling async functions and promises
+A React hook for gracefully resolving, cancelling, and handling errors for async functions
+and promises.
 
 ## Quick Start
 
@@ -112,11 +113,75 @@ const EffectResolver = () => {
 
 ## API
 
-### Props
+```ts
+function useAsync<
+  PromiseReturnType extends any = any,
+  ErrorType extends any = Error
+>(
+  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  dependencies: any[] = []
+): [AsyncState<PromiseReturnType, ErrorType>, AsyncCallback]
+```
 
-| Prop | Type | Default | Required? | Description |
-| ---- | ---- | ------- | --------- | ----------- |
-|      |      |         |           |             |
+### Arguments
+
+| Argument      | Type                                             | Default     | Required? | Description                                                                                                                      |
+| ------------- | ------------------------------------------------ | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| asyncCallback | `(...args: any[]) => Promise<PromiseReturnType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
+| dependencies  | `any[]`                                          | `[]`        | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
+
+### Returns [[`AsyncState<PromiseReturnType, ErrorType>`](#asyncstate), [`AsyncCallback`](#asynccallback)]]
+
+---
+
+## `AsyncState`
+
+```ts
+export interface AsyncState<ValueType, ErrorType> {
+  // 'idle' | 'loading' | 'success' | 'error' | 'cancelled'
+  status: AsyncStatus
+  // The return value of your async callback or promise
+  value?: ValueType
+  // The error object from any exceptions encountered inside the async function
+  // or the value of the promise rejection
+  error?: ErrorType
+  // Cancels the
+  cancel: () => void
+}
+```
+
+## `AsyncCallback`
+
+```ts
+export interface AsyncCallback {
+  (...args: any[]): void
+  // `true` if the callback has been cancelled, otherwise `false`
+  cancelled: boolean
+}
+```
+
+---
+
+```ts
+function useAsyncEffect<
+  PromiseReturnType extends any = any,
+  ErrorType extends any = Error
+>(
+  asyncCallback: (...args: any[]) => Promise<PromiseReturnType>,
+  dependencies?: any[]
+): AsyncState<PromiseReturnType, ErrorType>
+```
+
+This hook will invoke a callback each time its dependencies array changes.
+
+### Arguments
+
+| Argument      | Type                                             | Default     | Required? | Description                                                                                                                      |
+| ------------- | ------------------------------------------------ | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| asyncCallback | `(...args: any[]) => Promise<PromiseReturnType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
+| dependencies  | `any[]`                                          | `[]`        | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
+
+### Returns [`AsyncState<PromiseReturnType, ErrorType>`](#asyncstate)
 
 ## LICENSE
 

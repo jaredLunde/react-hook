@@ -16,40 +16,46 @@ export function useAsync<
       status: action.status,
       value: action.status === 'success' ? action.value : void 0,
       error: action.status === 'error' ? action.error : void 0,
+      id: action.status === 'cancelled' ? ++prev.id : prev.id,
     }),
     {
       status: 'idle',
       value: void 0,
       error: void 0,
+      // The id is used for invalidating callbacks when they're cancelled and
+      // preventing race conditions by keeping the cancelled state local to the
+      // individual callback
+      id: 0,
     }
   )
 
   // Creates a stable callback that manages our loading/success/error status updates
-  // as the callback is invoked.
+  // as the callback is invoked. This callback will not dispatch state once its been
+  // invalidated.
   const callback = useCallbackOne<AsyncCallback>(
     Object.assign(
       async (...args: any[]) => {
-        callback.cancelled = false
         dispatch({status: 'loading'})
 
         try {
           const value = await asyncCallback(...args)
-          if (callback.cancelled) return
-          dispatch({status: 'success', value})
+          !callback.cancelled && dispatch({status: 'success', value})
         } catch (error) {
-          if (callback.cancelled) return
-          dispatch({status: 'error', error})
+          !callback.cancelled && dispatch({status: 'error', error})
         }
       },
       {
         cancelled: false,
       }
     ),
+    // Makes sure changing the id (happens when cancel() is invoked) always invalidates
+    // the current callback
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    dependencies
+    dependencies.concat(state.id)
   )
 
-  // Cancel any pending async stuff on unmount
+  // Cancels any pending async stuff when the callback is invalidated or the hook
+  // is unmounted
   useEffect(
     () => () => {
       callback.cancelled = true
@@ -59,17 +65,13 @@ export function useAsync<
 
   return [
     useMemoOne(
-      () =>
-        Object.assign(
-          {
-            cancel: () => {
-              callback.cancelled = true
-              dispatch({status: 'cancelled'})
-            },
-          },
-          state
-        ),
-      [callback, state]
+      () => ({
+        status: state.status,
+        value: state.value,
+        error: state.error,
+        cancel: () => dispatch({status: 'cancelled'}),
+      }),
+      [state]
     ),
     callback,
   ]
@@ -91,7 +93,6 @@ export function useAsyncEffect<
   useEffect(
     () => {
       callback()
-      return state.cancel
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     dependencies
@@ -101,13 +102,14 @@ export function useAsyncEffect<
 }
 
 export interface AsyncReducerState<ValueType, ErrorType> {
+  id: number
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
 }
 
 export interface AsyncState<ValueType, ErrorType>
-  extends AsyncReducerState<ValueType, ErrorType> {
+  extends Omit<AsyncReducerState<ValueType, ErrorType>, 'id'> {
   cancel: () => void
 }
 

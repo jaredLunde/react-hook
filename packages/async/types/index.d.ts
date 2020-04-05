@@ -13,12 +13,13 @@ export declare function useAsyncEffect<
   dependencies?: any[]
 ): AsyncState<PromiseReturnType, ErrorType>
 export interface AsyncReducerState<ValueType, ErrorType> {
+  id: number
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
 }
 export interface AsyncState<ValueType, ErrorType>
-  extends AsyncReducerState<ValueType, ErrorType> {
+  extends Omit<AsyncReducerState<ValueType, ErrorType>, 'id'> {
   cancel: () => void
 }
 export declare type AsyncAction<ValueType, ErrorType> =
