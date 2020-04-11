@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useRef, useEffect, useState} from 'react'
 import {useCallbackOne as useCallback} from 'use-memo-one'
 import {lru, LRUCache} from './lru'
 
@@ -220,10 +220,13 @@ export const useCacheEffect = <
   key: string,
   dependencies?: React.DependencyList
 ): UseCacheState<ValueType, ErrorType> => {
+  const didMount = useRef(false)
   const [state, callback] = useCache<ValueType, ErrorType>(cache, key)
   // Runs the callback each time the dependencies change and cancels any
   // pending callbacks that were running previously
   useEffect(() => {
+    // Bail if this is the first render and we already have the data
+    if (!didMount.current && state.status === 'success') return
     callback()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies)
