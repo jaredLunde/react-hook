@@ -1,0 +1,18 @@
+sudo: false
+language: node_js
+cache:
+  yarn: true
+  directories:
+    - node_modules
+notifications:
+  email: false
+node_js: "12"
+branches:
+  only:
+    - master
+matrix:
+  include:
+    - env: TARGET=packages/async
+    - env: TARGET=packages/cache
+
+script: if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $TARGET; then echo "$TARGET is being built" && cd $TARGET && yarn install && yarn validate && npx codecov@3; else echo "$TARGET is NOT being built"; fi
