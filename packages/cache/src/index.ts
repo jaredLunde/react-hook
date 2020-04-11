@@ -5,9 +5,9 @@ import {lru, LRUCache} from './lru'
 // Cache does the promise resolution. Hooks subscribe to their cache by key.
 export const createCache = <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
-  options: {lruSize: number} = {lruSize: Infinity}
+  lruSize = Infinity
 ): Cache<Value, ErrorType> => {
-  const cache = lru<string, CacheState<Value, ErrorType>>(options.lruSize)
+  const cache = lru<string, CacheState<Value, ErrorType>>(lruSize)
   const listeners: Record<
     string,
     LRUCache<CacheSubscribeCallback<CacheState<Value, ErrorType>>, undefined>
