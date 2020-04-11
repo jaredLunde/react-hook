@@ -1,6 +1,6 @@
 /* jest */
 import {renderHook, act} from '@testing-library/react-hooks'
-import {createCache, useCache, useCacheEffect} from './index'
+import {createCache, useCache} from './index'
 
 beforeAll(() => {
   jest.useFakeTimers()
@@ -178,55 +178,22 @@ describe('useCache', () => {
     expect(result.current[0].status).toBe('success')
     expect(result.current[0].value).toBe(true)
   })
-})
-
-describe('useCacheEffect', () => {
-  it('should update when deps change', async () => {
-    const cache = createCache(
-      (key) =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(key)
-          }, 1000)
-        })
-    )
-    const {result, rerender, waitForNextUpdate} = renderHook(
-      ({deps}) => useCacheEffect(cache, deps[0] ? 'foo' : 'bar', deps),
-      {
-        initialProps: {deps: [true]},
-      }
-    )
-
-    expect(result.current.value).toBe(undefined)
-    expect(result.current.status).toBe('loading')
-    act(() => jest.advanceTimersByTime(1000))
-    await waitForNextUpdate()
-    expect(result.current.value).toBe('foo')
-
-    rerender({deps: [false]})
-    // Yes, this value should be persisted and not reset
-    expect(result.current.value).toBe(undefined)
-    expect(result.current.status).toBe('loading')
-    act(() => jest.advanceTimersByTime(1000))
-    await waitForNextUpdate()
-    expect(result.current.value).toBe('bar')
-    expect(result.current.status).toBe('success')
-  })
 
   it('should handle thrown exceptions', async () => {
     const cache = createCache(async () => {
       throw new Error('Uh oh')
     })
-    const {result, waitForNextUpdate} = renderHook(() =>
-      useCacheEffect(cache, 'foo', [])
-    )
+    const {result, waitForNextUpdate} = renderHook(() => useCache(cache, 'foo'))
 
-    expect(result.current.status).toBe('loading')
+    act(() => {
+      result.current[1]()
+    })
+    expect(result.current[0].status).toBe('loading')
     await waitForNextUpdate()
-    expect(result.current.status).toBe('error')
-    expect(result.current.value).toBe(undefined)
-    expect(result.current.error).toBeInstanceOf(Error)
-    expect(result.current.error.message).toBe('Uh oh')
+    expect(result.current[0].status).toBe('error')
+    expect(result.current[0].value).toBe(undefined)
+    expect(result.current[0].error).toBeInstanceOf(Error)
+    expect(result.current[0].error.message).toBe('Uh oh')
   })
 
   it('should handle Promise.reject', async () => {
@@ -237,15 +204,16 @@ describe('useCacheEffect', () => {
         })
     )
 
-    const {result, waitForNextUpdate} = renderHook(() =>
-      useCacheEffect(cache, 'foo', [])
-    )
+    const {result, waitForNextUpdate} = renderHook(() => useCache(cache, 'foo'))
 
-    expect(result.current.status).toBe('loading')
+    act(() => {
+      result.current[1]()
+    })
+    expect(result.current[0].status).toBe('loading')
     act(() => jest.advanceTimersByTime(1000))
     await waitForNextUpdate()
-    expect(result.current.status).toBe('error')
-    expect(result.current.value).toBe(undefined)
-    expect(result.current.error).toBe('Uh oh')
+    expect(result.current[0].status).toBe('error')
+    expect(result.current[0].value).toBe(undefined)
+    expect(result.current[0].error).toBe('Uh oh')
   })
 })

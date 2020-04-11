@@ -95,7 +95,7 @@ export const createCache = <Value = any, ErrorType = Error>(
 }
 
 export type Cache<Value = any, ErrorType = Error> = {
-  load: (key: string) => Promise<CacheState<Value, ErrorType>>
+  load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
   read: (key: string) => CacheState<Value, ErrorType> | undefined
   cancel: (key: string) => void
   subscribe: (
@@ -209,7 +209,7 @@ export const useCache = <Value = any, ErrorType = Error>(
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
-  const load = useCallback(() => cache.load(key), [key, cache])
+  const load = useCallback((...args) => cache.load(key, ...args), [key, cache])
   const [cacheState, setState] = useState<
     CacheState<Value, ErrorType> | undefined
   >(
@@ -241,23 +241,4 @@ export const useCache = <Value = any, ErrorType = Error>(
   }, [cacheState, cancel])
 
   return [state, load]
-}
-
-export const useCacheEffect = <
-  ValueType extends any = any,
-  ErrorType extends any = Error
->(
-  cache: Cache<ValueType, ErrorType>,
-  key: string,
-  dependencies?: React.DependencyList
-): UseCacheState<ValueType, ErrorType> => {
-  const [state, callback] = useCache<ValueType, ErrorType>(cache, key)
-  // Runs the callback each time the dependencies change and cancels any
-  // pending callbacks that were running previously
-  useEffect(() => {
-    callback()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies)
-
-  return state
 }

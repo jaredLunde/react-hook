@@ -1,9 +1,7 @@
 /// <reference types="react" />
 export declare const createCache: <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
-  options?: {
-    lruSize: number
-  }
+  lruSize?: number
 ) => Cache<Value, ErrorType>
 export declare type Cache<Value = any, ErrorType = Error> = {
   load: (key: string) => Promise<CacheState<Value, ErrorType>>
