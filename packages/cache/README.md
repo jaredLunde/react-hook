@@ -70,22 +70,22 @@ const Todo = ({id: initialId = 1}) => {
 
   if (status === 'loading') {
     return (
-      <>
+      <div>
         Loading {id}...
         <button onClick={cancel}>Cancel</button>
-      </>
+      </div>
     )
   } else if (status === 'error') {
     return (
-      <>
+      <div>
         Error: {error.mesage} <button onClick={fetchTodo}>Try again</button>
-      </>
+      </div>
     )
   } else if (status === 'cancelled') {
     return (
-      <>
+      <div>
         Cancelled <button onClick={fetchTodo}>Load again</button>
-      </>
+      </div>
     )
   } else if (status === 'success') {
     const nextId = id + 1
