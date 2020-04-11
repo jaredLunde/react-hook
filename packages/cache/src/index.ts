@@ -64,16 +64,16 @@ export const createCache = <Value = any, ErrorType = Error>(
   return {
     load: async (key, ...args) => {
       const current = cache.read(key)
+      const nextId = ++id
       // Bails out if we are already loading this key
       if (current?.status === 'loading') return current
-      id++
-      dispatch({id, key, status: 'loading'})
+      dispatch({id: nextId, key, status: 'loading'})
 
       try {
         const value = await resolve(key, ...args)
-        return dispatch({id, key, status: 'success', value})
+        return dispatch({id: nextId, key, status: 'success', value})
       } catch (error) {
-        return dispatch({id, key, status: 'error', error})
+        return dispatch({id: nextId, key, status: 'error', error})
       }
     },
     read: (key) => cache.read(key),
