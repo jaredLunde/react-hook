@@ -12,6 +12,7 @@ export const createCache = <Value = any, ErrorType = Error>(
     string,
     LRUCache<CacheSubscribeCallback<CacheState<Value, ErrorType>>, undefined>
   > = {}
+  let id = -1
 
   const dispatch = (
     action: CacheAction<Value, ErrorType>
@@ -19,24 +20,36 @@ export const createCache = <Value = any, ErrorType = Error>(
     const current: CacheState<Value, ErrorType> = cache.read(action.key)
     let next = current
 
-    if (action.status === 'loading' || action.status === 'cancelled') {
+    if (action.status === 'loading') {
       next = {
+        id: action.id,
+        status: action.status,
+        value: current?.value,
+        error: void 0,
+      }
+    } else if (action.status === 'cancelled') {
+      next = {
+        id: current.id,
         status: action.status,
         value: current?.value,
         error: void 0,
       }
     } else if (action.status === 'success') {
       // Bails out if the action has been cancelled
-      if (current.status === 'cancelled') return current
+      if (current.status === 'cancelled' || current.id > action.id)
+        return current
       next = {
+        id: action.id,
         status: action.status,
         value: action.value,
         error: void 0,
       }
     } else if (action.status === 'error') {
       // Bails out if the action has been cancelled
-      if (current.status === 'cancelled') return current
+      if (current.status === 'cancelled' || current.id > action.id)
+        return current
       next = {
+        id: action.id,
         status: action.status,
         value: current?.value,
         error: action.error,
@@ -53,13 +66,14 @@ export const createCache = <Value = any, ErrorType = Error>(
       const current = cache.read(key)
       // Bails out if we are already loading this key
       if (current?.status === 'loading') return current
-      dispatch({key, status: 'loading'})
+      id++
+      dispatch({id, key, status: 'loading'})
 
       try {
         const value = await resolve(key, ...args)
-        return dispatch({key, status: 'success', value})
+        return dispatch({id, key, status: 'success', value})
       } catch (error) {
-        return dispatch({key, status: 'error', error})
+        return dispatch({id, key, status: 'error', error})
       }
     },
     read: (key) => cache.read(key),
@@ -96,6 +110,7 @@ export type Cache<Value = any, ErrorType = Error> = {
 
 export type CacheState<Value = any, ErrorType = Error> =
   | {
+      id: number
       // This is the current status of the promise or async/await function. A
       // promise or async/await can only be in one state at a time.
       status: 'loading' | 'cancelled'
@@ -108,16 +123,19 @@ export type CacheState<Value = any, ErrorType = Error> =
       error: undefined
     }
   | {
+      id: number
       status: 'success'
       value: Value
       error: undefined
     }
   | {
+      id: number
       status: 'error'
       value: Value | undefined
       error: ErrorType
     }
   | {
+      id: number
       status: 'cancelled'
       value: Value | undefined
       error: undefined
@@ -125,15 +143,22 @@ export type CacheState<Value = any, ErrorType = Error> =
 
 type CacheAction<Value = any, ErrorType = Error> =
   | {
+      id: number
       key: string
-      status: 'loading' | 'cancelled'
+      status: 'loading'
     }
   | {
+      key: string
+      status: 'cancelled'
+    }
+  | {
+      id: number
       key: string
       status: 'success'
       value: Value
     }
   | {
+      id: number
       key: string
       status: 'error'
       error: ErrorType

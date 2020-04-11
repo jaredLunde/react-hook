@@ -13,7 +13,7 @@ afterAll(() => {
 describe('createCache()', () => {
   it('should load a key', async () => {
     const cache = createCache((string) => Promise.resolve(string))
-    const expected = {status: 'success', value: 'foo', error: undefined}
+    const expected = {id: 0, status: 'success', value: 'foo', error: undefined}
     expect(await cache.load('foo')).toEqual(expected)
     expect(cache.read('foo')).toEqual(expected)
   })
@@ -23,8 +23,13 @@ describe('createCache()', () => {
     const subscriber1 = jest.fn() // subcribed to 'foo'
     const subscriber2 = jest.fn() // subcribed to 'foo'
     const subscriber3 = jest.fn() // NOT subcribed to 'foo'
-    const expected1 = {status: 'loading', value: undefined, error: undefined}
-    const expected2 = {status: 'success', value: 'foo', error: undefined}
+    const expected1 = {
+      id: 0,
+      status: 'loading',
+      value: undefined,
+      error: undefined,
+    }
+    const expected2 = {id: 0, status: 'success', value: 'foo', error: undefined}
 
     cache.subscribe('foo', subscriber1)
     cache.subscribe('foo', subscriber2)

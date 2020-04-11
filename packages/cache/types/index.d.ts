@@ -20,21 +20,25 @@ export declare type Cache<Value = any, ErrorType = Error> = {
 }
 export declare type CacheState<Value = any, ErrorType = Error> =
   | {
+      id: number
       status: 'loading' | 'cancelled'
       value: Value | undefined
       error: undefined
     }
   | {
+      id: number
       status: 'success'
       value: Value
       error: undefined
     }
   | {
+      id: number
       status: 'error'
       value: Value | undefined
       error: ErrorType
     }
   | {
+      id: number
       status: 'cancelled'
       value: Value | undefined
       error: undefined
