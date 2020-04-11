@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import {useCallbackOne as useCallback} from 'use-memo-one'
 import {lru, LRUCache} from './lru'
 
@@ -210,7 +210,9 @@ export const useCache = <Value = any, ErrorType = Error>(
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
   const load = useCallback(() => cache.load(key), [key, cache])
-  const [state, setState] = useState<CacheState<Value, ErrorType> | undefined>(
+  const [cacheState, setState] = useState<
+    CacheState<Value, ErrorType> | undefined
+  >(
     // Uses an init function because we don't want every render to affect
     // the LRU algorithm
     () => cache.read(key)
@@ -223,18 +225,22 @@ export const useCache = <Value = any, ErrorType = Error>(
   }, [key, cache])
 
   const cancel = useCallback(() => cache.cancel(key), [key, cache])
+  const state = useMemo<UseCacheState<Value, ErrorType>>(() => {
+    if (!cacheState) {
+      return {
+        status: 'idle',
+        value: undefined,
+        error: undefined,
+        cancel,
+      }
+    } else {
+      const state = Object.assign({cancel}, cacheState)
+      delete state.id
+      return state
+    }
+  }, [cacheState, cancel])
 
-  return [
-    !state
-      ? {
-          status: 'idle',
-          value: undefined,
-          error: undefined,
-          cancel,
-        }
-      : Object.assign({cancel}, state),
-    load,
-  ]
+  return [state, load]
 }
 
 export const useCacheEffect = <
