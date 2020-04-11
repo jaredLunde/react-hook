@@ -63,7 +63,7 @@ const Todo = ({id: initialId = 1}) => {
     // you could always be revalidating here regardless and change the if ... else
     // blocks to check 'value' instead of 'status' to determine if the todo
     // should display
-    if (status !== 'success') {
+    if (status === 'idle') {
       fetchTodo()
     }
   }, [fetchTodo, id, status])
