@@ -149,7 +149,7 @@ export interface AsyncState<ValueType, ErrorType> {
   // The error object from any exceptions encountered inside the async function
   // or the value of the promise rejection.
   error?: ErrorType
-  // Cancels the
+  // Cancels the promise
   cancel: () => void
 }
 ```
