@@ -5,7 +5,7 @@ import {lru, LRUCache} from './lru'
 // Cache does the promise resolution. Hooks subscribe to their cache by key.
 export const createCache = <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
-  lruSize = Infinity
+  lruSize = 1000
 ): Cache<Value, ErrorType> => {
   const cache = lru<string, CacheState<Value, ErrorType>>(lruSize)
   const listeners: Record<
@@ -36,7 +36,10 @@ export const createCache = <Value = any, ErrorType = Error>(
       }
     } else if (action.status === 'success') {
       // Bails out if the action has been cancelled
-      if (current.status === 'cancelled' || current.id > action.id)
+      if (
+        current &&
+        (current.status === 'cancelled' || current.id !== action.id)
+      )
         return current
       next = {
         id: action.id,
@@ -46,7 +49,7 @@ export const createCache = <Value = any, ErrorType = Error>(
       }
     } else if (action.status === 'error') {
       // Bails out if the action has been cancelled
-      if (current.status === 'cancelled' || current.id > action.id)
+      if (current && (current.status === 'cancelled' || current.id > action.id))
         return current
       next = {
         id: action.id,
@@ -204,12 +207,19 @@ export interface CacheSubscribeCallback<Value = any> {
 
 export const useCache = <Value = any, ErrorType = Error>(
   cache: Cache<Value, ErrorType>,
-  key: string
+  key: string,
+  ...args: any[]
 ): [
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
-  const load = useCallback((...args) => cache.load(key, ...args), [key, cache])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const load = useCallback(() => cache.load(key, ...args), [
+    key,
+    cache,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...args,
+  ])
   const [cacheState, setState] = useState<
     CacheState<Value, ErrorType> | undefined
   >(

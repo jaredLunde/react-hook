@@ -1,11 +1,11 @@
 {
   "name": "@react-hook/cache",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/cache#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
-  "description": "",
+  "description": "A React hook for accessing an async cache that persists data between renders and components. This allows you to do neat stuff like preload data before your next page or component has even started mounting.",
   "keywords": [
     "react",
     "react hook",

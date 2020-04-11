@@ -4,36 +4,6 @@ export const lru = <Key = string, Value = any>(
   head: undefined,
   size: 0,
 
-  _insertHead(node) {
-    if (!this.head) {
-      // Creates a new head
-      this.head = node
-      node.next = node
-      node.prev = node
-    } else if (this.head !== node) {
-      // Changes head to current node
-      node.prev.next = node.next
-      node.next.prev = node.prev
-      node.next = this.head
-      node.prev = this.head.prev
-      this.head.prev.next = node
-      this.head.prev = node
-      this.head = node
-    }
-  },
-
-  _deleteNode(node) {
-    if (node === void 0) return
-    if (this.size === 1) {
-      this.head = undefined
-    } else {
-      node.prev.next = node.next
-      node.next.prev = node.prev
-    }
-
-    this.size--
-  },
-
   forEach(fn) {
     if (this.size === 0) return
     fn(this.head.key, this.head.value)
@@ -112,19 +82,49 @@ export const lru = <Key = string, Value = any>(
     this._deleteNode(node)
     return node?.value
   },
+
+  _insertHead(node) {
+    if (!this.head) {
+      // Creates a new head
+      this.head = node
+      node.next = node
+      node.prev = node
+    } else if (this.head !== node) {
+      // Changes head to current node
+      node.prev.next = node.next
+      node.next.prev = node.prev
+      node.next = this.head
+      node.prev = this.head.prev
+      this.head.prev.next = node
+      this.head.prev = node
+      this.head = node
+    }
+  },
+
+  _deleteNode(node) {
+    if (node === void 0) return
+    if (this.size === 1) {
+      this.head = undefined
+    } else {
+      node.prev.next = node.next
+      node.next.prev = node.prev
+    }
+
+    this.size--
+  },
 })
 
 export type LRUCache<Key = string, Value = any> = {
   head: LRUNode<Key, Value> | undefined
   size: number
-  _insertHead(node: LRUNode<Key, Value>): void
-  _deleteNode(node: LRUNode<Key, Value>): void
   forEach(fn: (key: Key, value: Value) => void): void
   search(key: Key): LRUNode<Key, Value>
   read(key: Key): Value
   write(key: Key, value: Value): Value
   delete(key: Key): Value
   pop(): Value | undefined
+  _insertHead(node: LRUNode<Key, Value>): void
+  _deleteNode(node: LRUNode<Key, Value>): void
 }
 
 type LRUNode<Key = string, Value = any> = {

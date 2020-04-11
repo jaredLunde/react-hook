@@ -78,7 +78,8 @@ export interface CacheSubscribeCallback<Value = any> {
 }
 export declare const useCache: <Value = any, ErrorType = Error>(
   cache: Cache<Value, ErrorType>,
-  key: string
+  key: string,
+  ...args: any[]
 ) => [
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
