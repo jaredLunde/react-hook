@@ -4,7 +4,7 @@ export const lru = <Key = string, Value = any>(
   head: undefined,
   size: 0,
 
-  insertHead(node) {
+  _insertHead(node) {
     if (!this.head) {
       // Creates a new head
       this.head = node
@@ -20,6 +20,18 @@ export const lru = <Key = string, Value = any>(
       this.head.prev = node
       this.head = node
     }
+  },
+
+  _deleteNode(node) {
+    if (node === void 0) return
+    if (this.size === 1) {
+      this.head = undefined
+    } else {
+      node.prev.next = node.next
+      node.next.prev = node.prev
+    }
+
+    this.size--
   },
 
   forEach(fn) {
@@ -63,7 +75,7 @@ export const lru = <Key = string, Value = any>(
 
     if (!node) return
     // Each time we read we move the node that was found to the head of the list
-    this.insertHead(node)
+    this._insertHead(node)
 
     return node.value
   },
@@ -76,12 +88,12 @@ export const lru = <Key = string, Value = any>(
       // Creates a new node if none was found
       node = {next: this.head, prev: this.head?.prev, key, value}
       // Writes new nodes to the head
-      this.insertHead(node)
+      this._insertHead(node)
       this.size++
     } else {
       // Moves existing node to head and updates value
       node.value = value
-      this.insertHead(node)
+      this._insertHead(node)
     }
 
     // Removes the last element in the list if our max size is exceeded
@@ -89,40 +101,28 @@ export const lru = <Key = string, Value = any>(
     return value
   },
 
-  deleteNode(node) {
-    if (node === void 0) return
-    if (this.size === 1) {
-      this.head = undefined
-    } else {
-      node.prev.next = node.next
-      node.next.prev = node.prev
-    }
-
-    this.size--
-  },
-
   delete(key) {
     const node = this.search(key)
-    this.deleteNode(node)
+    this._deleteNode(node)
     return node.value
   },
 
   pop() {
     const node = this.head?.prev
-    this.deleteNode(node)
-    return node.value
+    this._deleteNode(node)
+    return node?.value
   },
 })
 
 export type LRUCache<Key = string, Value = any> = {
   head: LRUNode<Key, Value> | undefined
   size: number
-  insertHead(node: LRUNode<Key, Value>): void
+  _insertHead(node: LRUNode<Key, Value>): void
+  _deleteNode(node: LRUNode<Key, Value>): void
   forEach(fn: (key: Key, value: Value) => void): void
   search(key: Key): LRUNode<Key, Value>
   read(key: Key): Value
   write(key: Key, value: Value): Value
-  deleteNode(node: LRUNode<Key, Value>): void
   delete(key: Key): Value
   pop(): Value | undefined
 }

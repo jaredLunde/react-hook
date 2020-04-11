@@ -1,10 +1,9 @@
-/// <reference types="react" />
 export declare const createCache: <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
   lruSize?: number
 ) => Cache<Value, ErrorType>
 export declare type Cache<Value = any, ErrorType = Error> = {
-  load: (key: string) => Promise<CacheState<Value, ErrorType>>
+  load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
   read: (key: string) => CacheState<Value, ErrorType> | undefined
   cancel: (key: string) => void
   subscribe: (
@@ -84,11 +83,3 @@ export declare const useCache: <Value = any, ErrorType = Error>(
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ]
-export declare const useCacheEffect: <
-  ValueType extends any = any,
-  ErrorType extends any = Error
->(
-  cache: Cache<ValueType, ErrorType>,
-  key: string,
-  dependencies?: import('react').DependencyList | undefined
-) => UseCacheState<ValueType, ErrorType>
