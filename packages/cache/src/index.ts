@@ -1,8 +1,8 @@
+import {useDebugValue, useState, useEffect} from 'react'
 import {
   useCallbackOne as useCallback,
   useMemoOne as useMemo,
 } from 'use-memo-one'
-import {useSubscription} from 'use-subscription'
 import {lru, LRUCache} from './lru'
 
 // Cache does the promise resolution. Hooks subscribe to their cache by key.
@@ -233,19 +233,63 @@ export const useCache = <Value = any, ErrorType = Error>(
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
-  const deps = [key, cache]
-  const cacheState = useSubscription<CacheState<Value, ErrorType> | undefined>({
-    getCurrentValue: useCallback(() => cache.read(key), deps),
-    subscribe: useCallback((callback) => {
-      cache.subscribe(key, callback)
-      return () => cache.unsubscribe(key, callback)
-    }, deps),
-  })
+  const [state, setState] = useState<{
+    key: string
+    cache: Cache<Value, ErrorType>
+    current: CacheState<Value, ErrorType> | undefined
+  }>(
+    // Uses an init function because we don't want every render to affect
+    // the LRU algorithm when we read the cache
+    () => ({
+      key,
+      cache,
+      current: cache.read(key),
+    })
+  )
+
+  if (state.cache !== cache || state.key !== key) {
+    setState({
+      key,
+      cache,
+      current: cache.read(key),
+    })
+  }
+
+  useEffect(() => {
+    let didUnsubscribe = false
+
+    const checkForUpdates = (
+      value: CacheState<Value, ErrorType> | undefined
+    ) => {
+      if (didUnsubscribe) return
+      setState((prev) => {
+        // Bails if our cache or key has changed from under us
+        if (prev.cache !== cache || prev.key !== key) return prev
+        // Bails if our value hasn't changed
+        if (prev.current === value) return prev
+        return {
+          key: prev.key,
+          cache,
+          current: value,
+        }
+      })
+    }
+
+    cache.subscribe(key, checkForUpdates)
+    checkForUpdates(cache.read(key))
+
+    return () => {
+      didUnsubscribe = true
+      cache.unsubscribe(key, checkForUpdates)
+    }
+  }, [key, cache])
+  // So React DevTools can report the value of the hook
+  useDebugValue(state?.current)
 
   return [
     useMemo<UseCacheState<Value, ErrorType>>(() => {
       const cancel = () => cache.cancel(key)
-      if (!cacheState) {
+      if (!state.current) {
         return {
           status: 'idle',
           value: undefined,
@@ -253,11 +297,11 @@ export const useCache = <Value = any, ErrorType = Error>(
           cancel,
         }
       } else {
-        const state = Object.assign({cancel}, cacheState)
-        delete state.id
-        return state
+        const stateToReturn = Object.assign({cancel}, state.current)
+        delete stateToReturn.id
+        return stateToReturn
       }
-    }, [cacheState, key, cache]),
+    }, [state, key, cache]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useCallback(() => cache.load(key, ...args), [
       key,
