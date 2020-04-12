@@ -6,6 +6,8 @@ export declare type Cache<Value = any, ErrorType = Error> = {
   load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
   read: (key: string) => CacheState<Value, ErrorType> | undefined
   cancel: (key: string) => void
+  readAll: () => CacheExport<CacheState<Value, ErrorType>>
+  write: (input: CacheExport<Value, ErrorType>) => void
   subscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
@@ -40,6 +42,9 @@ export declare type CacheState<Value = any, ErrorType = Error> =
       value: Value | undefined
       error: undefined
     }
+export declare type CacheExport<Value = any, ErrorType = Error> = {
+  [key: string]: CacheState<Value, ErrorType>
+}
 export declare type CacheStatus = 'loading' | 'success' | 'error' | 'cancelled'
 export declare type UseCacheStatus = 'idle' | CacheStatus
 export declare type UseCacheState<Value = any, ErrorType = Error> =

@@ -1,6 +1,6 @@
 /* jest */
 import {renderHook, act} from '@testing-library/react-hooks'
-import {createCache, useCache} from './index'
+import {createCache, useCache, CacheExport} from './index'
 
 beforeAll(() => {
   jest.useFakeTimers()
@@ -56,6 +56,40 @@ describe('createCache()', () => {
     await cache.load('foo')
 
     expect(subscriber).not.toBeCalled()
+  })
+
+  it('should readAll for SSR', async () => {
+    const cache = createCache((string) => Promise.resolve(string))
+    const expected = {
+      foo: {id: 0, status: 'success', value: 'foo', error: undefined},
+      bar: {id: 1, status: 'success', value: 'bar', error: undefined},
+    }
+    await cache.load('foo')
+    await cache.load('bar')
+    expect(cache.readAll()).toEqual(expected)
+  })
+
+  it('should write from SSR', async () => {
+    const cache = createCache((string) => Promise.resolve(string))
+    const expected: CacheExport<string> = {
+      foo: {id: 0, status: 'success', value: 'foo', error: undefined},
+      bar: {id: 1, status: 'success', value: 'bar', error: undefined},
+    }
+    cache.write(expected)
+    expect(cache.readAll()).toEqual(expected)
+  })
+
+  it('should alert subscribers during write from SSR', async () => {
+    const cache = createCache((string) => Promise.resolve(string))
+    const expected: CacheExport<string> = {
+      foo: {id: 0, status: 'success', value: 'foo', error: undefined},
+      bar: {id: 1, status: 'success', value: 'bar', error: undefined},
+    }
+    const subscriber = jest.fn()
+    cache.subscribe('foo', subscriber)
+    cache.write(expected)
+    expect(subscriber).toBeCalledTimes(1)
+    expect(subscriber).toBeCalledWith(expected.foo)
   })
 })
 

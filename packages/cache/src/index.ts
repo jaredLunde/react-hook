@@ -1,5 +1,8 @@
-import {useEffect, useState, useMemo} from 'react'
-import {useCallbackOne as useCallback} from 'use-memo-one'
+import {
+  useCallbackOne as useCallback,
+  useMemoOne as useMemo,
+} from 'use-memo-one'
+import {useSubscription, Subscription} from 'use-subscription'
 import {lru, LRUCache} from './lru'
 
 // Cache does the promise resolution. Hooks subscribe to their cache by key.
@@ -13,7 +16,6 @@ export const createCache = <Value = any, ErrorType = Error>(
     LRUCache<CacheSubscribeCallback<CacheState<Value, ErrorType>>, undefined>
   > = {}
   let id = -1
-
   const dispatch = (
     action: CacheAction<Value, ErrorType>
   ): CacheState<Value, ErrorType> => {
@@ -81,6 +83,18 @@ export const createCache = <Value = any, ErrorType = Error>(
     },
     read: (key) => cache.read(key),
     cancel: (key) => dispatch({key, status: 'cancelled'}),
+    readAll: () => {
+      const output = {}
+      cache.forEach((key, value) => (output[key] = value))
+      return output
+    },
+    write: (input) => {
+      for (const key in input) {
+        const value = input[key]
+        cache.write(key, value)
+        listeners[key]?.forEach((callback) => callback(value))
+      }
+    },
     subscribe: (key, callback) => {
       let listenerCache = listeners[key]
 
@@ -101,6 +115,8 @@ export type Cache<Value = any, ErrorType = Error> = {
   load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
   read: (key: string) => CacheState<Value, ErrorType> | undefined
   cancel: (key: string) => void
+  readAll: () => CacheExport<CacheState<Value, ErrorType>>
+  write: (input: CacheExport<Value, ErrorType>) => void
   subscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
@@ -143,6 +159,10 @@ export type CacheState<Value = any, ErrorType = Error> =
       value: Value | undefined
       error: undefined
     }
+
+export type CacheExport<Value = any, ErrorType = Error> = {
+  [key: string]: CacheState<Value, ErrorType>
+}
 
 type CacheAction<Value = any, ErrorType = Error> =
   | {
@@ -220,20 +240,21 @@ export const useCache = <Value = any, ErrorType = Error>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     ...args,
   ])
-  const [cacheState, setState] = useState<
-    CacheState<Value, ErrorType> | undefined
+  const subscription = useMemo<
+    Subscription<CacheState<Value, ErrorType> | undefined>
   >(
-    // Uses an init function because we don't want every render to affect
-    // the LRU algorithm
-    () => cache.read(key)
+    () => ({
+      getCurrentValue: () => cache.read(key),
+      subscribe: (callback) => {
+        cache.subscribe(key, callback)
+        return () => cache.unsubscribe(key, callback)
+      },
+    }),
+    [key, cache]
   )
-
-  useEffect(() => {
-    setState(cache.read(key))
-    cache.subscribe(key, setState)
-    return () => cache.unsubscribe(key, setState)
-  }, [key, cache])
-
+  const cacheState = useSubscription<CacheState<Value, ErrorType> | undefined>(
+    subscription
+  )
   const cancel = useCallback(() => cache.cancel(key), [key, cache])
   const state = useMemo<UseCacheState<Value, ErrorType>>(() => {
     if (!cacheState) {
