@@ -2,7 +2,7 @@ import {
   useCallbackOne as useCallback,
   useMemoOne as useMemo,
 } from 'use-memo-one'
-import {useSubscription, Subscription} from 'use-subscription'
+import {useSubscription} from 'use-subscription'
 import {lru, LRUCache} from './lru'
 
 // Cache does the promise resolution. Hooks subscribe to their cache by key.
@@ -233,21 +233,14 @@ export const useCache = <Value = any, ErrorType = Error>(
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
-  const subscription = useMemo<
-    Subscription<CacheState<Value, ErrorType> | undefined>
-  >(
-    () => ({
-      getCurrentValue: () => cache.read(key),
-      subscribe: (callback) => {
-        cache.subscribe(key, callback)
-        return () => cache.unsubscribe(key, callback)
-      },
-    }),
-    [key, cache]
-  )
-  const cacheState = useSubscription<CacheState<Value, ErrorType> | undefined>(
-    subscription
-  )
+  const deps = [key, cache]
+  const cacheState = useSubscription<CacheState<Value, ErrorType> | undefined>({
+    getCurrentValue: useCallback(() => cache.read(key), deps),
+    subscribe: useCallback((callback) => {
+      cache.subscribe(key, callback)
+      return () => cache.unsubscribe(key, callback)
+    }, deps),
+  })
 
   return [
     useMemo<UseCacheState<Value, ErrorType>>(() => {
