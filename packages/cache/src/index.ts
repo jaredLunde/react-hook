@@ -233,13 +233,6 @@ export const useCache = <Value = any, ErrorType = Error>(
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const load = useCallback(() => cache.load(key, ...args), [
-    key,
-    cache,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    ...args,
-  ])
   const subscription = useMemo<
     Subscription<CacheState<Value, ErrorType> | undefined>
   >(
@@ -255,21 +248,29 @@ export const useCache = <Value = any, ErrorType = Error>(
   const cacheState = useSubscription<CacheState<Value, ErrorType> | undefined>(
     subscription
   )
-  const cancel = useCallback(() => cache.cancel(key), [key, cache])
-  const state = useMemo<UseCacheState<Value, ErrorType>>(() => {
-    if (!cacheState) {
-      return {
-        status: 'idle',
-        value: undefined,
-        error: undefined,
-        cancel,
-      }
-    } else {
-      const state = Object.assign({cancel}, cacheState)
-      delete state.id
-      return state
-    }
-  }, [cacheState, cancel])
 
-  return [state, load]
+  return [
+    useMemo<UseCacheState<Value, ErrorType>>(() => {
+      const cancel = () => cache.cancel(key)
+      if (!cacheState) {
+        return {
+          status: 'idle',
+          value: undefined,
+          error: undefined,
+          cancel,
+        }
+      } else {
+        const state = Object.assign({cancel}, cacheState)
+        delete state.id
+        return state
+      }
+    }, [cacheState, key, cache]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useCallback(() => cache.load(key, ...args), [
+      key,
+      cache,
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      ...args,
+    ]),
+  ]
 }
