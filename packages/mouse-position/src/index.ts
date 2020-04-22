@@ -37,7 +37,7 @@ const initialState: MousePosition = {
   elementHeight: null,
   isOver: false,
   isDown: false,
-  isTouch: false
+  isTouch: false,
 }
 
 const batchUpdates =
@@ -93,7 +93,7 @@ export const useMousePosition = (
           elementHeight: rect.height,
           isOver: true,
           isDown: prev.isDown,
-          isTouch
+          isTouch,
         }))
       },
       [element]
@@ -104,7 +104,8 @@ export const useMousePosition = (
 
   useEffect((): void | (() => void) => {
     if (element !== null) {
-      const setDown = (evt: MouseEvent | TouchEvent, isTouch = false): void => setState((prev) => ({...prev, isDown: true, isTouch}))
+      const setDown = (evt: MouseEvent | TouchEvent, isTouch = false): void =>
+        setState(prev => ({...prev, isDown: true, isTouch}))
       const onMove = (e: MouseEvent): void => {
         if (!touchEnded.current) {
           batchUpdates(() => {
@@ -123,7 +124,7 @@ export const useMousePosition = (
           })
         }
       }
-      const onUp = (): void => setState((prev) => ({...prev, isDown: false}))
+      const onUp = (): void => setState(prev => ({...prev, isDown: false}))
       const onTouchStart = (e: TouchEvent): void => {
         touchEnded.current = false
         setDown(e, true)
