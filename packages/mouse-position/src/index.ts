@@ -122,6 +122,7 @@ export const useMousePosition = (
       const onUp = (): void => setState(prev => ({...prev, isDown: false}))
       const onTouchStart = (e: MouseEvent): void => {
         touchEnded.current = false
+        setDown()
         onDown(e)
       }
       const onTouchMove = (e: MouseEvent): void => {
