@@ -32,7 +32,7 @@ hook also provides an interop between touch and desktop devices and will treat
 ```jsx harmony
 import useMousePosition from '@react-hook/mouse-position'
 
-const Component = props => {
+const Component = (props) => {
   const [mousePosition, ref] = useMousePosition(
     0, // enterDelay
     0, // leaveDelay
@@ -85,6 +85,7 @@ const Component = props => {
 | elementHeight | `number`  | `null`  | `DOMRect.height` of the element, `null` if mouse is not over the element                          |
 | isOver        | `boolean` | `false` | `true` if the mouse is currently hovering over the element                                        |
 | isDown        | `boolean` | `false` | `true` if the mouse is currently hovering over the element AND is down                            |
+| isTouch       | `boolean` | `false` | `true` if the the last event was triggered by a touch event                                       |
 
 ## LICENSE
 

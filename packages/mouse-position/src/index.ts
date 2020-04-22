@@ -21,6 +21,7 @@ export interface MousePosition {
   elementHeight: number | null
   isOver: boolean
   isDown: boolean
+  isTouch: boolean
 }
 
 const initialState: MousePosition = {
@@ -36,6 +37,7 @@ const initialState: MousePosition = {
   elementHeight: null,
   isOver: false,
   isDown: false,
+  isTouch: false
 }
 
 const batchUpdates =
@@ -91,6 +93,7 @@ export const useMousePosition = (
           elementHeight: rect.height,
           isOver: true,
           isDown: prev.isDown,
+          isTouch
         }))
       },
       [element]
@@ -101,7 +104,7 @@ export const useMousePosition = (
 
   useEffect((): void | (() => void) => {
     if (element !== null) {
-      const setDown = (): void => setState(prev => ({...prev, isDown: true}))
+      const setDown = (evt: MouseEvent | TouchEvent, isTouch = false): void => setState((prev) => ({...prev, isDown: true, isTouch}))
       const onMove = (e: MouseEvent): void => {
         if (!touchEnded.current) {
           batchUpdates(() => {
@@ -111,20 +114,22 @@ export const useMousePosition = (
         }
       }
       const onLeave = (): void => setEntered(false)
-      const onDown = (e: MouseEvent): void => {
+      const onDown = (e: MouseEvent | TouchEvent): void => {
         if (!touchEnded.current) {
+          onMoveCallback(e)
           batchUpdates(() => {
             setEntered(true)
             onMoveCallback(e)
           })
         }
       }
-      const onUp = (): void => setState(prev => ({...prev, isDown: false}))
-      const onTouchStart = (e: MouseEvent): void => {
+      const onUp = (): void => setState((prev) => ({...prev, isDown: false}))
+      const onTouchStart = (e: TouchEvent): void => {
         touchEnded.current = false
+        setDown(e, true)
         onDown(e)
       }
-      const onTouchMove = (e: MouseEvent): void => {
+      const onTouchMove = (e: TouchEvent): void => {
         touchEnded.current = false
         onMoveCallback(e)
       }
@@ -180,7 +185,7 @@ export const useMousePosition = (
 
       setActive(false)
     }
-  }, [entered])
+  }, [entered, enterDelay, leaveDelay])
 
   return [active ? state : initialState, setElement]
 }
