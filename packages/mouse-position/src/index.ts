@@ -111,7 +111,7 @@ export const useMousePosition = (
         }
       }
       const onLeave = (): void => setEntered(false)
-      const onDown = (e: MouseEvent): void => {
+      const onDown = (e: MouseEvent | TouchEvent): void => {
         if (!touchEnded.current) {
           batchUpdates(() => {
             setEntered(true)
@@ -120,12 +120,12 @@ export const useMousePosition = (
         }
       }
       const onUp = (): void => setState(prev => ({...prev, isDown: false}))
-      const onTouchStart = (e: MouseEvent): void => {
+      const onTouchStart = (e: TouchEvent): void => {
         touchEnded.current = false
         setDown()
         onDown(e)
       }
-      const onTouchMove = (e: MouseEvent): void => {
+      const onTouchMove = (e: TouchEvent): void => {
         touchEnded.current = false
         onMoveCallback(e)
       }
@@ -181,7 +181,7 @@ export const useMousePosition = (
 
       setActive(false)
     }
-  }, [entered])
+  }, [entered, enterDelay, leaveDelay])
 
   return [active ? state : initialState, setElement]
 }
