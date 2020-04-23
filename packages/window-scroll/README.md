@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    useWindowScroll()
+    useScrollPosition()
   </h1>
 </div>
 
@@ -28,19 +28,19 @@ A React hook for updating components when the scroll position of the window on t
 ## Quick Start
 
 ```jsx harmony
-import useWindowScroll from '@react-hook/window-scroll'
+import useScrollPosition from '@react-hook/window-scroll'
 
 const Component = props => {
-  const scrollY = useWindowScroll(60 /*fps*/)
+  const scrollY = useScrollPosition(60 /*fps*/)
   return <div>scroll pos: {scrollY}</div>
 }
 ```
 
 ## API
 
-### `useWindowScroll(fps?: number)`
+### `useScrollPosition(fps?: number): number`
 
-#### Options
+#### Arguments
 
 |     | Type     | Default | Description                                                                     |
 | --- | -------- | ------- | ------------------------------------------------------------------------------- |

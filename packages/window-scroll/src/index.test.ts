@@ -1,6 +1,5 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import useWindowScroll from './index'
-import * as raf from 'raf'
 
 const renderWindowScroll = (...args): any =>
   renderHook(() => useWindowScroll(...args))
@@ -14,15 +13,16 @@ const resetScroll = (): void => {
   scrollTo(0)
 }
 
-describe('throttled scroll position', () => {
+jest.useFakeTimers()
+
+describe('useWindowScroll()', () => {
   beforeEach(() => {
-    raf.reset()
     resetScroll()
   })
 
-  test('scroll', () => {
+  it('should record scroll position correctly', () => {
     const {result} = renderWindowScroll()
-    scrollTo(1) // fires leading
+    act(() => scrollTo(1)) // fires leading
     expect(result.current).toBe(1)
 
     for (let i = 0; i < 60; i++) {
@@ -31,7 +31,7 @@ describe('throttled scroll position', () => {
 
     act(() => scrollTo(1280))
     expect(result.current).toBe(1)
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     expect(result.current).toBe(1280)
   })
 })

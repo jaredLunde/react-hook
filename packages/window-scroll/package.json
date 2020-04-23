@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-scroll",
-  "version": "1.0.7",
+  "version": "1.1.1",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-scroll#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -18,20 +18,29 @@
     "scroll position",
     "viewport",
     "viewport scroll",
-    "viewport scroll hook"
+    "viewport scroll hook",
+    "usewindowscroll",
+    "use window scroll",
+    "react window scroll hook",
+    "react scroll position hook",
+    "usescrollposition",
+    "use scroll position",
+    "scroll position hook"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
   "files": [
-    "/dist"
+    "/dist",
+    "/types"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build:types",
-    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build-main": "npm run compile -- -d dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module",
+    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
     "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
@@ -40,7 +49,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run build-types && prettier --write \"types/**/*.d.ts\" && lint-staged"
     }
   },
   "lint-staged": {
@@ -48,7 +57,7 @@
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json}": [
+    "**/*.{md,yml,json,eslintrc,prettierrc}": [
       "prettier --write"
     ]
   },
@@ -66,7 +75,6 @@
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "mock-raf": "^1.0.1",
     "prettier": "latest",
     "react": "^16.12.0",
     "react-test-renderer": "^16.12.0",
@@ -75,7 +83,7 @@
     "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/throttle": "^1.0.7"
+    "@react-hook/throttle": "^2.1.0"
   },
   "peerDependencies": {
     "react": ">=16.8"
