@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-scroll",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-scroll#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -29,6 +29,7 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "types": "types/index.d.ts",
   "files": [
     "/dist",
     "/types"
