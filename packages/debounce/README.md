@@ -74,7 +74,7 @@ export const useDebounce = <State>(
 
 ---
 
-### `useDebounceCallback(callback: Function, wait?: number, leading?: boolean)`
+### `useDebounceCallback(callback, wait?, leading?)`
 
 ```ts
 export const useDebounceCallback = <CallbackArgs extends any[]>(
