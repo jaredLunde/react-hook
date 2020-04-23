@@ -36,7 +36,7 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
   )
 
   return useCallback(
-    function(...args) {
+    function (...args) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
 

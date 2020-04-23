@@ -30,7 +30,7 @@ A React hook for throttling setState and other callbacks.
 ```jsx harmony
 import {useThrottle, useThrottleCallback} from '@react-hook/throttle'
 
-const Component = props => {
+const Component = (props) => {
   // at a basic level, used just like useState
   const [value, setValue] = useThrottle('initialValue')
 }
