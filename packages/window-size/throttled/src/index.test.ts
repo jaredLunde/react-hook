@@ -1,7 +1,7 @@
 import {renderHook, act} from '@testing-library/react-hooks'
-import {useWindowSize, useWindowWidth, useWindowHeight} from './throttled'
+import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
+// @ts-ignore
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
-import * as raf from 'raf'
 
 const renderWindowSize = (...args): any =>
   renderHook(() => useWindowSize(...args))
@@ -12,9 +12,10 @@ const renderWindowWidth = (...args): any =>
 const renderWindowHeight = (...args): any =>
   renderHook(() => useWindowHeight(...args))
 
-describe('throttled', () => {
+describe('useWindowSize() throttled', () => {
+  jest.useFakeTimers()
+
   beforeEach(() => {
-    raf.reset()
     resetSize()
   })
 
@@ -32,7 +33,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
 
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
@@ -49,7 +50,7 @@ describe('throttled', () => {
     act(() => resizeTo(1280, 720))
     expect(result.current).toBe(600)
 
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     expect(result.current).toBe(1280)
   })
 
@@ -65,12 +66,12 @@ describe('throttled', () => {
     act(() => resizeTo(1280, 720))
     expect(result.current).toBe(400)
 
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     expect(result.current).toBe(720)
   })
 
   test('resize [leading]', () => {
-    const {result} = renderWindowSize(0, 0, {leading: true})
+    const {result} = renderWindowSize({leading: true})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
     act(() => resizeTo(600, 400))
@@ -84,14 +85,14 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
 
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     act(() => resizeTo(1280, 720))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
 
   test('resize [60ps]', () => {
-    const {result} = renderWindowSize(0, 0, {fps: 60})
+    const {result} = renderWindowSize({fps: 60})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
@@ -103,7 +104,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 1000 / 60}))
+    act(() => jest.advanceTimersByTime(1000 / 60))
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
   })
@@ -117,7 +118,7 @@ describe('throttled', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => jest.advanceTimersByTime(1000 / 30))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })

@@ -4,23 +4,18 @@ import useThrottle from '@react-hook/throttle'
 const emptyArr = []
 const emptyObj = {}
 
-export interface ThrottleOptions {
+export interface ThrottledWindowSizeOptions {
+  initialWidth?: number
+  initialHeight?: number
   fps?: number
   leading?: boolean
 }
 
-export interface ThrottleOptions {
-  wait?: number
-  leading?: boolean
-}
-
 export const useWindowSize = (
-  initialWidth?: number,
-  initialHeight?: number,
-  options: ThrottleOptions = emptyObj
+  options: ThrottledWindowSizeOptions = emptyObj
 ): [number, number] => {
-  const {fps, leading} = options
-  const [size, setThrottledSize] = useThrottle(
+  const {fps, leading, initialWidth = 0, initialHeight = 0} = options
+  const [size, setThrottledSize] = useThrottle<[number, number]>(
     /* istanbul ignore next */
     typeof document === 'undefined'
       ? [initialWidth, initialHeight]
@@ -51,13 +46,11 @@ export const useWindowSize = (
 }
 
 export const useWindowHeight = (
-  initialValue = 0,
-  options?: ThrottleOptions
-): number => useWindowSize(0, initialValue, options)[1]
+  options?: Omit<ThrottledWindowSizeOptions, 'initialWidth'>
+): number => useWindowSize(options)[1]
 
 export const useWindowWidth = (
-  initialValue = 0,
-  options?: ThrottleOptions
-): number => useWindowSize(initialValue, 0, options)[0]
+  options?: Omit<ThrottledWindowSizeOptions, 'initialWidth'>
+): number => useWindowSize(options)[0]
 
 export default useWindowSize

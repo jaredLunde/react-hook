@@ -24,7 +24,9 @@
 <hr>
 
 React hooks for updating components when the size of the `window`
-changes.
+changes. These hooks come in two forms: **debounced**
+(using [`useDebounce()`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce))
+and **throttled** (using [`useThrottle()`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle)).
 
 ## Quick Start
 
@@ -39,6 +41,8 @@ import {
 
 const Component = props => {
   const [width, height] = useWindowSize()
+  const onlyWidth = useWindowWidth()
+  const onlyHeight = useWindowHeight()
 }
 
 //
@@ -51,27 +55,31 @@ import {
 
 const Component = props => {
   const [width, height] = useWindowSize()
+  const onlyWidth = useWindowWidth()
+  const onlyHeight = useWindowHeight()
 }
 ```
 
 ## API
 
-### `useWindowSize(initialWidth?: number, initialHeight?: number, debounceOptions?: DebounceOptions)`
+### useWindowSize(options?): [number, number]
+
+Returns the current width and height of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
-| debounceOptions | `DebounceOptions` |         | Options object passed to the [`useDebounce`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce) hook |
+|         | Type                                                      | Required? | Description                                                                                            |
+| ------- | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
+| options | [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions) | No        | Options for configuring the hook. See [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions) below. |
 
-#### DebounceOptions
+#### DebouncedWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait    | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key           | Type      | Default | Description                                                                                                               |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| wait          | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
+| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
 
 #### Returns `[width: number, height: number]`
 
@@ -82,23 +90,25 @@ const Component = props => {
 
 ---
 
-### `useWindowWidth(initialWidth?: number, debounceOptions?: DebounceOptions)`
+### useWindowWidth(options?): number
+
+Returns the current width of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| debounceOptions | `DebounceOptions` |         | Options object passed to the [`useDebounce`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce) hook |
+|         | Type                                                        | Required? | Description                                                                                              |
+| ------- | ----------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| options | [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions-1) | No        | Options for configuring the hook. See [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions-1) below. |
 
-#### DebounceOptions
+#### DebouncedWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait    | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key          | Type      | Default | Description                                                                                                               |
+| ------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| wait         | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
+| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
 
-#### Returns `width`
+#### Returns `width: number`
 
 |       | Type     | Description                             |
 | ----- | -------- | --------------------------------------- |
@@ -106,21 +116,23 @@ const Component = props => {
 
 ---
 
-### `useWindowHeight(initialHeight?: number, debounceOptions?: DebounceOptions)`
+### useWindowHeight(options?): number
+
+Returns the current height of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
-| debounceOptions | `DebounceOptions` |         | Options object passed to the [`useDebounce`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce) hook |
+|         | Type                                                        | Required? | Description                                                                                              |
+| ------- | ----------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| options | [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions-2) | No        | Options for configuring the hook. See [DebouncedWindowSizeOptions](#debouncedwindowsizeoptions-2) below. |
 
-#### DebounceOptions
+#### DebouncedWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait    | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key           | Type      | Default | Description                                                                                                               |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| wait          | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
+| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
 
 #### Returns `height: number`
 
@@ -134,22 +146,24 @@ const Component = props => {
 
 To use these throttled hooks instead of debounced hooks, import with `import {...} from '@react-hook/window-size/throttled`
 
-### `useWindowSize(initialWidth?: number, initialHeight?: number, throttleOptions?: ThrottleOptions)`
+### useWindowSize(options?): [number, number]
+
+Returns the current width and height of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
-| throttleOptions | `ThrottleOptions` |         | Options object passed to the [`useThrottle`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle) hook |
+|         | Type                                                      | Required? | Description                                                                                            |
+| ------- | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------ |
+| options | [ThrottledWindowSizeOptions](#throttledwindowsizeoptions) | No        | Options for configuring the hook. See [ThrottledWindowSizeOptions](#throttledwindowsizeoptions) below. |
 
-#### ThrottleOptions
+#### ThrottledWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps     | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key           | Type      | Default | Description                                                                                                               |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| fps           | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
+| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
 
 #### Returns `[width: number, height: number]`
 
@@ -160,23 +174,25 @@ To use these throttled hooks instead of debounced hooks, import with `import {..
 
 ---
 
-### `useWindowWidth(initialWidth?: number, throttleOptions?: ThrottleOptions)`
+### useWindowWidth(options?): number
+
+Returns the current width of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialWidth    | `number`          |         | The initial width to use when there is no `window` object                                                                 |
-| throttleOptions | `ThrottleOptions` |         | Options object passed to the [`useThrottle`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle) hook |
+|         | Type                                                        | Required? | Description                                                                                              |
+| ------- | ----------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| options | [ThrottledWindowSizeOptions](#throttledwindowsizeoptions-1) | No        | Options for configuring the hook. See [ThrottledWindowSizeOptions](#throttledwindowsizeoptions-1) below. |
 
-#### ThrottleOptions
+#### ThrottledWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps     | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key          | Type      | Default | Description                                                                                                               |
+| ------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| fps          | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
+| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
 
-#### Returns `width`
+#### Returns `width: number`
 
 |       | Type     | Description                             |
 | ----- | -------- | --------------------------------------- |
@@ -184,21 +200,23 @@ To use these throttled hooks instead of debounced hooks, import with `import {..
 
 ---
 
-### `useWindowHeight(initialHeight?: number, throttleOptions?: ThrottleOptions)`
+### useWindowHeight(options?): number
+
+Returns the current height of the window
 
 #### Options
 
-|                 | Type              | Default | Description                                                                                                               |
-| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| initialHeight   | `number`          |         | The initial height to use when there is no `window` object                                                                 |
-| throttleOptions | `ThrottleOptions` |         | Options object passed to the [`useThrottle`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle) hook |
+|         | Type                                                        | Required? | Description                                                                                              |
+| ------- | ----------------------------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| options | [ThrottledWindowSizeOptions](#throttledwindowsizeoptions-2) | No        | Options for configuring the hook. See [ThrottledWindowSizeOptions](#throttledwindowsizeoptions-2) below. |
 
-#### ThrottleOptions
+#### ThrottledWindowSizeOptions
 
-| Key     | Type      | Default | Description                                                                                                               |
-| ------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps     | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| Key           | Type      | Default | Description                                                                                                               |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| fps           | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
+| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
 
 #### Returns `height: number`
 

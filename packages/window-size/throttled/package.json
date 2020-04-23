@@ -1,0 +1,17 @@
+{
+  "name": "@react-hook/window-size-throttled",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/window-size/throttled#readme",
+  "repository": "github:jaredLunde/react-hook",
+  "bugs": "https://github.com/jaredLunde/react-hook/issues",
+  "license": "MIT",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "source": "src/index.ts",
+  "types": "src/index.d.ts",
+  "files": [
+    "/src",
+    "/dist"
+  ],
+  "sideEffects": false
+}

@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "1.0.13",
+  "version": "2.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -24,31 +24,58 @@
     "viewport width",
     "viewport height",
     "viewport",
-    "viewport hook"
+    "viewport hook",
+    "react window size hook",
+    "use window size",
+    "use window width",
+    "use window height",
+    "usewindowsize",
+    "usewindowwidth",
+    "usewindowheight"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "source": "src/index.ts",
+  "types": "src/index.d.ts",
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/module/index.js",
+      "require": "./dist/main/index.js"
+    },
+    "./throttled": {
+      "browser": "./throttled/dist/module/index.js",
+      "import": "./throttled/dist/module/index.js",
+      "require": "./throttled/dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "files": [
+    "/src",
     "/dist",
-    "/throttled"
+    "/throttled/src",
+    "/throttled/dist",
+    "/throttled/package.json"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build:throttled && npm run build:types",
-    "build:cjs": "babel src/index.ts -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:es": "babel src/index.ts -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:throttled": "babel src/throttled.ts -o throttled/index.js -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\"",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts && tsc -p tsconfig.throttled.json -d --outDir throttled --emitDeclarationOnly && mv throttled/throttled.d.ts throttled/index.d.ts",
+    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build-main": "npm run compile -- -d dist/main --env-name main && npm run compile-throttled -- -d throttled/dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module && npm run compile-throttled -- -d throttled/dist/module --env-name module",
+    "build-types": "rimraf src/index.d.ts && find throttled/src -name '*.d.ts' -exec rm {} \\; && tsc -p tsconfig.json -d --emitDeclarationOnly",
+    "compile": "babel src -x .ts --ignore \"**/*.d.ts\",\"**/*.test.ts\" --delete-dir-on-start",
+    "compile-throttled": "babel throttled/src -x .ts --ignore \"**/*.d.ts\",\"**/*.test.ts\" --delete-dir-on-start",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "format": "prettier --write \"**/*.{ts,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
     "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
+    "validate": "npm run build && npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run check-types && lint-staged"
     }
   },
   "lint-staged": {
@@ -74,7 +101,6 @@
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "mock-raf": "^1.0.1",
     "prettier": "latest",
     "react": "^16.12.0",
     "react-test-renderer": "^16.12.0",
@@ -83,8 +109,8 @@
     "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/debounce": "^1.0.6",
-    "@react-hook/throttle": "^1.0.7"
+    "@react-hook/debounce": "^2.0.2",
+    "@react-hook/throttle": "^2.1.0"
   },
   "peerDependencies": {
     "react": ">=16.8"

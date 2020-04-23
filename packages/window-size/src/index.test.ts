@@ -1,5 +1,4 @@
 import {renderHook, act} from '@testing-library/react-hooks'
-import * as raf from 'raf'
 // @ts-ignore
 import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
@@ -13,9 +12,10 @@ const renderWindowWidth = (...args): any =>
 const renderWindowHeight = (...args): any =>
   renderHook(() => useWindowHeight(...args))
 
-describe('debounced', () => {
+describe('useWindowSize() debounced', () => {
+  jest.useFakeTimers()
+
   beforeEach(() => {
-    raf.reset()
     resetSize()
   })
 
@@ -30,8 +30,7 @@ describe('debounced', () => {
     act(() => resizeTo(1280, 720))
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
-
-    act(() => raf.step({count: 1, time: 100}))
+    act(() => jest.advanceTimersByTime(100))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
@@ -48,7 +47,7 @@ describe('debounced', () => {
     act(() => resizeTo(1280, 720))
     expect(result.current).toBe(600)
 
-    act(() => raf.step({count: 1, time: 100}))
+    act(() => jest.advanceTimersByTime(100))
     expect(result.current).toBe(1280)
   })
 
@@ -64,12 +63,12 @@ describe('debounced', () => {
     act(() => resizeTo(1280, 720))
     expect(result.current).toBe(400)
 
-    act(() => raf.step({count: 1, time: 100}))
+    act(() => jest.advanceTimersByTime(100))
     expect(result.current).toBe(720)
   })
 
   test('resize [leading]', () => {
-    const {result} = renderWindowSize(0, 0, {leading: true})
+    const {result} = renderWindowSize({leading: true})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
     act(() => resizeTo(600, 400))
@@ -83,14 +82,14 @@ describe('debounced', () => {
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
 
-    act(() => raf.step({count: 1, time: 100}))
+    act(() => jest.advanceTimersByTime(100))
     act(() => resizeTo(1280, 720))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
 
   test('resize [wait]', () => {
-    const {result} = renderWindowSize(0, 0, {wait: 1000})
+    const {result} = renderWindowSize({wait: 1000})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
@@ -101,11 +100,11 @@ describe('debounced', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 999}))
+    act(() => jest.advanceTimersByTime(999))
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 1}))
+    act(() => jest.advanceTimersByTime(1))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
@@ -119,7 +118,7 @@ describe('debounced', () => {
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    act(() => raf.step({count: 1, time: 100}))
+    act(() => jest.advanceTimersByTime(100))
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
   })
