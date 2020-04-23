@@ -1,22 +1,24 @@
 import {renderHook, act} from '@testing-library/react-hooks'
 import {useThrottle, useThrottleCallback} from './index'
-import * as raf from 'raf'
 
+jest.useFakeTimers()
 const renderThrottle = (callback, ...args) =>
   renderHook(() => useThrottle(callback, ...args))
 const renderThrottleCallback = (callback, ...args) =>
   renderHook(() => useThrottleCallback(callback, ...args))
 
-describe('throttle', () => {
-  beforeEach(raf.reset)
-
+describe('useThrottle()', () => {
   test('callback [30fps]', () => {
     const cb = jest.fn()
     const {result} = renderThrottleCallback(cb, 30)
     for (let i = 0; i < 30; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     for (let i = 0; i < 30; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     expect(cb).toHaveBeenCalledTimes(4) // throttled + tails
   })
 
@@ -24,9 +26,13 @@ describe('throttle', () => {
     const cb = jest.fn()
     const {result} = renderThrottleCallback(cb, 60)
     for (let i = 0; i < 60; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 60}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 60)
+    })
     for (let i = 0; i < 60; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 60}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 60)
+    })
     expect(cb).toHaveBeenCalledTimes(4) // throttled + tails
   })
 
@@ -34,9 +40,13 @@ describe('throttle', () => {
     const cb = jest.fn()
     const {result} = renderThrottleCallback(cb, 30, true)
     for (let i = 0; i < 30; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     for (let i = 0; i < 30; i++) act(result.current)
-    act(() => raf.step({count: 1, time: 1000 / 30}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     expect(cb).toHaveBeenCalledTimes(6) // leading + throttled + tails
   })
 
@@ -45,7 +55,9 @@ describe('throttle', () => {
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(1)
     act(() => result.current[1](3))
-    act(() => raf.step({count: 1}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 60)
+    })
     expect(result.current[0]).toBe(3)
   })
 
@@ -54,7 +66,9 @@ describe('throttle', () => {
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(2) // leading
     act(() => result.current[1](3))
-    act(() => raf.step({count: 1}))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 60)
+    })
     expect(result.current[0]).toBe(3)
   })
 })

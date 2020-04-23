@@ -6,19 +6,14 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-import {
-  requestTimeout,
-  clearRequestTimeout,
-  RequestTimeoutHandle,
-} from '@essentials/request-timeout'
 
 export const useThrottleCallback = <CallbackArgs extends any[]>(
   callback: (...args: CallbackArgs) => any,
   fps = 30,
   leading = false
 ): ((...args: CallbackArgs) => void) => {
-  const nextTimeout = useRef<RequestTimeoutHandle | null>(null),
-    tailTimeout = useRef<RequestTimeoutHandle | null>(null),
+  const nextTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
+    tailTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
     calledLeading = useRef<boolean>(false),
     wait = 1000 / fps
 
@@ -26,12 +21,12 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
   useEffect(
     () => (): void => {
       if (nextTimeout.current !== null) {
-        clearRequestTimeout(nextTimeout.current)
+        clearTimeout(nextTimeout.current)
         nextTimeout.current = null
       }
 
       if (tailTimeout.current !== null) {
-        clearRequestTimeout(tailTimeout.current)
+        clearTimeout(tailTimeout.current)
         tailTimeout.current = null
       }
 
@@ -58,12 +53,12 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
           calledLeading.current = true
         } else {
           // head
-          nextTimeout.current = requestTimeout(next, wait)
+          nextTimeout.current = setTimeout(next, wait)
         }
       } else {
         // tail
-        tailTimeout.current !== null && clearRequestTimeout(tailTimeout.current)
-        tailTimeout.current = requestTimeout((): void => {
+        tailTimeout.current !== null && clearTimeout(tailTimeout.current)
+        tailTimeout.current = setTimeout((): void => {
           tailTimeout.current = null
           calledLeading.current = false
           nextTimeout.current === null && callback.apply(self, args)

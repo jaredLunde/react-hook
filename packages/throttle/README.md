@@ -44,7 +44,18 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ## API
 
-### `useThrottle(initialState: any, fps?: number, leading?: boolean)`
+### `useThrottle(initialState, fps?, leading?)`
+
+```
+export const useThrottle = <State>(
+  initialState: State | (() => State),
+  fps?: number,
+  leading?: boolean
+): [State, Dispatch<SetStateAction<State>>] => {
+  const [state, setState] = useState<State>(initialState)
+  return [state, useThrottleCallback(setState, fps, leading)]
+}
+```
 
 #### Options
 
@@ -56,28 +67,36 @@ const useMyCallback = (initialState, wait, leading) => {
 
 #### Returns `[state, setState]`
 
-| Variable | Type       | Description                                       |
-| -------- | ---------- | ------------------------------------------------- |
-| state    | `any`      | The value set by `setState` or the `initialState` |
-| setState | `Function` | A throttled `setState` callback                   |
+| Variable | Type                              | Description                                       |
+| -------- | --------------------------------- | ------------------------------------------------- |
+| state    | `any`                             | The value set by `setState` or the `initialState` |
+| setState | `Dispatch<SetStateAction<State>>` | A throttled `setState` callback                   |
 
 ---
 
-### `useThrottleCallback(callback: Function, wait?: number, leading?: boolean)`
+### `useThrottleCallback(callback, fps?, leading?)`
+
+```ts
+export const useThrottleCallback = <CallbackArgs extends any[]>(
+  callback: (...args: CallbackArgs) => any,
+  fps = 30,
+  leading = false
+): ((...args: CallbackArgs) => void)
+```
 
 #### Options
 
-| Property | Type       | Default | Description                                                                                                                |
-| -------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| callback | `Function` |         | This is the callback you want to throttle                                                                                  |
-| fps      | `number`   | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
-| leading  | `boolean`  | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property | Type                                | Default | Description                                                                                                                                                                          |
+| -------- | ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| callback | `((...args: CallbackArgs) => void)` |         | This is the callback you want to throttle. You need to wrap closures/unstable callbacks in `useCallback()` so that they are stable, otherwise throttling will break between renders. |
+| fps      | `number`                            | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                                                                                |
+| leading  | `boolean`                           | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due                                                           |
 
 #### Returns `throttledCallback`
 
-| Variable          | Type       | Description                          |
-| ----------------- | ---------- | ------------------------------------ |
-| throttledCallback | `Function` | A throttled version of your callback |
+| Variable          | Type                                | Description                          |
+| ----------------- | ----------------------------------- | ------------------------------------ |
+| throttledCallback | `((...args: CallbackArgs) => void)` | A throttled version of your callback |
 
 ## LICENSE
 
