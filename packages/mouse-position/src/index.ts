@@ -105,7 +105,7 @@ export const useMousePosition = (
   useEffect((): void | (() => void) => {
     if (element !== null) {
       const setDown = (evt: MouseEvent | TouchEvent, isTouch = false): void =>
-        setState(prev => ({...prev, isDown: true, isTouch}))
+        setState((prev) => ({...prev, isDown: true, isTouch}))
       const onMove = (e: MouseEvent): void => {
         if (!touchEnded.current) {
           batchUpdates(() => {
@@ -124,7 +124,7 @@ export const useMousePosition = (
           })
         }
       }
-      const onUp = (): void => setState(prev => ({...prev, isDown: false}))
+      const onUp = (): void => setState((prev) => ({...prev, isDown: false}))
       const onTouchStart = (e: TouchEvent): void => {
         touchEnded.current = false
         setDown(e, true)

@@ -32,7 +32,7 @@ hook also provides an interop between touch and desktop devices and will treat
 ```jsx harmony
 import useMousePosition from '@react-hook/mouse-position'
 
-const Component = props => {
+const Component = (props) => {
   const [mousePosition, ref] = useMousePosition(
     0, // enterDelay
     0, // leaveDelay
