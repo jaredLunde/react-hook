@@ -14,7 +14,9 @@
     "react throttle",
     "throttle state",
     "throttle react state",
-    "react throttle hook"
+    "react throttle hook",
+    "use throttle",
+    "usethrottle"
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
