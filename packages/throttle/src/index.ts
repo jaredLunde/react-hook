@@ -7,11 +7,11 @@ import {
   SetStateAction,
 } from 'react'
 
-export const useThrottleCallback = <CallbackArgs extends any[]>(
-  callback: (...args: CallbackArgs) => any,
+export const useThrottleCallback = <CallbackArguments extends any[]>(
+  callback: (...args: CallbackArguments) => void,
   fps = 30,
   leading = false
-): ((...args: CallbackArgs) => void) => {
+): ((...args: CallbackArguments) => void) => {
   const nextTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
     tailTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
     calledLeading = useRef<boolean>(false),
@@ -36,9 +36,11 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
   )
 
   return useCallback(
-    function (...args) {
+    function () {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
+      // eslint-disable-next-line prefer-rest-params
+      const args = arguments
 
       if (nextTimeout.current === null) {
         const next = (): void => {

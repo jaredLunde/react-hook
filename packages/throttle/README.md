@@ -77,11 +77,11 @@ export const useThrottle = <State>(
 ### `useThrottleCallback(callback, fps?, leading?)`
 
 ```ts
-export const useThrottleCallback = <CallbackArgs extends any[]>(
-  callback: (...args: CallbackArgs) => any,
+export const useThrottleCallback = <Callback extends (...args: any[]) => void>(
+  callback: Callback,
   fps = 30,
   leading = false
-): ((...args: CallbackArgs) => void)
+): Callback
 ```
 
 #### Arguments
