@@ -38,7 +38,7 @@ const Component = props => {
 
 ## API
 
-### `useScrollPosition(fps?: number): number`
+### useScrollPosition(fps?: number): number
 
 #### Arguments
 
