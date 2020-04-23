@@ -1,6 +1,6 @@
 {
-  "include": ["src"],
-  "exclude": ["src/throttled.ts", "src/**/*.test.ts", "src/**/test.ts"],
+  "include": ["src", "throttled/src"],
+  "exclude": ["src/**/*.test.ts", "throttled/src/**/*.test.ts"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["esnext", "dom"],
