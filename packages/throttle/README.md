@@ -46,7 +46,7 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ### `useThrottle(initialState, fps?, leading?)`
 
-```
+```ts
 export const useThrottle = <State>(
   initialState: State | (() => State),
   fps?: number,
@@ -57,11 +57,11 @@ export const useThrottle = <State>(
 }
 ```
 
-#### Options
+#### Arguments
 
 | Property     | Type      | Default | Description                                                                                                                |
 | ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `any`     |         | The initial state stored in `useState`                                                                                     |
+| initialState | `State`   |         | The initial state stored in `useState`                                                                                     |
 | fps          | `number`  | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
 | leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
@@ -69,7 +69,7 @@ export const useThrottle = <State>(
 
 | Variable | Type                              | Description                                       |
 | -------- | --------------------------------- | ------------------------------------------------- |
-| state    | `any`                             | The value set by `setState` or the `initialState` |
+| state    | `State`                           | The value set by `setState` or the `initialState` |
 | setState | `Dispatch<SetStateAction<State>>` | A throttled `setState` callback                   |
 
 ---
@@ -84,7 +84,7 @@ export const useThrottleCallback = <CallbackArgs extends any[]>(
 ): ((...args: CallbackArgs) => void)
 ```
 
-#### Options
+#### Arguments
 
 | Property | Type                                | Default | Description                                                                                                                                                                          |
 | -------- | ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
