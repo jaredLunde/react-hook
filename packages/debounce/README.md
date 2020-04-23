@@ -44,13 +44,24 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ## API
 
-### `useDebounce(initialState: any, wait?: number, leading?: boolean)`
+### `useDebounce(initialState, wait?, leading?)`
+
+```ts
+export const useDebounce = <State>(
+  initialState: State | (() => State),
+  wait?: number,
+  leading?: boolean
+): [State, Dispatch<SetStateAction<State>>] => {
+  const [state, setState] = useState(initialState)
+  return [state, useDebounceCallback(setState, wait, leading)]
+}
+```
 
 #### Options
 
 | Property     | Type      | Default | Description                                                                                                                |
 | ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `any`     |         | The initial state stored in `useState`                                                                                     |
+| initialState | `State`   |         | The initial state stored in `useState`                                                                                     |
 | wait         | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
 | leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
@@ -58,26 +69,34 @@ const useMyCallback = (initialState, wait, leading) => {
 
 | Variable | Type       | Description                                       |
 | -------- | ---------- | ------------------------------------------------- |
-| state    | `any`      | The value set by `setState` or the `initialState` |
+| state    | `State`    | The value set by `setState` or the `initialState` |
 | setState | `Function` | A debounced `setState` callback                   |
 
 ---
 
 ### `useDebounceCallback(callback: Function, wait?: number, leading?: boolean)`
 
+```ts
+export const useDebounceCallback = <CallbackArgs extends any[]>(
+  callback: (...args: CallbackArgs) => void,
+  wait = 100,
+  leading = false
+): ((...args: CallbackArgs) => void)
+```
+
 #### Options
 
-| Property | Type       | Default | Description                                                                                                                |
-| -------- | ---------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| callback | `Function` |         | This is the callback you want to debounce                                                                                  |
-| wait     | `number`   | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
-| leading  | `boolean`  | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property | Type                              | Default | Description                                                                                                                                                                          |
+| -------- | --------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| callback | `(...args: CallbackArgs) => void` |         | This is the callback you want to debounce. You need to wrap closures/unstable callbacks in `useCallback()` so that they are stable, otherwise throttling will break between renders. |
+| wait     | `number`                          | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                                                                               |
+| leading  | `boolean`                         | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due                                                           |
 
 #### Returns `debouncedCallback`
 
-| Variable          | Type       | Description                          |
-| ----------------- | ---------- | ------------------------------------ |
-| debouncedCallback | `Function` | A debounced version of your callback |
+| Variable          | Type                              | Description                          |
+| ----------------- | --------------------------------- | ------------------------------------ |
+| debouncedCallback | `(...args: CallbackArgs) => void` | A debounced version of your callback |
 
 ## LICENSE
 

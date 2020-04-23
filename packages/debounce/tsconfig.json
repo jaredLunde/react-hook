@@ -3,11 +3,7 @@
   "exclude": ["src/**/*.test.ts", "src/**/test.ts"],
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "esnext"
-      // "dom",
-      // "dom.iterable"
-    ],
+    "lib": ["esnext", "dom"],
     "moduleResolution": "node",
     "strictNullChecks": true,
     "esModuleInterop": true,

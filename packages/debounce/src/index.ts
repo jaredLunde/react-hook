@@ -6,24 +6,19 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react'
-import {
-  requestTimeout,
-  clearRequestTimeout,
-  RequestTimeoutHandle,
-} from '@essentials/request-timeout'
 
 export const useDebounceCallback = <CallbackArgs extends any[]>(
-  callback: (...args: CallbackArgs) => any,
+  callback: (...args: CallbackArgs) => void,
   wait = 100,
   leading = false
 ): ((...args: CallbackArgs) => void) => {
-  const timeout = useRef<RequestTimeoutHandle | null>(null)
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // cleans up pending timeouts when the function changes
   useEffect(
     () => (): void => {
       if (timeout.current !== null) {
-        clearRequestTimeout(timeout.current)
+        clearTimeout(timeout.current)
         timeout.current = null
       }
     },
@@ -31,14 +26,16 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
   )
 
   return useCallback(
-    function(...args) {
+    function() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
+      // eslint-disable-next-line prefer-rest-params
+      const args = arguments
 
       if (timeout.current === null && leading) callback.apply(self, args)
-      else if (timeout.current !== null) clearRequestTimeout(timeout.current)
+      else if (timeout.current !== null) clearTimeout(timeout.current)
 
-      timeout.current = requestTimeout(() => {
+      timeout.current = setTimeout(() => {
         timeout.current = null
         !leading && callback.apply(self, args)
       }, wait)
