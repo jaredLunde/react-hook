@@ -46,6 +46,10 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ### useDebounce(initialState, wait?, leading?)
 
+A hook that acts just like `React.useState`, but with a `setState` function
+that is only invoked after the `wait` time in `ms` has been exceeded between
+calls.
+
 ```ts
 export const useDebounce = <State>(
   initialState: State | (() => State),
@@ -59,7 +63,7 @@ export const useDebounce = <State>(
 | Property     | Type                    | Default | Description                                                                                                                |
 | ------------ | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
 | initialState | `State | (() => State)` |         | The initial state provided to `React.useState`                                                                             |
-| wait         | `number`                | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
+| wait         | `number`                | `100`   | The amount of time in `ms` you want to wait after the latest call before setting a new state.                              |
 | leading      | `boolean`               | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
 #### Returns `[state, setState]`
@@ -72,6 +76,9 @@ export const useDebounce = <State>(
 ---
 
 ### useDebounceCallback(callback, wait?, leading?)
+
+A hook that will invoke its callback only after `wait` time in `ms` has been
+exceeded between calls.
 
 ```ts
 export const useDebounceCallback = <CallbackArgs extends any[]>(

@@ -30,9 +30,14 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
     const args = arguments
     const current = timeout.current
     // Calls on leading edge
-    if (current === void 0 && leading) callback.apply(self, args)
+    if (current === void 0 && leading) {
+      timeout.current = setTimeout(() => {
+        timeout.current = void 0
+      }, wait)
+      return callback.apply(self, args)
+    }
     // Clear the timeout every call and start waiting again
-    else if (current !== void 0) clearTimeout(current)
+    clearTimeout(current)
     // Waits for `wait` before invoking the callback
     timeout.current = setTimeout(() => {
       timeout.current = void 0

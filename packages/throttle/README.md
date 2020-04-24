@@ -23,7 +23,7 @@
 <pre align="center">npm i @react-hook/throttle</pre>
 <hr>
 
-A React hook for throttling setState and other callbacks.
+A React hook for performantly throttling `setState` and other callbacks.
 
 ## Quick Start
 
@@ -45,6 +45,10 @@ const useMyCallback = (initialState, wait, leading) => {
 ## API
 
 ### useThrottle(initialState, fps?, leading?)
+
+A hook that acts just like `React.useState`, but with a `setState` function
+that is only invoked at most X frames per second. A trailing call is guaranteed,
+but you may opt-in to calling on the leading edge, as well.
 
 ```ts
 export const useThrottle = <State>(
@@ -72,6 +76,9 @@ export const useThrottle = <State>(
 ---
 
 ### useThrottleCallback(callback, fps?, leading?)
+
+A hook that invokes its callback at most X frames per second. A trailing call is guaranteed,
+but you may opt-in to calling on the leading edge, as well.
 
 ```ts
 export const useThrottleCallback = <Callback extends (...args: any[]) => void>(
