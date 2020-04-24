@@ -7,68 +7,57 @@ import {
   SetStateAction,
 } from 'react'
 
+const perf = typeof performance !== 'undefined' ? performance : Date
+const now = () => perf.now()
+
 export const useThrottleCallback = <CallbackArguments extends any[]>(
   callback: (...args: CallbackArguments) => void,
   fps = 30,
   leading = false
 ): ((...args: CallbackArguments) => void) => {
-  const nextTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
-    tailTimeout = useRef<ReturnType<typeof setTimeout> | null>(null),
-    calledLeading = useRef<boolean>(false),
-    wait = 1000 / fps
+  const wait = 1000 / fps
+  const prev = useRef(0)
+  const trailingTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
+    void 0
+  )
+  const clearTrailing = () => clearTimeout(trailingTimeout.current)
+  const deps = [callback, fps, leading]
 
-  // cleans up pending timeouts when the function changes
+  // Reset any time the deps change
   useEffect(
-    () => (): void => {
-      if (nextTimeout.current !== null) {
-        clearTimeout(nextTimeout.current)
-        nextTimeout.current = null
-      }
-
-      if (tailTimeout.current !== null) {
-        clearTimeout(tailTimeout.current)
-        tailTimeout.current = null
-      }
-
-      calledLeading.current = false
+    () => () => {
+      prev.current = 0
+      clearTrailing()
     },
-    [callback, fps]
+    deps
   )
 
-  return useCallback(
-    function () {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      // eslint-disable-next-line prefer-rest-params
-      const args = arguments
-
-      if (nextTimeout.current === null) {
-        const next = (): void => {
-          nextTimeout.current = null
-          tailTimeout.current === null && (calledLeading.current = false)
-          callback.apply(self, args)
-        }
-
-        if (leading && !calledLeading.current) {
-          // leading
-          next()
-          calledLeading.current = true
-        } else {
-          // head
-          nextTimeout.current = setTimeout(next, wait)
-        }
-      } else {
-        // tail
-        tailTimeout.current !== null && clearTimeout(tailTimeout.current)
-        tailTimeout.current = setTimeout((): void => {
-          tailTimeout.current = null
-          calledLeading.current = false
-          nextTimeout.current === null && callback.apply(self, args)
-        }, wait)
-      }
-    },
-    [callback, fps]
-  )
+  return useCallback(function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments
+    const rightNow = now()
+    const call = () => {
+      prev.current = rightNow
+      clearTrailing()
+      callback.apply(self, args)
+    }
+    const current = prev.current
+    // leading
+    if (leading && current === 0) return call()
+    // body
+    if (rightNow - current > wait) {
+      if (current > 0) return call()
+      prev.current = rightNow
+    }
+    // trailing
+    clearTrailing()
+    trailingTimeout.current = setTimeout(() => {
+      callback.apply(self, args)
+      prev.current = 0
+    }, wait)
+  }, deps)
 }
 
 export const useThrottle = <State>(
@@ -76,8 +65,8 @@ export const useThrottle = <State>(
   fps?: number,
   leading?: boolean
 ): [State, Dispatch<SetStateAction<State>>] => {
-  const [state, setState] = useState<State>(initialState)
-  return [state, useThrottleCallback(setState, fps, leading)]
+  const ref = useState<State>(initialState)
+  return [ref[0], useThrottleCallback(ref[1], fps, leading)]
 }
 
 export default useThrottle

@@ -30,7 +30,7 @@ A React hook for debouncing setState and other callbacks
 ```jsx harmony
 import {useDebounce, useDebounceCallback} from '@react-hook/debounce'
 
-const Component = props => {
+const Component = (props) => {
   // at a basic level, used just like useState
   const [value, setValue] = useDebounce('initialValue')
 }
@@ -44,37 +44,34 @@ const useMyCallback = (initialState, wait, leading) => {
 
 ## API
 
-### `useDebounce(initialState, wait?, leading?)`
+### useDebounce(initialState, wait?, leading?)
 
 ```ts
 export const useDebounce = <State>(
   initialState: State | (() => State),
   wait?: number,
   leading?: boolean
-): [State, Dispatch<SetStateAction<State>>] => {
-  const [state, setState] = useState(initialState)
-  return [state, useDebounceCallback(setState, wait, leading)]
-}
+): [State, Dispatch<SetStateAction<State>>]
 ```
 
 #### Options
 
-| Property     | Type      | Default | Description                                                                                                                |
-| ------------ | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `State`   |         | The initial state stored in `useState`                                                                                     |
-| wait         | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
-| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property     | Type                    | Default | Description                                                                                                                |
+| ------------ | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| initialState | `State | (() => State)` |         | The initial state provided to `React.useState`                                                                             |
+| wait         | `number`                | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                     |
+| leading      | `boolean`               | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
 #### Returns `[state, setState]`
 
-| Variable | Type       | Description                                       |
-| -------- | ---------- | ------------------------------------------------- |
-| state    | `State`    | The value set by `setState` or the `initialState` |
-| setState | `Function` | A debounced `setState` callback                   |
+| Variable | Type       | Description                     |
+| -------- | ---------- | ------------------------------- |
+| state    | `State`    | The current value in state      |
+| setState | `Function` | A debounced `setState` callback |
 
 ---
 
-### `useDebounceCallback(callback, wait?, leading?)`
+### useDebounceCallback(callback, wait?, leading?)
 
 ```ts
 export const useDebounceCallback = <CallbackArgs extends any[]>(

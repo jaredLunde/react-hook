@@ -12,36 +12,33 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
   wait = 100,
   leading = false
 ): ((...args: CallbackArgs) => void) => {
-  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // cleans up pending timeouts when the function changes
+  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(void 0)
+  const deps = [callback, wait, leading]
+  // Cleans up pending timeouts when the deps change
   useEffect(
-    () => (): void => {
-      if (timeout.current !== null) {
-        clearTimeout(timeout.current)
-        timeout.current = null
-      }
+    () => () => {
+      clearTimeout(timeout.current)
+      timeout.current = void 0
     },
-    [callback, wait]
+    deps
   )
 
-  return useCallback(
-    function() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      // eslint-disable-next-line prefer-rest-params
-      const args = arguments
-
-      if (timeout.current === null && leading) callback.apply(self, args)
-      else if (timeout.current !== null) clearTimeout(timeout.current)
-
-      timeout.current = setTimeout(() => {
-        timeout.current = null
-        !leading && callback.apply(self, args)
-      }, wait)
-    },
-    [callback, wait]
-  )
+  return useCallback(function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments
+    const current = timeout.current
+    // Calls on leading edge
+    if (current === void 0 && leading) callback.apply(self, args)
+    // Clear the timeout every call and start waiting again
+    else if (current !== void 0) clearTimeout(current)
+    // Waits for `wait` before invoking the callback
+    timeout.current = setTimeout(() => {
+      timeout.current = void 0
+      callback.apply(self, args)
+    }, wait)
+  }, deps)
 }
 
 export const useDebounce = <State>(

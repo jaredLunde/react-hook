@@ -9,103 +9,86 @@ const renderDebounceCallback = (fn, ...args) =>
 describe('useDebounce()', () => {
   jest.useFakeTimers()
 
-  test('callback [30ms]', () => {
+  it('should wait 100ms before invoking the callback', () => {
     const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 30)
-    for (let i = 0; i < 30; i++) act(result.current)
-    act(() => {
-      jest.advanceTimersByTime(30)
-    })
-    for (let i = 0; i < 30; i++) act(result.current)
-    act(() => {
-      jest.advanceTimersByTime(30)
-    })
+    const {result} = renderDebounceCallback(cb)
+
+    act(result.current)
+    act(result.current)
+    act(result.current)
+
+    act(() => jest.advanceTimersByTime(50))
+    expect(cb).toBeCalledTimes(0)
+    act(() => jest.advanceTimersByTime(100))
+    expect(cb).toBeCalledTimes(1)
+
+    act(result.current)
+    act(result.current)
+    act(result.current)
+
+    act(() => jest.advanceTimersByTime(99))
+    expect(cb).toHaveBeenCalledTimes(1)
+    act(() => jest.advanceTimersByTime(1))
     expect(cb).toHaveBeenCalledTimes(2)
   })
 
-  test('callback [60ms]', () => {
+  it('should invoke the callback on the leading edge', () => {
     const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 60)
-    for (let i = 0; i < 60; i++) act(result.current)
-    act(() => {
-      jest.advanceTimersByTime(60)
-    })
-    for (let i = 0; i < 60; i++) act(result.current)
-    act(() => {
-      jest.advanceTimersByTime(60)
-    })
-    expect(cb).toHaveBeenCalledTimes(2)
-  })
+    const {result} = renderDebounceCallback(cb, 100, true)
 
-  test('callback leading', () => {
-    const cb = jest.fn()
-    const {result} = renderDebounceCallback(cb, 30, true)
-
-    for (let i = 0; i < 30; i++) act(result.current)
+    act(result.current)
     expect(cb).toHaveBeenCalledTimes(1)
 
-    // add 30ms
-    act(() => {
-      jest.advanceTimersByTime(30)
-    })
+    act(result.current)
+    act(result.current)
+    act(result.current)
+    expect(cb).toHaveBeenCalledTimes(1)
 
-    for (let i = 0; i < 30; i++) act(result.current)
-    // add 30ms
-    act(() => {
-      jest.advanceTimersByTime(30)
-    })
-
+    act(() => jest.advanceTimersByTime(100))
     expect(cb).toHaveBeenCalledTimes(2)
+
+    act(result.current)
+    expect(cb).toHaveBeenCalledTimes(3)
+
+    act(result.current)
+    act(result.current)
+    act(result.current)
+
+    expect(cb).toHaveBeenCalledTimes(3)
+    act(() => jest.advanceTimersByTime(100))
+    expect(cb).toHaveBeenCalledTimes(4)
   })
 
-  test('value [60ms]', () => {
-    const {result} = renderDebounce(1, 60)
+  it('should set the last value the callback was invoked with after 100ms', () => {
+    const {result} = renderDebounce(1, 100)
 
     act(() => result.current[1](2))
     expect(result.current[0]).toBe(1)
+
     act(() => result.current[1](3))
+    act(() => jest.advanceTimersByTime(50))
 
-    // add 60ms
-    act(() => {
-      jest.advanceTimersByTime(60)
-    })
-    expect(result.current[0]).toBe(3)
-  })
-
-  test('value [<60ms]', () => {
-    const {result} = renderDebounce(1, 60)
-
-    act(() => result.current[1](2))
-    expect(result.current[0]).toBe(1)
-    act(() => result.current[1](3))
-
-    // add 59ms
-    act(() => {
-      jest.advanceTimersByTime(59)
-    })
+    act(() => result.current[1](4))
+    act(() => jest.advanceTimersByTime(50))
     expect(result.current[0]).toBe(1)
 
-    // add 1ms
-    act(() => {
-      jest.advanceTimersByTime(1)
-    })
-    expect(result.current[0]).toBe(3)
+    act(() => jest.advanceTimersByTime(50))
+    expect(result.current[0]).toBe(4)
   })
 
-  test('value leading', () => {
-    const {result} = renderDebounce(1, 60, true)
-    act(() => result.current[1](2))
-    expect(result.current[0]).toBe(2) // leading
+  test('it should set the value on the leading edge', () => {
+    const {result} = renderDebounce(1, 100, true)
 
-    act(() => result.current[1](3))
-    expect(result.current[0]).toBe(2)
-    // add 60ms
-    act(() => {
-      jest.advanceTimersByTime(60)
-    })
+    act(() => result.current[1](2))
     expect(result.current[0]).toBe(2)
 
-    act(() => result.current[1](4)) // leading
+    act(() => result.current[1](3))
+    act(() => result.current[1](4))
+
+    act(() => jest.advanceTimersByTime(50))
+    expect(result.current[0]).toBe(2)
+
+    act(() => jest.advanceTimersByTime(50))
     expect(result.current[0]).toBe(4)
   })
 })
