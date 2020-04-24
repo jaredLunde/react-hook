@@ -23,7 +23,9 @@
 <pre align="center">npm i @react-hook/window-scroll</pre>
 <hr>
 
-A React hook for updating components when the scroll position of the window on the y-axis changes
+A React hook for updating components when the scroll position of the window on the y-axis changes.
+This hook throttles updates to the scroll position using [useThrottle()](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle)
+at `30fps` by default, but this rate is configurable.
 
 ## Quick Start
 
@@ -40,11 +42,13 @@ const Component = props => {
 
 ### useScrollPosition(fps?: number): number
 
+A hook that performantly updates its scroll position at a constant frame rate.
+
 #### Arguments
 
-|     | Type     | Default | Description                                                                     |
-| --- | -------- | ------- | ------------------------------------------------------------------------------- |
-| fps | `number` | `30`    | Defines the rate in frames per second with which the scroll position is updated |
+|     | Type     | Default | Description                                                                   |
+| --- | -------- | ------- | ----------------------------------------------------------------------------- |
+| fps | `number` | `30`    | Defines the rate in frames per second at which the scroll position is updated |
 
 #### Returns `scrollY: number`
 

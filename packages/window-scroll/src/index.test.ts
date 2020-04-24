@@ -13,25 +13,81 @@ const resetScroll = (): void => {
   scrollTo(0)
 }
 
+const mockPerf = () => {
+  // @ts-ignore
+  const original = global?.performance
+  let ts = (typeof performance !== 'undefined' ? performance : Date).now()
+
+  return {
+    install: () => {
+      ts = Date.now()
+      const perfNowStub = jest
+        .spyOn(performance, 'now')
+        .mockImplementation(() => ts)
+      // @ts-ignore
+      global.performance = {
+        now: perfNowStub,
+      }
+    },
+    advanceBy: (amt: number) => (ts += amt),
+    advanceTo: (t: number) => (ts = t),
+    uninstall: () => {
+      if (original) {
+        //@ts-ignore
+        global.performance = original
+      }
+    },
+  }
+}
+
+const perf = mockPerf()
 jest.useFakeTimers()
 
 describe('useWindowScroll()', () => {
   beforeEach(() => {
+    perf.install()
     resetScroll()
   })
 
-  it('should record scroll position correctly', () => {
+  afterEach(perf.uninstall)
+
+  it('should update scroll positon at 30fps', () => {
     const {result} = renderWindowScroll()
     act(() => scrollTo(1)) // fires leading
     expect(result.current).toBe(1)
 
-    for (let i = 0; i < 60; i++) {
-      act(() => scrollTo(Math.random()))
+    let i = 0
+
+    for (; i < Math.ceil(1000 / 30); i++) {
+      perf.advanceBy(1)
+      expect(result.current).toBe(1)
+      act(() => scrollTo(i))
     }
 
-    act(() => scrollTo(1280))
+    expect(result.current).toBe(33)
+  })
+
+  it('should update scroll positon at 60fps', () => {
+    const {result} = renderWindowScroll(60)
+    act(() => scrollTo(1)) // fires leading
     expect(result.current).toBe(1)
-    act(() => jest.advanceTimersByTime(1000 / 30))
-    expect(result.current).toBe(1280)
+
+    let i = 0
+
+    for (; i < Math.ceil(1000 / 60); i++) {
+      perf.advanceBy(1)
+      expect(result.current).toBe(1)
+      act(() => scrollTo(i))
+    }
+
+    expect(result.current).toBe(16)
+
+    for (; i < Math.ceil(1000 / 60) * 2; i++) {
+      perf.advanceBy(1)
+      expect(result.current).toBe(16)
+      act(() => scrollTo(i))
+    }
+
+    expect(result.current).toBe(33)
   })
 })
