@@ -29,6 +29,8 @@ at `30fps` by default, but this rate is configurable.
 
 ## Quick Start
 
+[Check out the example on **CodeSandbox**](https://codesandbox.io/s/react-hookwindow-size-and-react-hookwindow-scroll-examples-oqmer?file=/src/App.js)
+
 ```jsx harmony
 import useScrollPosition from '@react-hook/window-scroll'
 

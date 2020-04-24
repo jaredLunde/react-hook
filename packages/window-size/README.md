@@ -30,6 +30,8 @@ and **throttled** using [`useThrottle()`](https://github.com/jaredLunde/react-ho
 
 ## Quick Start
 
+[Check out the example on **CodeSandbox**](https://codesandbox.io/s/react-hookwindow-size-and-react-hookwindow-scroll-examples-oqmer?file=/src/App.js)
+
 ```jsx harmony
 //
 // Debounced values
