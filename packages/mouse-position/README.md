@@ -23,9 +23,11 @@
 <pre align="center">npm i @react-hook/mouse-position</pre>
 <hr>
 
-A React hook for tracking the position of the mouse as it moves around an element. This
-hook also provides an interop between touch and desktop devices and will treat
-`ontouch` events the same as `onmouse` ones.
+A React hook for tracking the position, hover, and "down" state of the mouse as it interacts
+with an element. This hook provides interoperability between touch and desktop devices and will treat
+`ontouch` events the same as `onmouse` ones. Additionally, this hook is throttled to `30fps` by default
+using a [useThrottle() hook](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle),
+though the precise frame rate is configurable.
 
 ## Quick Start
 
@@ -40,6 +42,8 @@ const Component = (props) => {
   )
 
   return (
+    // You must provide the ref to the element you're tracking the
+    // mouse position of
     <div ref={ref}>
       Hover me and see where I am relative to the element:
       <br />
@@ -52,24 +56,27 @@ const Component = (props) => {
 
 ## API
 
-### `useMousePosition(enterDelay?: number, leaveDelay?: number, fps?: number)`
+### useMousePosition(enterDelay?, leaveDelay?, fps?)
+
+A hook for tracking the mouse position in an element with interoperability between touch
+devices and mouse devices.
 
 #### Arguments
 
-| Argument   | Type     | Default | Description                                                                                           |
-| ---------- | -------- | ------- | ----------------------------------------------------------------------------------------------------- |
-| enterDelay | `number` | `0`     | The amount of time in `ms` to wait after an initial action before setting `mousemove` events to state |
-| leaveDelay | `number` | `0`     | The amount of time in `ms` to wait after a final action before setting `mouseleave` events to state   |
-| fps        | `number` | `30`    | The rate in frames-per-second that the state should update                                            |
+| Argument   | Type     | Default | Description                                                                                            |
+| ---------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
+| enterDelay | `number` | `0`     | The time in `ms` to wait after an initial action before setting the latest `mousemove` events to state |
+| leaveDelay | `number` | `0`     | The time in `ms` to wait after a final action before setting the latest `mouseleave` events to state   |
+| fps        | `number` | `30`    | The rate in frames-per-second that the mouse position should update                                    |
 
-#### Returns `[state: MousePosition, ref: (element: HTMLElement | null) => void]`
+#### Returns `[state: MousePosition, ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>]`
 
-| Variable | Description                                                                               |
-| -------- | ----------------------------------------------------------------------------------------- |
-| `state`  | The mouse position data for the ref'd element                                             |
-| `ref`    | The callback ref you must provide to the element you want to track mouse data position of |
+| Variable | Type                                                       | Description                                                                      |
+| -------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `state`  | [MousePosition](#mouseposition)                            | The mouse position data for the ref'd element                                    |
+| `ref`    | `React.Dispatch<React.SetStateAction<HTMLElement | null>>` | The ref you have to provide to the element you're tracking the mouse position of |
 
-#### state: MousePosition
+#### MousePosition
 
 | Key           | Type      | Default | Description                                                                                       |
 | ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------- |

@@ -45,14 +45,11 @@ const batchUpdates =
     ? unstable_batchedUpdates
     : (fn: () => void): void => fn()
 
-export const useMousePosition = (
+export const useMousePosition = <T extends HTMLElement = HTMLElement>(
   enterDelay = 0,
   leaveDelay = 0,
   fps = 30
-): [
-  MousePosition,
-  React.Dispatch<React.SetStateAction<HTMLElement | null>>
-] => {
+): [MousePosition, React.Dispatch<React.SetStateAction<T | null>>] => {
   const [state, setState] = useState<MousePosition>(initialState)
   const [entered, setEntered] = useState<boolean>(false)
   const touchEnded = useRef<boolean>(false)

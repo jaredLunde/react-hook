@@ -14,9 +14,9 @@ export interface MousePosition {
   isDown: boolean
   isTouch: boolean
 }
-export declare const useMousePosition: (
+export declare const useMousePosition: <T extends HTMLElement = HTMLElement>(
   enterDelay?: number,
   leaveDelay?: number,
   fps?: number
-) => [MousePosition, React.Dispatch<React.SetStateAction<HTMLElement | null>>]
+) => [MousePosition, React.Dispatch<React.SetStateAction<T | null>>]
 export default useMousePosition
