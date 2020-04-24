@@ -12,114 +12,133 @@ const renderWindowWidth = (...args): any =>
 const renderWindowHeight = (...args): any =>
   renderHook(() => useWindowHeight(...args))
 
+const mockPerf = () => {
+  // @ts-ignore
+  const original = global?.performance
+  let ts = (typeof performance !== 'undefined' ? performance : Date).now()
+
+  return {
+    install: () => {
+      ts = Date.now()
+      const perfNowStub = jest
+        .spyOn(performance, 'now')
+        .mockImplementation(() => ts)
+      // @ts-ignore
+      global.performance = {
+        now: perfNowStub,
+      }
+    },
+    advanceBy: (amt: number) => (ts += amt),
+    advanceTo: (t: number) => (ts = t),
+    uninstall: () => {
+      if (original) {
+        //@ts-ignore
+        global.performance = original
+      }
+    },
+  }
+}
+
+const perf = mockPerf()
+
 describe('useWindowSize() throttled', () => {
   jest.useFakeTimers()
 
   beforeEach(() => {
+    perf.install()
     resetSize()
   })
 
-  test('resize', () => {
-    resizeTo(600, 400)
+  afterEach(perf.uninstall)
+
+  it('should update on resize events', () => {
+    resizeTo(0, 0)
     const {result} = renderWindowSize()
-    expect(result.current[0]).toBe(600)
-    expect(result.current[1]).toBe(400)
+    expect(result.current[0]).toBe(0)
+    expect(result.current[1]).toBe(0)
 
-    for (let i = 0; i < 60; i++) {
-      act(() => resizeTo(Math.random(), Math.random()))
+    let i = 0
+    for (; i < Math.ceil(1000 / 30) + 1; i++) {
+      perf.advanceBy(1)
+      expect(result.current[0]).toBe(0)
+      expect(result.current[1]).toBe(0)
+      act(() => resizeTo(i, i))
     }
 
-    act(() => resizeTo(1280, 720))
-    expect(result.current[0]).toBe(600)
-    expect(result.current[1]).toBe(400)
+    expect(result.current[0]).toBe(34)
+    expect(result.current[1]).toBe(34)
 
-    act(() => jest.advanceTimersByTime(1000 / 30))
-    expect(result.current[0]).toBe(1280)
-    expect(result.current[1]).toBe(720)
-  })
-
-  test('resize windowWidth', () => {
-    resizeTo(600, 400)
-    const {result} = renderWindowWidth()
-    expect(result.current).toBe(600)
-
-    for (let i = 0; i < 60; i++) {
-      act(() => resizeTo(Math.random(), Math.random()))
+    for (; i < 1 + Math.ceil(1000 / 30) * 2; i++) {
+      perf.advanceBy(1)
+      expect(result.current[0]).toBe(34)
+      expect(result.current[1]).toBe(34)
+      act(() => resizeTo(i, i))
     }
 
-    act(() => resizeTo(1280, 720))
-    expect(result.current).toBe(600)
-
-    act(() => jest.advanceTimersByTime(1000 / 30))
-    expect(result.current).toBe(1280)
+    expect(result.current[0]).toBe(68)
+    expect(result.current[1]).toBe(68)
   })
 
-  test('resize windowHeight', () => {
-    resizeTo(600, 400)
-    const {result} = renderWindowHeight()
-    expect(result.current).toBe(400)
-
-    for (let i = 0; i < 60; i++) {
-      act(() => resizeTo(Math.random(), Math.random()))
-    }
-
-    act(() => resizeTo(1280, 720))
-    expect(result.current).toBe(400)
-
-    act(() => jest.advanceTimersByTime(1000 / 30))
-    expect(result.current).toBe(720)
-  })
-
-  test('resize [leading]', () => {
+  it('should update on the leading edge', () => {
     const {result} = renderWindowSize({leading: true})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
+
     act(() => resizeTo(600, 400))
     expect(result.current[0]).toBe(600)
     expect(result.current[1]).toBe(400)
-
-    for (let i = 0; i < 60; i++) {
-      act(() => resizeTo(Math.random(), Math.random()))
-    }
-
-    expect(result.current[0]).toBe(600)
-    expect(result.current[1]).toBe(400)
-
-    act(() => jest.advanceTimersByTime(1000 / 30))
-    act(() => resizeTo(1280, 720))
-    expect(result.current[0]).toBe(1280)
-    expect(result.current[1]).toBe(720)
   })
 
-  test('resize [60ps]', () => {
+  it('should update according to custom "fps"', () => {
     const {result} = renderWindowSize({fps: 60})
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
-    for (let i = 0; i < 60; i++) {
-      act(() => resizeTo(Math.random(), Math.random()))
+    let i = 0
+    for (; i < Math.ceil(1000 / 60) + 1; i++) {
+      perf.advanceBy(1)
+      expect(result.current[0]).toBe(0)
+      expect(result.current[1]).toBe(0)
+      act(() => resizeTo(i, i))
     }
 
-    act(() => resizeTo(600, 400))
-    expect(result.current[0]).toBe(0)
-    expect(result.current[1]).toBe(0)
-
-    act(() => jest.advanceTimersByTime(1000 / 60))
-    expect(result.current[0]).toBe(600)
-    expect(result.current[1]).toBe(400)
+    expect(result.current[0]).toBe(17)
+    expect(result.current[1]).toBe(17)
   })
 
-  test('orientationChange', () => {
+  it('should update on orientation change', () => {
     const {result} = renderWindowSize()
     expect(result.current[0]).toBe(0)
     expect(result.current[1]).toBe(0)
 
     act(() => changeOrientation(1280, 720))
-    expect(result.current[0]).toBe(0)
-    expect(result.current[1]).toBe(0)
-
     act(() => jest.advanceTimersByTime(1000 / 30))
+
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
+  })
+})
+
+describe('useWindowWidth() throttled', () => {
+  it('it should update when the window width changes', () => {
+    resizeTo(0, 0)
+    const {result} = renderWindowWidth()
+    expect(result.current).toBe(0)
+
+    act(() => resizeTo(1280, 720))
+    act(() => jest.advanceTimersByTime(1000 / 30))
+    expect(result.current).toBe(1280)
+  })
+})
+
+describe('useWindowHeight() throttled', () => {
+  it('should update when the window height changes', () => {
+    resizeTo(0, 0)
+    const {result} = renderWindowHeight()
+    expect(result.current).toBe(0)
+
+    act(() => resizeTo(1280, 720))
+    act(() => jest.advanceTimersByTime(1000 / 30))
+    expect(result.current).toBe(720)
   })
 })

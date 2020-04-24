@@ -1017,15 +1017,15 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@react-hook/debounce@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-2.0.2.tgz#98c9842f20dc56e2d3171508f095cb47ad2dbe01"
-  integrity sha512-8U3fQKdhHaG6bczKgzgJFX3nc/N11K/Zu8HXHfdweAtP4iMfUUBum0EhwkOmlQAy8P27eaG1pjFd5vGwHWfS7w==
+"@react-hook/debounce@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-2.0.3.tgz#46b346580a19b41e9f25faad0a4103d7c7e5e1ba"
+  integrity sha512-G1RStTQ5NJvy0N/Wydn+wdahpEJpdKe/KzTVEkGZ7DTKCixjbOD5TtBJfnkajQzfQUrgLely2JE65W58F2hb1A==
 
-"@react-hook/throttle@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-2.1.0.tgz#33a187251a6a481ee7b26981459092752238464d"
-  integrity sha512-HJ0jgidcdkfW5YHXMDZzxdwB1SrUHJ1B6Ir/c6pQKnE9xvVimJaehglErZsCTGymEV4VX/U84hHBEo9XBxiWyw==
+"@react-hook/throttle@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-2.1.2.tgz#ff2b342655896dd210246f382e156cdb2ab599cf"
+  integrity sha512-AmZX4wUXHJe/jN33elneFDt5zJN6f4uB9ruTDrBaUcA+Yroh+hjqBlL4/N3IL2sf6oyDRmL2eMQUgJoJN+akIg==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"

@@ -23,10 +23,10 @@
 <pre align="center">npm i @react-hook/window-size</pre>
 <hr>
 
-React hooks for updating components when the size of the `window`
+React hooks for updating components when the size or orientation of the `window`
 changes. These hooks come in two forms: **debounced**
-(using [`useDebounce()`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce))
-and **throttled** (using [`useThrottle()`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle)).
+using [`useDebounce()`](https://github.com/jaredLunde/react-hook/tree/master/packages/debounce)
+and **throttled** using [`useThrottle()`](https://github.com/jaredLunde/react-hook/tree/master/packages/throttle).
 
 ## Quick Start
 
@@ -64,7 +64,9 @@ const Component = props => {
 
 ### useWindowSize(options?): [number, number]
 
-Returns the current width and height of the window
+A hook that returns the current width and height of the window. This hook is debounced, meaning it will
+wait (100ms by default) for the resize events to stop firing before it actually updates its state with
+the new width and height.
 
 #### Options
 
@@ -74,12 +76,12 @@ Returns the current width and height of the window
 
 #### DebouncedWindowSizeOptions
 
-| Key           | Type      | Default | Description                                                                                                               |
-| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait          | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
-| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
+| Key           | Type      | Default | Description                                                                                                                   |
+| ------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| wait          | `number`  | `100`   | The amount of time in `ms` you want to wait after the latest resize event before updating the size of the window in state.    |
+| leading       | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to debouncing any additional events. |
+| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                           |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                          |
 
 #### Returns `[width: number, height: number]`
 
@@ -92,7 +94,9 @@ Returns the current width and height of the window
 
 ### useWindowWidth(options?): number
 
-Returns the current width of the window
+A hook that returns the current width of the window. This hook is debounced, meaning it will
+wait (100ms by default) for the resize events to stop firing before it actually updates its state with
+the new width.
 
 #### Options
 
@@ -102,11 +106,11 @@ Returns the current width of the window
 
 #### DebouncedWindowSizeOptions
 
-| Key          | Type      | Default | Description                                                                                                               |
-| ------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait         | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
+| Key          | Type      | Default | Description                                                                                                                   |
+| ------------ | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| wait         | `number`  | `100`   | The amount of time in `ms` you want to wait after the latest resize event before updating the size of the window in state.    |
+| leading      | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to debouncing any additional events. |
+| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                           |
 
 #### Returns `width: number`
 
@@ -118,7 +122,9 @@ Returns the current width of the window
 
 ### useWindowHeight(options?): number
 
-Returns the current height of the window
+A hook that returns the current height of the window. This hook is debounced, meaning it will
+wait (100ms by default) for the resize events to stop firing before it actually updates its state with
+the new height.
 
 #### Options
 
@@ -128,11 +134,11 @@ Returns the current height of the window
 
 #### DebouncedWindowSizeOptions
 
-| Key           | Type      | Default | Description                                                                                                               |
-| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| wait          | `number`  | `100`   | Defines the amount of time you want `setState` to wait after the last received action before executing                    |
-| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
+| Key           | Type      | Default | Description                                                                                                                   |
+| ------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| wait          | `number`  | `100`   | The amount of time in `ms` you want to wait after the latest resize event before updating the size of the window in state.    |
+| leading       | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to debouncing any additional events. |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                          |
 
 #### Returns `height: number`
 
@@ -148,7 +154,11 @@ To use these throttled hooks instead of debounced hooks, import with `import {..
 
 ### useWindowSize(options?): [number, number]
 
-Returns the current width and height of the window
+A hook that returns the current width and height of the window. This hook is throttled, meaning it will
+only update its state at most 30fps (by default, configuration below) with the new width and height
+of the window. It will always update at the trailing edge, so you don't have to worry about not having
+the correct width or height after the window is finished resizing. It will also update at the leading edge
+if configured to do so.
 
 #### Options
 
@@ -158,12 +168,12 @@ Returns the current width and height of the window
 
 #### ThrottledWindowSizeOptions
 
-| Key           | Type      | Default | Description                                                                                                               |
-| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps           | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
-| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
+| Key           | Type      | Default | Description                                                                                                                   |
+| ------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| fps           | `number`  | `30`    | The rate in frames per second at which the size of the window is updated                                                      |
+| leading       | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to throttling any additional events. |
+| initialWidth  | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                           |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                          |
 
 #### Returns `[width: number, height: number]`
 
@@ -176,7 +186,11 @@ Returns the current width and height of the window
 
 ### useWindowWidth(options?): number
 
-Returns the current width of the window
+A hook that returns the current width of the window. This hook is throttled, meaning it will
+only update its state at most 30fps (by default, configuration below) with the new width of the window.
+It will always update at the trailing edge, so you don't have to worry about not having
+the correct width after the window is finished resizing. It will also update at the leading edge
+if configured to do so.
 
 #### Options
 
@@ -186,11 +200,11 @@ Returns the current width of the window
 
 #### ThrottledWindowSizeOptions
 
-| Key          | Type      | Default | Description                                                                                                               |
-| ------------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps          | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading      | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                       |
+| Key          | Type      | Default | Description                                                                                                                   |
+| ------------ | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| fps          | `number`  | `30`    | The rate in frames per second at which the size of the window is updated                                                      |
+| leading      | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to throttling any additional events. |
+| initialWidth | `number`  | `0`     | The initial width to use when there is no `window` object, e.g. SSR                                                           |
 
 #### Returns `width: number`
 
@@ -202,7 +216,11 @@ Returns the current width of the window
 
 ### useWindowHeight(options?): number
 
-Returns the current height of the window
+A hook that returns the current height of the window. This hook is throttled, meaning it will
+only update its state at most 30fps (by default, configuration below) with the new height of the window.
+It will always update at the trailing edge, so you don't have to worry about not having
+the correct height after the window is finished resizing. It will also update at the leading edge
+if configured to do so.
 
 #### Options
 
@@ -212,11 +230,11 @@ Returns the current height of the window
 
 #### ThrottledWindowSizeOptions
 
-| Key           | Type      | Default | Description                                                                                                               |
-| ------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| fps           | `number`  | `30`    | Defines the rate in frames per second with which the scroll position is updated                                           |
-| leading       | `boolean` | `false` | Calls `setState` on the leading edge (right away). When `false` `setState` will not be called until the next frame is due |
-| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                      |
+| Key           | Type      | Default | Description                                                                                                                   |
+| ------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| fps           | `number`  | `30`    | The rate in frames per second at which the size of the window is updated                                                      |
+| leading       | `boolean` | `false` | When `true`, updates the size of the window on the leading edge (right away) in addition to throttling any additional events. |
+| initialHeight | `number`  | `0`     | The initial height to use when there is no `window` object, e.g. SSR                                                          |
 
 #### Returns `height: number`
 
