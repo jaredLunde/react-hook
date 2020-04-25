@@ -4,7 +4,7 @@ import useDebounce from '@react-hook/debounce'
 const emptyArr = []
 const emptyObj = {}
 
-export interface DebouncedWidowSizeOptions {
+export interface DebouncedWindowSizeOptions {
   initialWidth?: number
   initialHeight?: number
   wait?: number
@@ -12,7 +12,7 @@ export interface DebouncedWidowSizeOptions {
 }
 
 export const useWindowSize = (
-  options: DebouncedWidowSizeOptions = emptyObj
+  options: DebouncedWindowSizeOptions = emptyObj
 ): [number, number] => {
   const {wait, leading, initialWidth = 0, initialHeight = 0} = options
   const [size, setDebouncedSize] = useDebounce<[number, number]>(
@@ -46,11 +46,11 @@ export const useWindowSize = (
 }
 
 export const useWindowHeight = (
-  options?: Omit<DebouncedWidowSizeOptions, 'initialWidth'>
+  options?: Omit<DebouncedWindowSizeOptions, 'initialWidth'>
 ): number => useWindowSize(options)[1]
 
 export const useWindowWidth = (
-  options?: Omit<DebouncedWidowSizeOptions, 'initialHeight'>
+  options?: Omit<DebouncedWindowSizeOptions, 'initialHeight'>
 ): number => useWindowSize(options)[0]
 
 export default useWindowSize
