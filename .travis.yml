@@ -16,4 +16,4 @@ matrix:
     - env: TARGET=packages/cache
 before_script:
   - chmod +x ./.travis/build-condition.sh
-script: if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $TARGET; then echo "$TARGET is being built" && cd $TARGET && yarn install && yarn validate && npx codecov@3; else echo "$TARGET is NOT being built"; fi
+script: if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $TARGET; then echo "$TARGET is being built" && cd $TARGET && yarn install && yarn validate; else echo "$TARGET is NOT being built"; fi
