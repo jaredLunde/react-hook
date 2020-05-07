@@ -32,16 +32,15 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
     deps
   )
 
-  return useCallback(function () {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this
+  return useCallback(function here() {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
     const rightNow = now()
     const call = () => {
       prev.current = rightNow
       clearTrailing()
-      callback.apply(self, args)
+      // eslint-disable-next-line prefer-spread
+      callback.apply(null, args as any)
     }
     const current = prev.current
     // leading
@@ -54,7 +53,8 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
     // trailing
     clearTrailing()
     trailingTimeout.current = setTimeout(() => {
-      callback.apply(self, args)
+      // eslint-disable-next-line prefer-spread
+      callback.apply(null, args as any)
       prev.current = 0
     }, wait)
   }, deps)

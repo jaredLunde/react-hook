@@ -24,8 +24,6 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
   )
 
   return useCallback(function () {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
     const current = timeout.current
@@ -34,14 +32,16 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
       timeout.current = setTimeout(() => {
         timeout.current = void 0
       }, wait)
-      return callback.apply(self, args)
+      // eslint-disable-next-line prefer-spread
+      return callback.apply(null, args as any)
     }
     // Clear the timeout every call and start waiting again
     clearTimeout(current)
     // Waits for `wait` before invoking the callback
     timeout.current = setTimeout(() => {
       timeout.current = void 0
-      callback.apply(self, args)
+      // eslint-disable-next-line prefer-spread
+      callback.apply(null, args as any)
     }, wait)
   }, deps)
 }
