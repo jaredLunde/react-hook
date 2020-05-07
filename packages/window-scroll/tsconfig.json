@@ -9,7 +9,7 @@
       // "dom.iterable"
     ],
     "moduleResolution": "node",
-    "strictNullChecks": true,
+    "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
