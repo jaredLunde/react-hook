@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/google-optimize",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/google-optimize#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -20,68 +20,73 @@
     "optimize hook",
     "ab test hook"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
-  "types": "dist/cjs/index.d.ts",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "browser": "dist/module/index.js",
+  "source": "src/index.ts",
+  "types": "types/index.d.ts",
   "files": [
-    "/dist"
+    "/dist",
+    "/src",
+    "/types"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build:types",
-    "build:cjs": "babel src -d dist/cjs -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build-main": "npm run compile -- -d dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module",
+    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint . --ext .ts,.tsx",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
     "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run build-types && prettier --write \"types/**/*.d.ts\" && lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": [
+    "**/*.{ts,tsx,js}": [
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json,babelrc,eslintrc,prettierrc}": [
+    "**/*.{md,yml,json,eslintrc,prettierrc}": [
       "prettier --write"
     ]
   },
   "devDependencies": {
-    "@babel/preset-react": "latest",
+    "@babel/preset-react": "^7.9.4",
     "@lunde/babel-preset-es": "latest",
-    "@testing-library/jest-dom": "latest",
-    "@testing-library/react": "latest",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.4",
     "@testing-library/react-hooks": "latest",
-    "@types/jest": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
+    "@types/jest": "^25.2.1",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "babel-plugin-optimize-react": "latest",
-    "babel-plugin-typescript-to-proptypes": "latest",
-    "cross-env": "latest",
+    "babel-plugin-typescript-to-proptypes": "^1.3.2",
+    "cross-env": "^7.0.2",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "latest",
-    "eslint-plugin-react": "latest",
-    "eslint-plugin-react-hooks": "latest",
-    "husky": "latest",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "prettier": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-test-renderer": "latest",
+    "eslint-plugin-jest": "^23.9.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "lint-staged": "^10.2.2",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
     "rimraf": "^2.6.3",
-    "ts-jest": "latest",
-    "typescript": "latest"
+    "ts-jest": "^25.5.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@types/gtag.js": "^0.0.3"

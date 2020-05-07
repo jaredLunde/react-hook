@@ -33,12 +33,12 @@ and created [Google Optimize](https://marketingplatform.google.com/about/optimiz
 ```jsx harmony
 import useGoogleOptimize from '@react-hook/google-optimize'
 // Test React components
-const CartABTest = props => {
+const CartABTest = (props) => {
   const CartVariant = useGoogleOptimize('experimentId', [CartA, CartB, CartC])
   return !CartVariant ? 'Loading...' : <CartVariant {...props} />
 }
 // Test any value
-const CartABValueTest = props => {
+const CartABValueTest = (props) => {
   const variant = useGoogleOptimize('experimentId', [false, true])
   return variant === null ? (
     'Loading...'
@@ -52,7 +52,15 @@ const CartABValueTest = props => {
 
 ## API
 
-### `useGoogleOptimize<T>(experimentId: string, variants: T[], timeout: number): T | null`
+### useGoogleOptimize(experimentId, variants, timeout?)
+
+```ts
+function useGoogleOptimize<T>(
+  experimentId: string,
+  variants: T[],
+  timeout?: number
+): T | null
+```
 
 #### Arguments
 
