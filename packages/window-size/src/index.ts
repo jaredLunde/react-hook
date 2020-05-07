@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import useDebounce from '@react-hook/debounce'
 
-const emptyArr = []
+const emptyArr: [] = []
 const emptyObj = {}
 
 export interface DebouncedWindowSizeOptions {

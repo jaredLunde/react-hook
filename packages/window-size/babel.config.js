@@ -1,4 +1,4 @@
-module.exports = api => {
+module.exports = (api) => {
   const module = api.env('module')
   const presetEnv = [
     '@lunde/es',

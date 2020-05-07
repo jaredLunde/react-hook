@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -35,18 +35,25 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "browser": "dist/module/index.js",
   "source": "src/index.ts",
   "types": "src/index.d.ts",
   "exports": {
     ".": {
       "browser": "./dist/module/index.js",
-      "import": "./dist/module/index.js",
-      "require": "./dist/main/index.js"
+      "import": "./dist/esm/index.mjs",
+      "source": "./src/index.ts",
+      "require": "./dist/main/index.js",
+      "default": "./dist/main/index.js",
+      "types": "./src/index.d.ts"
     },
     "./throttled": {
       "browser": "./throttled/dist/module/index.js",
-      "import": "./throttled/dist/module/index.js",
-      "require": "./throttled/dist/main/index.js"
+      "import": "./throttled/dist/esm/index.mjs",
+      "source": "./throttled/src/index.ts",
+      "require": "./throttled/dist/main/index.js",
+      "default": "./throttled/dist/main/index.js",
+      "types": "./throttled/src/index.d.ts"
     },
     "./package.json": "./package.json",
     "./": "./"
@@ -60,7 +67,8 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-types",
+    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs && npm run compile-throttled -- -d throttled/dist/esm --env-name esm --out-file-extension .mjs",
     "build-main": "npm run compile -- -d dist/main --env-name main && npm run compile-throttled -- -d throttled/dist/main --env-name main",
     "build-module": "npm run compile -- -d dist/module --env-name module && npm run compile-throttled -- -d throttled/dist/module --env-name module",
     "build-types": "rimraf src/index.d.ts && find throttled/src -name '*.d.ts' -exec rm {} \\; && tsc -p tsconfig.json -d --emitDeclarationOnly",
@@ -90,23 +98,23 @@
   "devDependencies": {
     "@lunde/babel-preset-es": "latest",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
     "babel-plugin-optimize-react": "^0.0.4",
-    "cross-env": "latest",
-    "eslint": "latest",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
     "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "latest",
-    "husky": "latest",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "prettier": "latest",
+    "eslint-plugin-jest": "^23.9.0",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "lint-staged": "^10.2.2",
+    "prettier": "^2.0.5",
     "react": "^16.12.0",
     "react-test-renderer": "^16.12.0",
     "rimraf": "^2.6.3",
-    "ts-jest": "latest",
-    "typescript": "latest"
+    "ts-jest": "^25.5.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@react-hook/debounce": "^2.0.3",

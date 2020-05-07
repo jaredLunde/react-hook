@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import useThrottle from '@react-hook/throttle'
 
-const emptyArr = []
+const emptyArr: [] = []
 const emptyObj = {}
 
 export interface ThrottledWindowSizeOptions {

@@ -41,7 +41,7 @@ import {
   useWindowHeight,
 } from '@react-hook/window-size'
 
-const Component = props => {
+const Component = (props) => {
   const [width, height] = useWindowSize()
   const onlyWidth = useWindowWidth()
   const onlyHeight = useWindowHeight()
@@ -55,7 +55,7 @@ import {
   useWindowHeight,
 } from '@react-hook/window-size/throttled'
 
-const Component = props => {
+const Component = (props) => {
   const [width, height] = useWindowSize()
   const onlyWidth = useWindowWidth()
   const onlyHeight = useWindowHeight()
