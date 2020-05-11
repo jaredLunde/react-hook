@@ -30,6 +30,7 @@ function useGoogleOptimize<T>(
       }
       // Documented here:
       // https://support.google.com/optimize/answer/9059383?hl=en
+      // @ts-ignore
       gtag('event', 'optimize.callback', {
         name: experimentId,
         callback,
@@ -37,6 +38,7 @@ function useGoogleOptimize<T>(
 
       // Cleans up the optimize callback if the request times out
       const removeCallback = () =>
+        // @ts-ignore
         gtag('event', 'optimize.callback', {
           name: experimentId,
           callback,
@@ -54,18 +56,14 @@ function useGoogleOptimize<T>(
   return variant === null ? null : variants[variant]
 }
 
-declare global {
-  interface Window {
-    dataLayer: any[]
-  }
-}
-
-const gtag = (...args: Parameters<typeof window.gtag>) => {
+function gtag() {
   if (typeof window !== 'undefined') {
     if (typeof window.gtag === 'function') {
-      window.gtag(...args)
+      // eslint-disable-next-line prefer-rest-params
+      window.gtag.apply(null, arguments as any)
     } else if (Array.isArray(window.dataLayer)) {
-      window.dataLayer.push(args)
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer.push(arguments)
     } else {
       if (
         typeof process !== 'undefined' &&
@@ -82,5 +80,11 @@ const gtag = (...args: Parameters<typeof window.gtag>) => {
 }
 
 let didWarn = false
+
+declare global {
+  interface Window {
+    dataLayer: any[]
+  }
+}
 
 export default useGoogleOptimize
