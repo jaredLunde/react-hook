@@ -37,7 +37,7 @@ function useGoogleOptimize<T>(
 
       // Cleans up the optimize callback if the request times out
       const removeCallback = () =>
-        window.gtag('event', 'optimize.callback', {
+        gtag('event', 'optimize.callback', {
           name: experimentId,
           callback,
           remove: true,
