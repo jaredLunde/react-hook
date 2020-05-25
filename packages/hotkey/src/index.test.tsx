@@ -7,7 +7,8 @@ describe('useHotkey', () => {
   it('should invoke callback with singular key', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>('a', fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, 'a', fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -19,7 +20,8 @@ describe('useHotkey', () => {
   it('should invoke callback with modified key', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>(['ctrl', 'a'], fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, ['ctrl', 'a'], fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -31,7 +33,8 @@ describe('useHotkey', () => {
   it('should invoke callback for both ctrl and meta modifiers with special mod key', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>(['mod', 'a'], fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, ['mod', 'a'], fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -43,7 +46,8 @@ describe('useHotkey', () => {
   it('should not invoke callback if defined modifier was not apart of the press', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>(['ctrl', 'a'], fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, ['ctrl', 'a'], fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -55,7 +59,8 @@ describe('useHotkey', () => {
   it('should not invoke callback if a modifier was part of the press, but not defined as a modifier', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>(['a'], fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, ['a'], fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -67,7 +72,8 @@ describe('useHotkey', () => {
   it('should not invoke callback if there were multiple modifiers sent, but not all were defined', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>(['a', 'ctrl'], fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey<HTMLDivElement>(ref, ['a', 'ctrl'], fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -83,7 +89,8 @@ describe('useHotkey', () => {
   it('should invoke callback when which matches', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>('j', fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, 'j', fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -95,7 +102,8 @@ describe('useHotkey', () => {
   it('should not invoke callback when which does not match', () => {
     const fn = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkey<HTMLDivElement>('j', fn)
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkey(ref, 'j', fn)
       return <div data-testid="area" ref={ref} />
     }
     const {getByTestId} = render(<Hotkey />)
@@ -110,7 +118,8 @@ describe('useHotkeys', () => {
     const fnA = jest.fn()
     const fnB = jest.fn()
     const Hotkey = () => {
-      const ref = useHotkeys<HTMLDivElement>([
+      const ref = React.useRef<HTMLDivElement>(null)
+      useHotkeys<HTMLDivElement>(ref, [
         ['a', fnA],
         ['b', fnB],
       ])

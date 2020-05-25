@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/hotkey",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/hotkey#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -88,7 +88,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.0.2"
+    "@react-hook/event": "^1.0.2"
   },
   "peerDependencies": {
     "react": ">=16.8",

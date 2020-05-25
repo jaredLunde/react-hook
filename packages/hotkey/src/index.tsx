@@ -1,32 +1,22 @@
-import {MutableRefObject, useRef} from 'react'
-import useLayoutEffect from '@react-hook/passive-layout-effect'
+import useEvent from '@react-hook/event'
 
-export function useHotkey<T = HTMLElement>(
+export function useHotkey<T extends HTMLElement = HTMLElement>(
+  target: Window | Document | T | React.RefObject<T> | null,
   hotkey: Hotkey | Hotkey[],
   callback: HotkeyCallback
-): MutableRefObject<T | null> {
-  return useHotkeys<T>([[hotkey, callback]])
+): void {
+  return useHotkeys<T>(target, [[hotkey, callback]])
 }
 
-export function useHotkeys<T = HTMLElement>(
+export function useHotkeys<T extends HTMLElement = HTMLElement>(
+  target: Window | Document | T | React.RefObject<T> | null,
   hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
-): MutableRefObject<T | null> {
-  const ref = useRef<T | null>(null)
-  const storedHotkeys = useRef(hotkeys)
-  storedHotkeys.current = hotkeys
-
-  useLayoutEffect(() => {
-    const callback = (event: KeyboardEvent) => {
-      for (const [hotkey, callback] of storedHotkeys.current) {
-        createHotkey(hotkey, callback)(event)
-      }
+): void {
+  useEvent(target, 'keydown', (event) => {
+    for (const [hotkey, callback] of hotkeys) {
+      createHotkey(hotkey, callback)(event)
     }
-
-    document.addEventListener('keydown', callback)
-    return () => document.removeEventListener('keydown', callback)
-  }, [])
-
-  return ref
+  })
 }
 
 export const createHotkey = (
@@ -39,7 +29,9 @@ export const createHotkey = (
 
   for (let i = 0; i < hotkeys.length; i++) {
     let key = String(hotkeys[i]).toLowerCase()
+    // @ts-ignore
     key = ALIASES[key] || key
+    // @ts-ignore
     const modifier = MODIFIERS[key]
     hasModifier = hasModifier || !!modifier
 
@@ -47,6 +39,7 @@ export const createHotkey = (
       // Store the key for browsers that support event.key
       key,
       // Store the keyCode for browsers that don't support event.key
+      // @ts-ignore
       which: CODES[key] || key.toUpperCase().charCodeAt(0),
       // Is this key is a modifier? If so, include it's real name
       // as defined in the event here
@@ -62,7 +55,9 @@ export const createHotkey = (
     const eventModifiers: string[] = []
 
     for (const modifier in MODIFIERS) {
+      // @ts-ignore
       const mod = MODIFIERS[modifier]
+      // @ts-ignore
       if (event[mod]) {
         // If the event had a modifier and there wasn't one specified, just bail
         if (!hasModifier) return

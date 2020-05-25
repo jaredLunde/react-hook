@@ -11,7 +11,7 @@
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "moduleResolution": "node",
-    "strictNullChecks": true,
+    "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   }

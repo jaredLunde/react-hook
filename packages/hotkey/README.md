@@ -34,24 +34,29 @@ if you've included a typo.
 ## Quick Start
 
 ```jsx harmony
+import * as React from 'react'
 import {useHotkey, useHotkeys} from '@react-hook/hotkey'
 
 const OneHotkey = () => {
-  const save = () => {} // save some doc
+  const ref = React.useRef(null)
+  const save = () => {}
   // creates a hotkey for Command|Control + S keys
-  const ref = useHotkey(['mod', 's'], save) // useHotkey<HTMLTextAreaElement>(['mod', 's'], exit)
+  useHotkey(ref, ['mod', 's'], save)
   return <textarea ref={ref} />
 }
 
 const OneHotkeySingleCharacter = () => {
-  const exit = () => {} // exit something
+  const ref = React.useRef(null)
+  const exit = () => {}
   // creates a hotkey for the escape key
-  const ref = useHotkey('esc', exit) // useHotkey<HTMLTextAreaElement>('esc', exit)
+  useHotkey(ref, 'esc', exit)
   return <textarea ref={ref} />
 }
 
 const MultipleHotkeys = () => {
-  const ref = useHotkeys(
+  const ref = React.useRef(null)
+
+  useHotkeys(
     // Hotkey map
     [
       [['mod', 's'], save],
@@ -67,28 +72,30 @@ const MultipleHotkeys = () => {
 
 ## API
 
-### `useHotkey<T = HTMLElement>(hotkey, callback): React.MutableRefObject<T>`
+### useHotkey(hotkey, callback)
 
 This is a hook for creating a single hotkey.
 
 #### Arguments
 
-| Argument | Type                                           | Required? | Description                                                                                                                                                                                                                                                         |
-| -------- | ---------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| hotkey   | [<code>Hotkey &#124; Hotkey[]</code>](#hotkey) | Yes       | When the key and all of the modifiers in a `keydown` event match those defined here, the callback below will be invoked. See [`SpecialCodes`](#specialcodes), [`Aliases`](#aliases), and [`Modifiers`](#modifiers) for possible keys in addition the standard keys. |
-| callback | [`HotkeyCallback`](#hotkeycallback)            | Yes       | A callback that takes action on the hotkey event.                                                                                                                                                                                                                   |
+| Argument | Type                                                                                     | Required? | Description                                                                                                                                                                                                                                                         |
+| -------- | ---------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or `document` to add the hotkey to                                                                                                                                                                                                         |
+| hotkey   | [<code>Hotkey &#124; Hotkey[]</code>](#hotkey)                                           | Yes       | When the key and all of the modifiers in a `keydown` event match those defined here, the callback below will be invoked. See [`SpecialCodes`](#specialcodes), [`Aliases`](#aliases), and [`Modifiers`](#modifiers) for possible keys in addition the standard keys. |
+| callback | [`HotkeyCallback`](#hotkeycallback)                                                      | Yes       | A callback that takes action on the hotkey event.                                                                                                                                                                                                                   |
 
 #### Returns `React.MutableRefObject<T>`
 
-### `useHotkeys<T = HTMLElement>(hotkeyMapping): React.MutableRefObject<T>`
+### useHotkeys(hotkeyMapping)
 
 This is a hook for creating multiple hotkeys that respond to a singular keyboard event.
 
 #### Arguments
 
-| Argument      | Type                                                                                    | Required? | Description                                                                      |
-| ------------- | --------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------- |
-| hotkeyMapping | [[<code>Hotkey &#124; Hotkey[]</code>](#hotkey), [`HotkeyCallback`](#hotkeycallback)][] | Yes       | These are the same arguments defined in `useHotkey`, but in a mapped array form. |
+| Argument      | Type                                                                                     | Required? | Description                                                                      |
+| ------------- | ---------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------- |
+| target        | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or `document` to add the hotkey to                      |
+| hotkeyMapping | [[<code>Hotkey &#124; Hotkey[]</code>](#hotkey), [`HotkeyCallback`](#hotkeycallback)][]  | Yes       | These are the same arguments defined in `useHotkey`, but in a mapped array form. |
 
 #### Returns `React.MutableRefObject<T>`
 

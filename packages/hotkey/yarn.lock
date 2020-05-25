@@ -1201,7 +1201,14 @@
     babel-plugin-dev-expression latest
     babel-plugin-macros latest
 
-"@react-hook/passive-layout-effect@^1.0.2":
+"@react-hook/event@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.0.2.tgz#f5dc8d0e1ce8d226c64c58b5697d430b635b1384"
+  integrity sha512-p0Q57OW9ksMxgBVP2+nhTPeR1ZQfajGxLuUEzI6SDO8n+ko1wR2PFiAA3wDlFIduuI7BgDqNtv/V6i5UkHwYjA==
+  dependencies:
+    "@react-hook/passive-layout-effect" "^1.0.3"
+
+"@react-hook/passive-layout-effect@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.0.3.tgz#55faac3bce2ad2b4a12eb0c6a52903da32fdc006"
   integrity sha512-VFUvBBSYWRigI/YhMRp28tncMWYVgzsUdmdIdZyJ3CpKgj5sLmm4RmJdIoKIfWO/WRX5XQ+83GW2E6VmqTHZ3g==
