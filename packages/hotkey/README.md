@@ -58,9 +58,7 @@ const MultipleHotkeys = () => {
       [['mod', 'p'], print],
       ['esc', blur],
       ['enter', submit],
-    ],
-    // Dependencies array
-    [save, print, blur, submit]
+    ]
   )
 
   return <textarea ref={ref} />
@@ -82,16 +80,15 @@ This is a hook for creating a single hotkey.
 
 #### Returns `React.MutableRefObject<T>`
 
-### `useHotkeys<T = HTMLElement>(hotkeyMapping, dependencies): React.MutableRefObject<T>`
+### `useHotkeys<T = HTMLElement>(hotkeyMapping): React.MutableRefObject<T>`
 
 This is a hook for creating multiple hotkeys that respond to a singular keyboard event.
 
 #### Arguments
 
-| Argument      | Type                                                                                    | Required? | Description                                                                                                                                                                                                                                         |
-| ------------- | --------------------------------------------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| hotkeyMapping | [[<code>Hotkey &#124; Hotkey[]</code>](#hotkey), [`HotkeyCallback`](#hotkeycallback)][] | Yes       | These are the same arguments defined in `useHotkey`, but in a mapped array form.                                                                                                                                                                    |
-| dependencies  | `any[]`                                                                                 | No        | A new event handler will be attached to the ref each time these dependencies change. A typical use case would be including your callback functions here. If no dependencies are provided, new event handlers will be attached/detached each render. |
+| Argument      | Type                                                                                    | Required? | Description                                                                      |
+| ------------- | --------------------------------------------------------------------------------------- | --------- | -------------------------------------------------------------------------------- |
+| hotkeyMapping | [[<code>Hotkey &#124; Hotkey[]</code>](#hotkey), [`HotkeyCallback`](#hotkeycallback)][] | Yes       | These are the same arguments defined in `useHotkey`, but in a mapped array form. |
 
 #### Returns `React.MutableRefObject<T>`
 

@@ -5,27 +5,26 @@ export function useHotkey<T = HTMLElement>(
   hotkey: Hotkey | Hotkey[],
   callback: HotkeyCallback
 ): MutableRefObject<T | null> {
-  return useHotkeys<T>([[hotkey, callback]], [hotkey, callback])
+  return useHotkeys<T>([[hotkey, callback]])
 }
 
 export function useHotkeys<T = HTMLElement>(
-  hotkeys: [Hotkey | Hotkey[], HotkeyCallback][],
-  dependencies?: any[]
+  hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
 ): MutableRefObject<T | null> {
   const ref = useRef<T | null>(null)
+  const storedHotkeys = useRef(hotkeys)
+  storedHotkeys.current = hotkeys
 
   useLayoutEffect(() => {
-    const isHotkey = hotkeys.map(([hotkey, callback]) =>
-      createHotkey(hotkey, callback)
-    )
-
     const callback = (event: KeyboardEvent) => {
-      for (let i = 0; i < isHotkey.length; i++) isHotkey[i](event)
+      for (const [hotkey, callback] of storedHotkeys.current) {
+        createHotkey(hotkey, callback)(event)
+      }
     }
 
     document.addEventListener('keydown', callback)
     return () => document.removeEventListener('keydown', callback)
-  }, dependencies)
+  }, [])
 
   return ref
 }
@@ -119,7 +118,7 @@ export interface Modifiers {
   shift: 'shiftKey'
 }
 
-const MODIFIERS = {
+const MODIFIERS: Modifiers = {
   alt: 'altKey',
   control: 'ctrlKey',
   meta: 'metaKey',
