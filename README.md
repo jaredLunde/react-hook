@@ -29,6 +29,13 @@ A counter implemented as a React hook.
 
 A React hook for debouncing setState and other callbacks.
 
+#### useEvent() [`@react-hook/event`](packages/event)
+
+A React hook for adding events to HTML elements. This hook cleans up your listeners
+automatically when it unmounts. You won't have to worry about wrapping your
+listener in a `useCallback()` because this hook makes sure your most recent callback
+is always invoked.
+
 #### useGoogleOptimize() [`@react-hook/google-optimize`](packages/google-optimize)
 
 A React hook for adding Google Optimize variants to components.
