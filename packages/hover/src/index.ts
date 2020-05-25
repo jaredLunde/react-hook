@@ -15,7 +15,6 @@ const useHover = (
   const [isHovering, setHovering] = useState<boolean>(false)
   const timeout = useRef<number | undefined>()
   const [element, setElement] = useState<HTMLElement | null>(null)
-  // here for compatibility reasons with certain libs
   const toggle = (value: boolean, delay?: number): void => {
     if (!canHover()) return
     window.clearTimeout(timeout.current)
