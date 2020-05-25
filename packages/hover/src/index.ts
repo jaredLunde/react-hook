@@ -6,8 +6,6 @@ export const canHover = (): boolean =>
     ? !window.matchMedia('(hover: none)').matches
     : false
 
-type EffectReturn = void | (() => void)
-
 const useHover = (
   enterDelay?: number,
   leaveDelay?: number
