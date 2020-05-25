@@ -73,17 +73,17 @@ const useEvent = <
   T extends HTMLElement = HTMLElement,
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
 >(
-  target: React.RefObject<T> | Window | Document,
+  target: React.RefObject<T> | T | Window | Document | null,
   type: K,
   listener: EventListener<K>
 )
 ```
 
-| Argument | Type                                                                | Required? | Description                                                         |
-| -------- | ------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- |
-| target   | <code>React.RefObject&lt;T&gt; &#124; Window &#124; Document</code> | Yes       | The React ref, `window`, or `document` to add the event listener to |
-| type     | `keyof HTMLElementEventMap`                                         | Yes       | The type of event to listen for                                     |
-| listener | `(this: HTMLElement, ev: HTMLElementEventMap[K]) => any`            | Yes       | The callback invoked when the event type fires                      |
+| Argument | Type                                                                                     | Required? | Description                                                         |
+| -------- | ---------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- |
+| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or `document` to add the event listener to |
+| type     | `keyof HTMLElementEventMap`                                                              | Yes       | The type of event to listen for                                     |
+| listener | `(this: HTMLElement, ev: HTMLElementEventMap[K]) => any`                                 | Yes       | The callback invoked when the event type fires                      |
 
 ## LICENSE
 

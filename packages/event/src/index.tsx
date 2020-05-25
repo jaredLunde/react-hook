@@ -5,7 +5,7 @@ const useEvent = <
   T extends HTMLElement = HTMLElement,
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
 >(
-  target: React.RefObject<T> | Window | Document,
+  target: React.RefObject<T> | T | Window | Document | null,
   type: K,
   listener: EventListener<K>
 ) => {
@@ -13,7 +13,7 @@ const useEvent = <
   storedListener.current = listener
 
   useLayoutEffect(() => {
-    const current = 'current' in target ? target.current : target
+    const current = target && 'current' in target ? target.current : target
     if (!current) return
 
     const listener: EventListener<K> = function (...args) {

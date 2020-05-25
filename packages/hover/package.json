@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/hover",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/hover#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -71,7 +71,9 @@
     "ts-jest": "latest",
     "typescript": "latest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@react-hook/event": "^1.0.2"
+  },
   "peerDependencies": {
     "react": ">16.8"
   }

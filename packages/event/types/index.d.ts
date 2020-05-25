@@ -187,7 +187,7 @@ declare const useEvent: <
     | 'cut'
     | 'paste'
 >(
-  target: Window | Document | React.RefObject<T>,
+  target: Window | Document | T | React.RefObject<T> | null,
   type: K,
   listener: EventListener<K>
 ) => void
