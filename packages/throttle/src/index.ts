@@ -15,13 +15,15 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
   fps = 30,
   leading = false
 ): ((...args: CallbackArguments) => void) => {
+  const storedCallback = useRef(callback)
+  storedCallback.current = callback
   const wait = 1000 / fps
   const prev = useRef(0)
   const trailingTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(
     void 0
   )
   const clearTrailing = () => clearTimeout(trailingTimeout.current)
-  const deps = [callback, fps, leading]
+  const deps = [fps, leading]
 
   // Reset any time the deps change
   useEffect(
@@ -32,7 +34,7 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
     deps
   )
 
-  return useCallback(function here() {
+  return useCallback(function () {
     // eslint-disable-next-line prefer-rest-params
     const args = arguments
     const rightNow = now()
@@ -40,7 +42,7 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
       prev.current = rightNow
       clearTrailing()
       // eslint-disable-next-line prefer-spread
-      callback.apply(null, args as any)
+      storedCallback.current.apply(null, args as any)
     }
     const current = prev.current
     // leading
@@ -54,7 +56,7 @@ export const useThrottleCallback = <CallbackArguments extends any[]>(
     clearTrailing()
     trailingTimeout.current = setTimeout(() => {
       // eslint-disable-next-line prefer-spread
-      callback.apply(null, args as any)
+      storedCallback.current.apply(null, args as any)
       prev.current = 0
     }, wait)
   }, deps)

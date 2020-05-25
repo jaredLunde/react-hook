@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/debounce",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/debounce#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",

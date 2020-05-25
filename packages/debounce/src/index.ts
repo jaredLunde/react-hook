@@ -12,8 +12,10 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
   wait = 100,
   leading = false
 ): ((...args: CallbackArgs) => void) => {
+  const storedCallback = useRef(callback)
+  storedCallback.current = callback
   const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(void 0)
-  const deps = [callback, wait, leading]
+  const deps = [wait, leading]
   // Cleans up pending timeouts when the deps change
   useEffect(
     () => () => {
@@ -33,7 +35,7 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
         timeout.current = void 0
       }, wait)
       // eslint-disable-next-line prefer-spread
-      return callback.apply(null, args as any)
+      return storedCallback.current.apply(null, args as any)
     }
     // Clear the timeout every call and start waiting again
     clearTimeout(current)
@@ -41,7 +43,7 @@ export const useDebounceCallback = <CallbackArgs extends any[]>(
     timeout.current = setTimeout(() => {
       timeout.current = void 0
       // eslint-disable-next-line prefer-spread
-      callback.apply(null, args as any)
+      storedCallback.current.apply(null, args as any)
     }, wait)
   }, deps)
 }
