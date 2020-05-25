@@ -50,17 +50,20 @@ const Component = () => {
 }
 
 // Logs an event each time the `document` is clicked
-const DocumentComponent = () => {
-  const target = useRef(null)
+const useLogDocumentClick = () => {
   useEvent(document, 'click', (event) => console.log(event))
-  return <div ref={target} />
 }
 
 // Logs an event each time the `window` is clicked
-const WindowComponent = () => {
-  const target = useRef(null)
+const useLogWindowClick = () => {
   useEvent(window, 'click', (event) => console.log(event))
-  return <div ref={target} />
+}
+
+// Logs an event each time element#foo` is clicked
+const useLogElementClick = () => {
+  useEvent(document.getElementById('foo'), 'click', (event) =>
+    console.log(event)
+  )
 }
 ```
 
