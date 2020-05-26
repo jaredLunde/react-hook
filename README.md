@@ -11,6 +11,12 @@
 A React hook for gracefully resolving, cancelling, and handling errors for async functions
 and promises.
 
+#### useCache() [`@react-hook/cache`](packages/cache)
+
+A React hook for accessing an asynchronous key/value cache that persists data between renders and
+components. This allows you to do neat stuff like preload data before your next
+page or component has even started mounting.
+
 #### useClick() [`@react-hook/click`](packages/click)
 
 A React hook for conditionally firing a function when an element is
