@@ -1,7 +1,6 @@
-import {useEffect} from 'react'
 import useDebounce from '@react-hook/debounce'
+import useEvent from '@react-hook/event'
 
-const emptyArr: [] = []
 const emptyObj = {}
 
 export interface DebouncedWindowSizeOptions {
@@ -26,21 +25,14 @@ export const useWindowSize = (
     wait,
     leading
   )
+  const setSize = (): void =>
+    setDebouncedSize([
+      document.documentElement.clientWidth,
+      document.documentElement.clientHeight,
+    ])
 
-  useEffect(() => {
-    const setSize = (): void =>
-      setDebouncedSize([
-        document.documentElement.clientWidth,
-        document.documentElement.clientHeight,
-      ])
-    window.addEventListener('resize', setSize)
-    window.addEventListener('orientationchange', setSize)
-
-    return (): void => {
-      window.removeEventListener('resize', setSize)
-      window.removeEventListener('orientationchange', setSize)
-    }
-  }, emptyArr)
+  useEvent(window, 'resize', setSize)
+  useEvent(window, 'orientationchange', setSize)
 
   return size
 }

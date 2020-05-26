@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "homepage": "https://github.com/jaredLunde/react-hook#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -118,7 +118,7 @@
   },
   "dependencies": {
     "@react-hook/debounce": "^2.0.3",
-    "@react-hook/event": "^1.0.3",
+    "@react-hook/event": "1.0.4",
     "@react-hook/throttle": "^2.1.2"
   },
   "peerDependencies": {
