@@ -1,5 +1,3 @@
-import {useState, useRef, useCallback, useEffect} from 'react'
-
 /**
  * A hook that sets a `timedOut` boolean flag to true after `ms` have passed and the timeout has
  * been started.
@@ -18,12 +16,9 @@ import {useState, useRef, useCallback, useEffect} from 'react'
  *  // logs the timedOut state
  *  console.log(timedOut)
  */
-export const useTimeout = (ms = 0): [boolean, () => void, () => void] => {
-  const [timedOut, setTimedOut] = useState(false)
-  const [start, reset] = useTimeoutCallback(() => setTimedOut(true), ms)
-  return [timedOut, start, reset]
-}
-
+export declare const useTimeout: (
+  ms?: number
+) => [boolean, () => void, () => void]
 /**
  * A hook that executes a callback after a timeout is reached and the clock has
  * been started.
@@ -43,25 +38,7 @@ export const useTimeout = (ms = 0): [boolean, () => void, () => void] => {
  *  // clears the timeout
  *  reset()
  */
-export const useTimeoutCallback = (
+export declare const useTimeoutCallback: (
   callback: (...args: any[]) => any,
-  ms = 0
-): [() => void, () => void] => {
-  const [timeout, setTimeoutId] = useState<undefined | number>()
-  const storedCallback = useRef(callback)
-  storedCallback.current = callback
-  // Clears existing timeouts when a new one set or the hook unmounts
-  useEffect(
-    () => () => {
-      clearTimeout(timeout)
-    },
-    [timeout, ms]
-  )
-
-  return [
-    useCallback(() => setTimeoutId(setTimeout(storedCallback.current, ms)), [
-      ms,
-    ]),
-    useCallback(() => setTimeoutId(undefined), []),
-  ]
-}
+  ms?: number
+) => [() => void, () => void]

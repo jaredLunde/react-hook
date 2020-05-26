@@ -1707,15 +1707,6 @@ babel-plugin-optimize-react@latest:
   resolved "https://registry.yarnpkg.com/babel-plugin-optimize-react/-/babel-plugin-optimize-react-0.0.4.tgz#6326ac8f0f77e3fa3e8195b4d998287d47877c65"
   integrity sha512-I3o7GW66dIpXraND0ZAYXEDQ/wOiuefUQqn1PZZcub2flREANb2NXejL52iTMUWtKM++lu5OasVtZewn+WvkNg==
 
-babel-plugin-typescript-to-proptypes@latest:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-typescript-to-proptypes/-/babel-plugin-typescript-to-proptypes-1.3.2.tgz#e57e88286be0e50a7596161fcfed62c04b6bc270"
-  integrity sha512-aoeJaO1OChCME0ZoLHc5k63RGwf1wBe7cfZ8zmRqbA/BX3nUbEnXLk5qWmrTQpdQxNa1v1BkF0395EJGCDb0yQ==
-  dependencies:
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-typescript" "^7.8.3"
-
 babel-preset-jest@^25.2.6:
   version "25.2.6"
   resolved "https://registry.yarnpkg.com/babel-preset-jest/-/babel-preset-jest-25.2.6.tgz#5d3f7c99e2a8508d61775c9d68506d143b7f71b5"

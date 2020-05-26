@@ -58,7 +58,7 @@ const Copy = ({text, resetAfterMs = 500}) => {
 // This is the exact code useTimeout() uses
 const useTimeoutClone = (ms) => {
   const [timedOut, setTimedOut] = useState(false)
-  const [start, reset] = useTimeoutCallback(() => setTimedOut(true), ms, [ms])
+  const [start, reset] = useTimeoutCallback(() => setTimedOut(true), ms)
   return [timedOut, start, reset]
 }
 ```
@@ -78,16 +78,14 @@ Returns `[timedOut: boolean, start: () => void, reset: () => void]`
 ```tsx
 function useTimeoutCallback(
   callback: (...args: any[]) => any,
-  ms = 0,
-  dependencies: any[] = [callback, ms]
+  ms = 0
 ): [() => void, () => void]
 ```
 
-| Argument     | Type                       | Default          | Required? | Description                                                                                                                                                                                          |
-| ------------ | -------------------------- | ---------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| callback     | `(...args: any[]) => void` | `undefined`      | Yes       | This is the callback you want to fire after the timeout duration is exceeded when `start()` is invoked.                                                                                              |
-| ms           | `number`                   | `0`              | No        | This is the timeout duration in milliseconds. When this threshold has been reached after `start()` has been invoked, `timedOut` will be `true`. If this value is `0` the hook will never timeout.    |
-| dependencies | `any[]`                    | `[callback, ms]` | No        | This is a dependencies array provided to the underlying `useCallback()` hook. Anytime your dependencies change, the timeout will be reset to an idle state and any pending timeouts will not invoke. |
+| Argument | Type                       | Default     | Required? | Description                                                                                                                                                                                       |
+| -------- | -------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| callback | `(...args: any[]) => void` | `undefined` | Yes       | This is the callback you want to fire after the timeout duration is exceeded when `start()` is invoked.                                                                                           |
+| ms       | `number`                   | `0`         | No        | This is the timeout duration in milliseconds. When this threshold has been reached after `start()` has been invoked, `timedOut` will be `true`. If this value is `0` the hook will never timeout. |
 
 Returns `[start: () => void, reset: () => void]`
 
