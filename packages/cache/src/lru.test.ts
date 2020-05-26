@@ -113,6 +113,19 @@ describe('lru()', () => {
     expect(cache.read('2')).toBe(2)
   })
 
+  it('should find in bwd pointer', () => {
+    const cache = lru(6)
+
+    cache.write('0', 0)
+    cache.write('1', 1)
+    cache.write('2', 2)
+    cache.write('3', 3)
+    cache.write('4', 4)
+    cache.write('5', 5)
+
+    expect(cache.read('2')).toBe(2)
+  })
+
   it('should respect cache size', () => {
     const cache = lru(2)
 
@@ -155,6 +168,22 @@ describe('lru()', () => {
     const foo = cache.delete('foo')
     expect(foo).toBe('bar')
     expect(cache.size).toBe(2)
+  })
+
+  it('should not delete keys that do not exist', () => {
+    const cache = lru<string, string>(Infinity)
+    cache.write('foo', 'bar')
+
+    const foo = cache.delete('bar')
+    expect(foo).toBeUndefined()
+    expect(cache.size).toBe(1)
+  })
+
+  it('should not pop when the size is 0', () => {
+    const cache = lru<string, string>(Infinity)
+    const foo = cache.pop()
+    expect(foo).toBeUndefined()
+    expect(cache.size).toBe(0)
   })
 
   it('should iterate the cache', () => {

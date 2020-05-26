@@ -104,7 +104,6 @@ export const lru = <Key = string, Value = any>(
   },
 
   _deleteNode(node) {
-    if (node === void 0) return
     if (this.size === 1) {
       this.head = undefined
     } else {

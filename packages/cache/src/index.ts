@@ -29,9 +29,13 @@ export const createCache = <
     LRUCache<CacheSubscribeCallback<CacheState<Value, ErrorType>>, undefined>
   > = {}
   let id = -1
-  const dispatch = (
-    action: CacheAction<Value, ErrorType>
-  ): CacheState<Value, ErrorType> => {
+  function dispatch(
+    action: CancelAction
+  ): CacheState<Value, ErrorType> | undefined
+  function dispatch(
+    action: LoadingAction | SuccessAction<Value> | ErrorAction<ErrorType>
+  ): CacheState<Value, ErrorType>
+  function dispatch(action: CacheAction<Value, ErrorType>) {
     const current: CacheState<Value, ErrorType> | undefined = cache.read(
       action.key
     )
@@ -45,8 +49,10 @@ export const createCache = <
         error: void 0,
       }
     } else if (action.status === 'cancelled') {
+      // We can't cancel a request that isn't already loading, so bail
+      if (!current || current.status !== 'loading') return current
       next = {
-        id: current?.id || ++id,
+        id: current.id,
         status: action.status,
         value: current?.value,
         error: void 0,
@@ -66,20 +72,28 @@ export const createCache = <
       }
     } else if (action.status === 'error') {
       // Bails out if the action has been cancelled
-      if (current && (current.status === 'cancelled' || current.id > action.id))
+      if (
+        current &&
+        (current.status === 'cancelled' || current.id !== action.id)
+      ) {
         return current
+      }
+
       next = {
         id: action.id,
         status: action.status,
         value: current?.value,
         error: action.error,
       }
+    } else {
+      /* istanbul ignore next */
+      throw new Error(`Unrecognized action: ${JSON.stringify(action, null, 2)}`)
     }
 
-    const value = next as CacheState<Value, ErrorType>
+    const value = next // TypeScript can be very dumb
     cache.write(action.key, value)
     listeners[action.key]?.forEach((callback) => callback(value))
-    return value
+    return next
   }
 
   return {
@@ -127,7 +141,11 @@ export const createCache = <
   }
 }
 
-export type Cache<Value = any, ErrorType = Error, Args extends any[] = any> = {
+export type Cache<
+  Value = any,
+  ErrorType = Error,
+  Args extends any[] = any[]
+> = {
   /**
    * Preloads a `key` and provides ...args to the resolver
    */
@@ -172,38 +190,61 @@ export type CacheState<Value = any, ErrorType = Error> =
   | {
       id: number
       /**
-       * This is the current status of the promise or async/await function. A
-       * promise or async/await can only be in one state at a time.
+       * The cache is currently loading a value for this key
        */
-      status: 'loading' | 'cancelled'
+      status: 'loading'
       /**
-       * The value is persisted between 'success' statuses. This means I can
-       * still display things that depend on my current value while my new
-       * value is loading.
+       * This will be the previous value if there is one, otherwise undefined
        */
       value: Value | undefined
       /**
-       * Errors get reset each time we leave the error state. There's really
-       * no use in keeping those around. They go stale once we leave.
+       * Loading states will never have an error message
        */
       error: undefined
     }
   | {
       id: number
+      /**
+       * The cache has successfully loaded a value for the key
+       */
       status: 'success'
+      /**
+       * This is the value loaded by the cache
+       */
       value: Value
+      /**
+       * Success states will never have an error message
+       */
       error: undefined
     }
   | {
       id: number
+      /**
+       * The cache encountered an error when loading a value for the key
+       */
       status: 'error'
+      /**
+       * This is the previous value if there is one, otherwise undefined
+       */
       value: Value | undefined
+      /**
+       * This is the error object that was caught during execution
+       */
       error: ErrorType
     }
   | {
       id: number
+      /**
+       * The request for this key was cancelled before it was completed
+       */
       status: 'cancelled'
+      /**
+       * This is the previous value if there isone, otherwise undefined
+       */
       value: Value | undefined
+      /**
+       * Cancelled states never have an error message
+       */
       error: undefined
     }
 
@@ -213,66 +254,50 @@ export type CacheExport<Value = any, ErrorType = Error> = Record<
 >
 
 type CacheAction<Value = any, ErrorType = Error> =
-  | {
-      id: number
-      key: string
-      status: 'loading'
-    }
-  | {
-      key: string
-      status: 'cancelled'
-    }
-  | {
-      id: number
-      key: string
-      status: 'success'
-      value: Value
-    }
-  | {
-      id: number
-      key: string
-      status: 'error'
-      error: ErrorType
-    }
+  | LoadingAction
+  | CancelAction
+  | SuccessAction<Value>
+  | ErrorAction<ErrorType>
+
+type LoadingAction = {
+  id: number
+  key: string
+  status: 'loading'
+}
+
+type SuccessAction<Value> = {
+  id: number
+  key: string
+  status: 'success'
+  value: Value
+}
+
+type CancelAction = {
+  key: string
+  status: 'cancelled'
+}
+
+type ErrorAction<ErrorType = Error> = {
+  id: number
+  key: string
+  status: 'error'
+  error: ErrorType
+}
 
 export type CacheStatus = 'loading' | 'success' | 'error' | 'cancelled'
-export type UseCacheStatus = 'idle' | CacheStatus
-export type UseCacheState<Value = any, ErrorType = Error> =
-  | {
-      status: 'idle'
-      value: undefined
-      error: undefined
-      cancel: () => void
-    }
-  | {
-      status: 'loading' | 'cancelled'
-      value: Value | undefined
-      error: undefined
-      cancel: () => void
-    }
-  | {
-      status: 'success'
-      value: Value
-      error: undefined
-      cancel: () => void
-    }
-  | {
-      status: 'error'
-      value: Value | undefined
-      error: ErrorType
-      cancel: () => void
-    }
-  | {
-      status: 'cancelled'
-      value: Value | undefined
-      error: undefined
-      cancel: () => void
-    }
 
 export interface CacheSubscribeCallback<Value = any> {
   (value: Value): void
 }
 
+/**
+ * A hook for reading and loading items from a persistent cache created by the
+ * `createCache()` function.
+ *
+ * @param cache A cache created by the `createCache()` function
+ * @param key The cache key to read or load from the cache
+ * @param args Arguments passed to the `cache.load(key, ...args)` function
+ */
 export const useCache = <
   Value = any,
   ErrorType = Error,
@@ -298,9 +323,11 @@ export const useCache = <
       current: cache.read(key),
     })
   )
+  // Allows the most recent arguments to be available in the cached callback below
   const storedArgs = useRef(args)
   storedArgs.current = args
-
+  // If our cache or key changes, we don't have to set the new key/cache in
+  // an effect. It can just be done here.
   if (state.cache !== cache || state.key !== key) {
     setState({
       key,
@@ -359,3 +386,99 @@ export const useCache = <
     useCallback(() => cache.load(key, ...storedArgs.current), [key, cache]),
   ]
 }
+
+export type UseCacheStatus = 'idle' | CacheStatus
+export type UseCacheState<Value = any, ErrorType = Error> =
+  | {
+      /**
+       * The key does not exist in the cache and the cache has not started
+       * loading this key
+       */
+      status: 'idle'
+      /**
+       * When idle we have no current or previous value available
+       */
+      value: undefined
+      /**
+       * No errors will be reported here
+       */
+      error: undefined
+      /**
+       * Cancelling will have no effect when idle
+       */
+      cancel: () => void
+    }
+  | {
+      /**
+       * The next value for the key is currently loading in the cache
+       */
+      status: 'loading'
+      /**
+       * The previous value for this key will persist during the loading phase.
+       */
+      value: Value | undefined
+      /**
+       * No errors will be reported
+       */
+      error: undefined
+      /**
+       * Cancelling will prevent the value returned in this request from being
+       * added to state
+       */
+      cancel: () => void
+    }
+  | {
+      /**
+       * The key does not exist in the cache and the cache has not started
+       * loading this key
+       */
+      status: 'cancelled'
+      /**
+       * The previous value for this key will persist during the loading phase.
+       */
+      value: Value | undefined
+      /**
+       * No errors will be reported
+       */
+      error: undefined
+      /**
+       * Cancelling has no effect here
+       */
+      cancel: () => void
+    }
+  | {
+      /**
+       * We have successfully received a value for the key
+       */
+      status: 'success'
+      /**
+       * The value returned by the successful request
+       */
+      value: Value
+      /**
+       * No errors will be reported here
+       */
+      error: undefined
+      /**
+       * Cancelling will have no effect here
+       */
+      cancel: () => void
+    }
+  | {
+      /**
+       * The promise in the cache encountered an error
+       */
+      status: 'error'
+      /**
+       * The last successful value received by the cache will persist here
+       */
+      value: Value | undefined
+      /**
+       * This is the error object encountered by the request
+       */
+      error: ErrorType
+      /**
+       * Cancelling will have no effect here
+       */
+      cancel: () => void
+    }
