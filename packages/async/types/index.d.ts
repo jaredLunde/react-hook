@@ -1,25 +1,30 @@
-export declare function useAsync<
+import * as React from 'react'
+export declare const useAsync: <
+  ValueType extends any = any,
+  ErrorType extends any = Error,
+  Args extends any[] = any[]
+>(
+  asyncCallback: (...args: Args) => Promise<ValueType>
+) => [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>]
+export declare const useAsyncEffect: <
   ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<ValueType>,
-  dependencies?: any[]
-): [AsyncState<ValueType, ErrorType>, AsyncCallback]
-export declare function useAsyncEffect<
-  ValueType extends any = any,
-  ErrorType extends any = Error
->(
-  asyncCallback: (...args: any[]) => Promise<ValueType>,
-  dependencies?: any[]
-): AsyncState<ValueType, ErrorType>
-export interface AsyncReducerState<ValueType, ErrorType> {
-  id: number
+  asyncCallback: () => Promise<ValueType>,
+  dependencies?: React.DependencyList | undefined
+) => AsyncState<ValueType, ErrorType, []>
+export interface AsyncReducerState<
+  ValueType,
+  ErrorType,
+  Args extends any[] = any[]
+> {
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
+  callback: AsyncCallback<Args>
 }
-export interface AsyncState<ValueType, ErrorType>
-  extends Omit<AsyncReducerState<ValueType, ErrorType>, 'id'> {
+export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
+  extends Omit<AsyncReducerState<ValueType, ErrorType, Args>, 'callback'> {
   cancel: () => void
 }
 export declare type AsyncAction<ValueType, ErrorType> =
@@ -34,9 +39,9 @@ export declare type AsyncAction<ValueType, ErrorType> =
       status: 'error'
       error?: ErrorType
     }
-export interface AsyncCallback {
-  (...args: any[]): void
-  cancelled: boolean
+export interface AsyncCallback<Args extends any[] = any[]> {
+  (...args: Args): void
+  cancel: () => void
 }
 export declare type AsyncStatus =
   | 'idle'

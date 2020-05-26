@@ -1658,6 +1658,11 @@ babel-jest@^25.2.6:
     chalk "^3.0.0"
     slash "^3.0.0"
 
+babel-plugin-annotate-pure-calls@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-annotate-pure-calls/-/babel-plugin-annotate-pure-calls-0.4.0.tgz#78aa00fd878c4fcde4d49f3da397fcf5defbcce8"
+  integrity sha512-oi4M/PWUJOU9ZyRGoPTfPMqdyMp06jbJAomd3RcyYuzUtBOddv98BqLm96Lucpi2QFoQHkdGQt0ACvw7VzVEQA==
+
 babel-plugin-closure-elimination@latest:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-closure-elimination/-/babel-plugin-closure-elimination-1.3.0.tgz#3217fbf6d416dfdf14ff41a8a34e4d0a6bfc22b2"
@@ -1706,15 +1711,6 @@ babel-plugin-optimize-react@latest:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/babel-plugin-optimize-react/-/babel-plugin-optimize-react-0.0.4.tgz#6326ac8f0f77e3fa3e8195b4d998287d47877c65"
   integrity sha512-I3o7GW66dIpXraND0ZAYXEDQ/wOiuefUQqn1PZZcub2flREANb2NXejL52iTMUWtKM++lu5OasVtZewn+WvkNg==
-
-babel-plugin-typescript-to-proptypes@latest:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-typescript-to-proptypes/-/babel-plugin-typescript-to-proptypes-1.3.2.tgz#e57e88286be0e50a7596161fcfed62c04b6bc270"
-  integrity sha512-aoeJaO1OChCME0ZoLHc5k63RGwf1wBe7cfZ8zmRqbA/BX3nUbEnXLk5qWmrTQpdQxNa1v1BkF0395EJGCDb0yQ==
-  dependencies:
-    "@babel/helper-module-imports" "^7.8.3"
-    "@babel/helper-plugin-utils" "^7.8.3"
-    "@babel/plugin-syntax-typescript" "^7.8.3"
 
 babel-preset-jest@^25.2.6:
   version "25.2.6"
@@ -5624,10 +5620,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@latest:
-  version "3.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.3.tgz#409eb8544ea0335711205869ec458ab109ee1061"
-  integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
+typescript@^3.9.3:
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.3.tgz#d3ac8883a97c26139e42df5e93eeece33d610b8a"
+  integrity sha512-D/wqnB2xzNFIcoBG9FG8cXRDjiqSTbG2wd8DMZeQyJlP1vfTkIxH4GKveWaEBYySKIg+USu+E+EDIR47SqnaMQ==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
@@ -5691,13 +5687,6 @@ use-memo-one@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/use-memo-one/-/use-memo-one-1.1.1.tgz#39e6f08fe27e422a7d7b234b5f9056af313bd22c"
   integrity sha512-oFfsyun+bP7RX8X2AskHNTxu+R3QdE/RC5IefMbqptmACAA/gfol1KDD5KRzPsGMa62sWxGZw+Ui43u6x4ddoQ==
-
-use-subscription@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/use-subscription/-/use-subscription-1.4.1.tgz#edcbcc220f1adb2dd4fa0b2f61b6cc308e620069"
-  integrity sha512-7+IIwDG/4JICrWHL/Q/ZPK5yozEnvRm6vHImu0LKwQlmWGKeiF7mbAenLlK/cTNXrTtXHU/SFASQHzB6+oSJMQ==
-  dependencies:
-    object-assign "^4.1.1"
 
 use@^3.1.0:
   version "3.1.1"

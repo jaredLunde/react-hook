@@ -46,7 +46,7 @@ import {useAsync, useAsyncEffect} from '@react-hook/async'
 const CallbackResolver = () => {
   const [{status, cancel, error, value}, call] = useAsync(() => {
     return new Promise((resolve) => setTimeout(() => resolve('Loaded'), 3000))
-  }, [])
+  })
 
   switch (status) {
     case 'loading':
@@ -114,21 +114,23 @@ const EffectResolver = () => {
 
 ## API
 
-### useAsync()
+### useAsync(asyncCallback)
 
 ```ts
-function useAsync<ValueType extends any = any, ErrorType extends any = Error>(
-  asyncCallback: (...args: any[]) => Promise<ValueType>,
-  dependencies: any[] = []
-): [AsyncState<ValueType, ErrorType>, AsyncCallback]
+export const useAsync = <
+  ValueType extends any = any,
+  ErrorType extends any = Error,
+  Args extends any[] = any[]
+>(
+  asyncCallback: (...args: Args) => Promise<ValueType>
+): [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>]
 ```
 
 #### Arguments
 
-| Argument      | Type                                     | Default     | Required? | Description                                                                                                                      |
-| ------------- | ---------------------------------------- | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| asyncCallback | `(...args: any[]) => Promise<ValueType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
-| dependencies  | `any[]`                                  | `[]`        | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
+| Argument      | Type                                    | Default     | Required? | Description                                           |
+| ------------- | --------------------------------------- | ----------- | --------- | ----------------------------------------------------- |
+| asyncCallback | `(...args: Args) => Promise<ValueType>` | `undefined` | Yes       | An async function or function that returns a promise. |
 
 #### Returns [[`AsyncState<ValueType, ErrorType>`](#asyncstate), [`AsyncCallback`](#asynccallback)]
 
@@ -157,35 +159,34 @@ export interface AsyncState<ValueType, ErrorType> {
 ### AsyncCallback
 
 ```ts
-export interface AsyncCallback {
-  (...args: any[]): void
-  // `true` if the callback has been cancelled, otherwise `false`
-  cancelled: boolean
+export interface AsyncCallback<Args extends any[] = any[]> {
+  (...args: Args): void
+  cancel: () => void
 }
 ```
 
 ---
 
-### useAsyncEffect()
+### useAsyncEffect(asyncCallback, dependencies)
 
 ```ts
-function useAsyncEffect<
+export const useAsyncEffect = <
   ValueType extends any = any,
   ErrorType extends any = Error
 >(
-  asyncCallback: (...args: any[]) => Promise<ValueType>,
-  dependencies?: any[]
-): AsyncState<ValueType, ErrorType>
+  asyncCallback: () => Promise<ValueType>,
+  dependencies?: React.DependencyList
+): AsyncState<ValueType, ErrorType, []>
 ```
 
 This hook will invoke a callback each time its dependencies array changes.
 
 #### Arguments
 
-| Argument      | Type                                     | Default     | Required? | Description                                                                                                                      |
-| ------------- | ---------------------------------------- | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| asyncCallback | `(...args: any[]) => Promise<ValueType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
-| dependencies  | `any[]`                                  | `[]`        | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
+| Argument      | Type                       | Default     | Required? | Description                                                                                                                      |
+| ------------- | -------------------------- | ----------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| asyncCallback | `() => Promise<ValueType>` | `undefined` | Yes       | An async function or function that returns a promise.                                                                            |
+| dependencies  | `any[]`                    | `undefined` | No        | Values or state that your callback depends on. This works the same as the dependencies array of `useEffect`, `useCallback`, etc. |
 
 #### Returns [`AsyncState<ValueType, ErrorType>`](#asyncstate)
 

@@ -3,12 +3,18 @@ import {
   useCallbackOne as useCallback,
   useMemoOne as useMemo,
 } from 'use-memo-one'
-import {lru, LRUCache} from './lru'
+import {lru} from './lru'
+import type {LRUCache} from './lru'
 
-// Cache does the promise resolution. Hooks subscribe to their cache by key.
+/**
+ * Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook.
+ *  Cache keys _must_ be a `string` type.
+ * @param resolve
+ * @param lruSize
+ */
 export const createCache = <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
-  lruSize = 1000
+  lruSize = Infinity
 ): Cache<Value, ErrorType> => {
   const cache = lru<string, CacheState<Value, ErrorType>>(lruSize)
   const listeners: Record<
@@ -112,15 +118,40 @@ export const createCache = <Value = any, ErrorType = Error>(
 }
 
 export type Cache<Value = any, ErrorType = Error> = {
+  /**
+   * Preloads a `key` and provides ...args to the resolver
+   */
   load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
+  /**
+   * Reads a `key` in the LRU cache and returns its value if there is one, otherwise
+   * returns undefined
+   */
   read: (key: string) => CacheState<Value, ErrorType> | undefined
+  /**
+   * Cancels any pending promises for `key`
+   */
   cancel: (key: string) => void
+  /**
+   * Returns a {[key: string]: CacheState} object. This can be used
+   * for persisting the state rendered on a server to the client.
+   */
   readAll: () => CacheExport<CacheState<Value, ErrorType>>
+  /**
+   * Writes a {[key: string]: CacheState} to the LRU cache. This can be used
+   * for persisting the state rendered on a server to the client.
+   */
   write: (input: CacheExport<Value, ErrorType>) => void
+  /**
+   * Subscribes to changes to `key`. That is, `callback` will be invoked
+   * any time the state assigned to `key` changed.
+   */
   subscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
   ) => void
+  /**
+   * Unsubscribes to changes to `key`
+   */
   unsubscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
@@ -130,15 +161,21 @@ export type Cache<Value = any, ErrorType = Error> = {
 export type CacheState<Value = any, ErrorType = Error> =
   | {
       id: number
-      // This is the current status of the promise or async/await function. A
-      // promise or async/await can only be in one state at a time.
+      /**
+       * This is the current status of the promise or async/await function. A
+       * promise or async/await can only be in one state at a time.
+       */
       status: 'loading' | 'cancelled'
-      // The value is persisted between 'success' statuses. This means I can
-      // still display things that depend on my current value while my new
-      // value is loading.
+      /**
+       * The value is persisted between 'success' statuses. This means I can
+       * still display things that depend on my current value while my new
+       * value is loading.
+       */
       value: Value | undefined
-      // Errors get reset each time we leave the error state. There's really
-      // no use in keeping those around. They go stale once we leave.
+      /**
+       * Errors get reset each time we leave the error state. There's really
+       * no use in keeping those around. They go stale once we leave.
+       */
       error: undefined
     }
   | {
@@ -303,11 +340,6 @@ export const useCache = <Value = any, ErrorType = Error>(
       }
     }, [state, key, cache]),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useCallback(() => cache.load(key, ...args), [
-      key,
-      cache,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      ...args,
-    ]),
+    useCallback(() => cache.load(key, ...args), args.concat([key, cache])),
   ]
 }

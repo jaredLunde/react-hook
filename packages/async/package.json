@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/async",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/async#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -24,19 +24,34 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
     "/dist",
+    "/src",
     "/types"
   ],
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/main/index.js",
+      "source": "./src/index.tsx",
+      "types": "./types/index.d.ts",
+      "default": "./dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-types",
+    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs",
     "build-main": "npm run compile -- -d dist/main --env-name main",
     "build-module": "npm run compile -- -d dist/module --env-name module",
     "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/*.test.tsx\" --delete-dir-on-start",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
     "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
@@ -68,6 +83,7 @@
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
     "babel-plugin-optimize-react": "latest",
     "babel-plugin-typescript-to-proptypes": "latest",
     "eslint": "latest",
@@ -85,9 +101,7 @@
     "ts-jest": "latest",
     "typescript": "latest"
   },
-  "dependencies": {
-    "use-memo-one": "^1.1.1"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8",
     "react-dom": ">=16.8"

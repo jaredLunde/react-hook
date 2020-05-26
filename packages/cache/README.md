@@ -31,9 +31,17 @@
 <pre align="center">npm i @react-hook/cache</pre>
 <hr>
 
-A React hook for accessing an async cache that persists data between renders and
+A React hook for accessing an asynchronous key/value cache that persists data between renders and
 components. This allows you to do neat stuff like preload data before your next
 page or component has even started mounting.
+
+## Contents
+
+| Section                                            | Description                                                                                                                        |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [**Quick Start**](#quick-start)                    | A usage example                                                                                                                    |
+| [**createCache()** ](#createcacheresolver-lrusize) | Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook. Cache keys _must_ be a `string` type. |
+| [**useCache()**](#usecachecache-key-args)          | Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook. Cache keys _must_ be a `string` type. |
 
 ## Quick Start
 
@@ -57,7 +65,6 @@ const Todo = ({id: initialId = 1}) => {
   )
   // Loads the todo
   React.useEffect(() => {
-    console.log(status, id)
     // We only want to load our todo if we don't already have it in this
     // case. BUT because the value always persists between 'success' states
     // you could always be revalidating here regardless and change the if ... else
@@ -115,21 +122,26 @@ const Todo = ({id: initialId = 1}) => {
 
 ## API
 
-### createCache()
+### createCache(resolver, lruSize)
+
+Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook.
+Cache keys _must_ be a `string` type.
 
 ```ts
 export const createCache = <Value = any, ErrorType = Error>(
   resolve: (key: string, ...args: any[]) => Promise<Value>,
-  lruSize = 1000
+  lruSize = Infinity
 ): Cache<Value, ErrorType>
 ```
 
 ### Arguments
 
-| Argument | Type | Default | Required? | Description |
-| -------- | ---- | ------- | --------- | ----------- |
-| resolve  |      |         |           |             |
-| lruSize  |      |         |           |             |
+| Argument | Type                                              | Default    | Required? | Description                                                                                                                                                                     |
+| -------- | ------------------------------------------------- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| resolve  | `(key: string, ...args: any[]) => Promise<Value>` |            | Yes       | A callback that returns the value for a `key`. `...args` in the callback signature are provided by the user when they call [`cache.load()`](#cache).                            |
+| lruSize  | `number`                                          | `Infinity` | No        | The max number of key/value pairs to cache at a given time. When the number of cache items exceeds this number, the item least recently accessed will be purged from the cache. |
+
+### Returns [Cache](#cache)
 
 ### useCache()
 
@@ -153,33 +165,72 @@ export const useCache = <Value = any, ErrorType = Error>(
 
 ## Types
 
+### `Cache`
+
 ```ts
 export type Cache<Value = any, ErrorType = Error> = {
+  /**
+   * Preloads a `key` and provides ...args to the resolver
+   */
   load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
+  /**
+   * Reads a `key` in the LRU cache and returns its value if there is one, otherwise
+   * returns undefined
+   */
   read: (key: string) => CacheState<Value, ErrorType> | undefined
+  /**
+   * Cancels any pending promises for `key`
+   */
   cancel: (key: string) => void
+  /**
+   * Returns a {[key: string]: CacheState} object. This can be used
+   * for persisting the state rendered on a server to the client.
+   */
+  readAll: () => CacheExport<CacheState<Value, ErrorType>>
+  /**
+   * Writes a {[key: string]: CacheState} to the LRU cache. This can be used
+   * for persisting the state rendered on a server to the client.
+   */
+  write: (input: CacheExport<Value, ErrorType>) => void
+  /**
+   * Subscribes to changes to `key`. That is, `callback` will be invoked
+   * any time the state assigned to `key` changed.
+   */
   subscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
   ) => void
+  /**
+   * Unsubscribes to changes to `key`
+   */
   unsubscribe: (
     key: string,
     callback: CacheSubscribeCallback<CacheState<Value, ErrorType>>
   ) => void
 }
+```
 
+### `CacheState`
+
+```ts
 export type CacheState<Value = any, ErrorType = Error> =
   | {
       id: number
-      // This is the current status of the promise or async/await function. A
-      // promise or async/await can only be in one state at a time.
+      /**
+       * This is the current status of the promise or async/await function. A
+       * promise or async/await can only be in one state at a time.
+       */
       status: 'loading' | 'cancelled'
-      // The value is persisted between 'success' statuses. This means I can
-      // still display things that depend on my current value while my new
-      // value is loading.
+      /**
+       * The value is persisted between 'success' statuses. This means I can
+       * still display things that depend on my current value while my new
+       * value is loading.
+       */
       value: Value | undefined
-      // Errors get reset each time we leave the error state. There's really
-      // no use in keeping those around. They go stale once we leave.
+      /**
+       * Errors get reset each time we leave the error state. There's really
+       * no use in keeping those around. They go stale once we leave.
+       */
       error: undefined
     }
   | {
@@ -200,10 +251,23 @@ export type CacheState<Value = any, ErrorType = Error> =
       value: Value | undefined
       error: undefined
     }
+```
 
+### `CacheStatus`
+
+```ts
 export type CacheStatus = 'loading' | 'success' | 'error' | 'cancelled'
+```
 
+### `UseCacheStatus`
+
+```ts
 export type UseCacheStatus = 'idle' | CacheStatus
+```
+
+### `UseCacheState`
+
+```ts
 export type UseCacheState<Value = any, ErrorType = Error> =
   | {
       status: 'idle'
@@ -240,3 +304,7 @@ export type UseCacheState<Value = any, ErrorType = Error> =
 ## LICENSE
 
 MIT
+
+```
+
+```

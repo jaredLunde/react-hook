@@ -16,8 +16,7 @@ describe('useAsync()', () => {
         () =>
           new Promise((resolve) => {
             setTimeout(() => resolve(true), 1000)
-          }),
-        []
+          })
       )
     )
     expect(result.current[0].status).toBe('idle')
@@ -38,8 +37,7 @@ describe('useAsync()', () => {
         () =>
           new Promise((resolve) => {
             setTimeout(() => resolve(true), 1000)
-          }),
-        []
+          })
       )
     )
 
@@ -61,8 +59,7 @@ describe('useAsync()', () => {
         () =>
           new Promise((resolve) => {
             setTimeout(() => resolve(true), 1000)
-          }),
-        []
+          })
       )
     )
     // Initial cancellation
