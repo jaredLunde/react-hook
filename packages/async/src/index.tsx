@@ -7,11 +7,6 @@ export const useAsync = <
 >(
   asyncCallback: (...args: Args) => Promise<ValueType>
 ): [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>] => {
-  // Creates a stable callback that manages our loading/success/error status updates
-  // as the callback is invoked.
-  const storedCallback = React.useRef(asyncCallback)
-  storedCallback.current = asyncCallback
-
   const [state, dispatch] = React.useReducer<
     React.Reducer<
       AsyncReducerState<ValueType, ErrorType, Args>,
@@ -30,66 +25,70 @@ export const useAsync = <
       // Errors get reset each time we leave the error state. There's really
       // no use in keeping those around. They go stale once we leave.
       error: action.status === 'error' ? action.error : void 0,
-      callback: prev.callback,
     }),
     void 0,
     () => {
-      // This callback will not dispatch state once its been cancelled
-      const cancelled: typeof storedCallback.current[] = []
-      let running = storedCallback.current
-      const removeCancelled = (current: typeof storedCallback.current) =>
-        cancelled.splice(cancelled.indexOf(current), 1)
-
-      const callback = Object.assign(
-        async (...args: Args) => {
-          dispatch({status: 'loading'})
-          const current = (running = storedCallback.current)
-          removeCancelled(current)
-
-          try {
-            const value = await current(...args)
-            cancelled.indexOf(current) === -1 &&
-              dispatch({status: 'success', value})
-            removeCancelled(current)
-          } catch (error) {
-            cancelled.indexOf(current) === -1 &&
-              dispatch({status: 'error', error})
-            removeCancelled(current)
-          }
-        },
-        {
-          cancel: () => cancelled.push(running),
-        }
-      )
-
       return {
         status: 'idle',
         value: void 0,
         error: void 0,
-        callback,
       }
     }
   )
+  // Creates a stable callback that manages our loading/success/error status updates
+  // as the callback is invoked.
+  const storedCallback = React.useRef(asyncCallback)
+  storedCallback.current = asyncCallback
+
+  const [callback] = React.useState(() => {
+    const cancelled: Set<Promise<ValueType> | null> = new Set()
+    let previous: Promise<ValueType> | null
+
+    return Object.assign(
+      async (...args: Args) => {
+        // Reloading automatically cancels previous promises
+        cancelled.add(previous)
+        dispatch({status: 'loading'})
+        let current: Promise<ValueType> | null = null
+
+        try {
+          previous = current = storedCallback.current(...args)
+          const value = await current
+          !cancelled.has(current) && dispatch({status: 'success', value})
+        } catch (error) {
+          current &&
+            !cancelled.has(current) &&
+            dispatch({status: 'error', error})
+        } finally {
+          cancelled.delete(current)
+        }
+      },
+      {
+        cancel: () => {
+          cancelled.add(previous)
+        },
+      }
+    )
+  })
 
   // Cancels any pending async callbacks when the hook unmounts
-  React.useEffect(() => state.callback.cancel, [state.callback])
+  React.useEffect(() => callback.cancel, [callback])
 
   return [
-    React.useMemo(
-      () => ({
+    React.useMemo(() => {
+      return {
         status: state.status,
         value: state.value,
         error: state.error,
         cancel: () => {
           // Prevent the callback from dispatching
-          state.callback.cancel()
+          callback.cancel()
           // Create a new callback and set status to cancelled
           dispatch({status: 'cancelled'})
         },
-      }),
-      [state]
-    ),
-    state.callback,
+      }
+    }, [callback, state]),
+    callback,
   ]
 }
 
@@ -101,12 +100,9 @@ export const useAsyncEffect = <
   dependencies?: React.DependencyList
 ): AsyncState<ValueType, ErrorType, []> => {
   const [state, callback] = useAsync<ValueType, ErrorType>(asyncCallback)
-  // Runs the callback each time we receive a new one
+  // Runs the callback each time deps change
   React.useEffect(() => {
     callback()
-    // Uses callback.cancel rather than state.cancel so that the user never sees
-    // a 'cancelled' status
-    return callback.cancel
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, dependencies)
 
@@ -121,11 +117,10 @@ export interface AsyncReducerState<
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
-  callback: AsyncCallback<Args>
 }
 
 export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
-  extends Omit<AsyncReducerState<ValueType, ErrorType, Args>, 'callback'> {
+  extends AsyncReducerState<ValueType, ErrorType, Args> {
   cancel: () => void
 }
 

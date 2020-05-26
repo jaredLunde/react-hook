@@ -21,10 +21,9 @@ export interface AsyncReducerState<
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
-  callback: AsyncCallback<Args>
 }
 export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
-  extends Omit<AsyncReducerState<ValueType, ErrorType, Args>, 'callback'> {
+  extends AsyncReducerState<ValueType, ErrorType, Args> {
   cancel: () => void
 }
 export declare type AsyncAction<ValueType, ErrorType> =
