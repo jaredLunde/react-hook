@@ -37,11 +37,11 @@ page or component has even started mounting.
 
 ## Contents
 
-| Section                                            | Description                                                                                                                        |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [**Quick Start**](#quick-start)                    | A usage example                                                                                                                    |
-| [**createCache()** ](#createcacheresolver-lrusize) | Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook. Cache keys _must_ be a `string` type. |
-| [**useCache()**](#usecachecache-key-args)          | Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook. Cache keys _must_ be a `string` type. |
+| Section                                            | Description                                                                                                                           |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| [**Quick Start**](#quick-start)                    | A usage example                                                                                                                       |
+| [**createCache()** ](#createcacheresolver-lrusize) | Creates an asynchronous LRU cache which can be used with the [`useCache()`](#usecache) hook. Cache keys _must_ be a `string` type.    |
+| [**useCache()**](#usecachecache-key-args)          | A hook for reading and loading items from a persistent cache created by the [`createCache()`](#createcacheresolver-lrusize) function. |
 
 ## Quick Start
 
