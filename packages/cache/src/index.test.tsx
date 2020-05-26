@@ -18,6 +18,13 @@ describe('createCache()', () => {
     expect(cache.read('foo')).toEqual(expected)
   })
 
+  it('should load a key w/ args', async () => {
+    const cache = createCache((string) => Promise.resolve(string))
+    const expected = {id: 0, status: 'success', value: 'foo', error: undefined}
+    expect(await cache.load('foo')).toEqual(expected)
+    expect(cache.read('foo')).toEqual(expected)
+  })
+
   it('should subscribe to a key', async () => {
     const cache = createCache((string) => Promise.resolve(string))
     const subscriber1 = jest.fn() // subcribed to 'foo'
@@ -96,7 +103,7 @@ describe('createCache()', () => {
 describe('useCache', () => {
   it('should handle Promise.resolve', async () => {
     const cache = createCache(
-      () =>
+      (key, options) =>
         new Promise((resolve) => {
           setTimeout(() => resolve(true), 1000)
         })

@@ -1,8 +1,11 @@
-import {useDebugValue, useState, useEffect} from 'react'
 import {
-  useCallbackOne as useCallback,
-  useMemoOne as useMemo,
-} from 'use-memo-one'
+  useDebugValue,
+  useRef,
+  useMemo,
+  useCallback,
+  useState,
+  useEffect,
+} from 'react'
 import {lru} from './lru'
 import type {LRUCache} from './lru'
 
@@ -12,10 +15,14 @@ import type {LRUCache} from './lru'
  * @param resolve
  * @param lruSize
  */
-export const createCache = <Value = any, ErrorType = Error>(
-  resolve: (key: string, ...args: any[]) => Promise<Value>,
+export const createCache = <
+  Value = any,
+  ErrorType = Error,
+  Args extends any[] = []
+>(
+  resolve: (key: string, ...args: Args) => Promise<Value>,
   lruSize = Infinity
-): Cache<Value, ErrorType> => {
+): Cache<Value, ErrorType, Args> => {
   const cache = lru<string, CacheState<Value, ErrorType>>(lruSize)
   const listeners: Record<
     string,
@@ -25,7 +32,9 @@ export const createCache = <Value = any, ErrorType = Error>(
   const dispatch = (
     action: CacheAction<Value, ErrorType>
   ): CacheState<Value, ErrorType> => {
-    const current: CacheState<Value, ErrorType> = cache.read(action.key)
+    const current: CacheState<Value, ErrorType> | undefined = cache.read(
+      action.key
+    )
     let next = current
 
     if (action.status === 'loading') {
@@ -37,7 +46,7 @@ export const createCache = <Value = any, ErrorType = Error>(
       }
     } else if (action.status === 'cancelled') {
       next = {
-        id: current.id,
+        id: current?.id || ++id,
         status: action.status,
         value: current?.value,
         error: void 0,
@@ -67,9 +76,10 @@ export const createCache = <Value = any, ErrorType = Error>(
       }
     }
 
-    cache.write(action.key, next)
-    listeners[action.key]?.forEach((callback) => callback(next))
-    return next
+    const value = next as CacheState<Value, ErrorType>
+    cache.write(action.key, value)
+    listeners[action.key]?.forEach((callback) => callback(value))
+    return value
   }
 
   return {
@@ -90,7 +100,7 @@ export const createCache = <Value = any, ErrorType = Error>(
     read: (key) => cache.read(key),
     cancel: (key) => dispatch({key, status: 'cancelled'}),
     readAll: () => {
-      const output = {}
+      const output: CacheExport<Value, ErrorType> = {}
       cache.forEach((key, value) => (output[key] = value))
       return output
     },
@@ -117,11 +127,11 @@ export const createCache = <Value = any, ErrorType = Error>(
   }
 }
 
-export type Cache<Value = any, ErrorType = Error> = {
+export type Cache<Value = any, ErrorType = Error, Args extends any[] = any> = {
   /**
    * Preloads a `key` and provides ...args to the resolver
    */
-  load: (key: string, ...args: any[]) => Promise<CacheState<Value, ErrorType>>
+  load: (key: string, ...args: Args) => Promise<CacheState<Value, ErrorType>>
   /**
    * Reads a `key` in the LRU cache and returns its value if there is one, otherwise
    * returns undefined
@@ -135,7 +145,7 @@ export type Cache<Value = any, ErrorType = Error> = {
    * Returns a {[key: string]: CacheState} object. This can be used
    * for persisting the state rendered on a server to the client.
    */
-  readAll: () => CacheExport<CacheState<Value, ErrorType>>
+  readAll: () => CacheExport<Value, ErrorType>
   /**
    * Writes a {[key: string]: CacheState} to the LRU cache. This can be used
    * for persisting the state rendered on a server to the client.
@@ -197,9 +207,10 @@ export type CacheState<Value = any, ErrorType = Error> =
       error: undefined
     }
 
-export type CacheExport<Value = any, ErrorType = Error> = {
-  [key: string]: CacheState<Value, ErrorType>
-}
+export type CacheExport<Value = any, ErrorType = Error> = Record<
+  string,
+  CacheState<Value, ErrorType>
+>
 
 type CacheAction<Value = any, ErrorType = Error> =
   | {
@@ -262,17 +273,21 @@ export interface CacheSubscribeCallback<Value = any> {
   (value: Value): void
 }
 
-export const useCache = <Value = any, ErrorType = Error>(
-  cache: Cache<Value, ErrorType>,
+export const useCache = <
+  Value = any,
+  ErrorType = Error,
+  Args extends any[] = any[]
+>(
+  cache: Cache<Value, ErrorType, Args>,
   key: string,
-  ...args: any[]
+  ...args: Args
 ): [
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ] => {
   const [state, setState] = useState<{
     key: string
-    cache: Cache<Value, ErrorType>
+    cache: Cache<Value, ErrorType, Args>
     current: CacheState<Value, ErrorType> | undefined
   }>(
     // Uses an init function because we don't want every render to affect
@@ -283,6 +298,8 @@ export const useCache = <Value = any, ErrorType = Error>(
       current: cache.read(key),
     })
   )
+  const storedArgs = useRef(args)
+  storedArgs.current = args
 
   if (state.cache !== cache || state.key !== key) {
     setState({
@@ -334,12 +351,11 @@ export const useCache = <Value = any, ErrorType = Error>(
           cancel,
         }
       } else {
-        const stateToReturn = Object.assign({cancel}, state.current)
-        delete stateToReturn.id
-        return stateToReturn
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const {id, ...current} = state.current
+        return Object.assign(current, {cancel})
       }
     }, [state, key, cache]),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useCallback(() => cache.load(key, ...args), args.concat([key, cache])),
+    useCallback(() => cache.load(key, ...storedArgs.current), [key, cache]),
   ]
 }

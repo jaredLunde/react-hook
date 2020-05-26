@@ -21,7 +21,7 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "source": "src/index.tsx",
+  "source": "src/index.ts",
   "types": "types/index.d.ts",
   "files": [
     "/dist",
@@ -33,7 +33,7 @@
       "browser": "./dist/module/index.js",
       "import": "./dist/esm/index.mjs",
       "require": "./dist/main/index.js",
-      "source": "./src/index.tsx",
+      "source": "./src/index.ts",
       "types": "./types/index.d.ts",
       "default": "./dist/main/index.js"
     },
@@ -97,9 +97,7 @@
     "ts-jest": "latest",
     "typescript": "^3.9.3"
   },
-  "dependencies": {
-    "use-memo-one": "^1.1.1"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8",
     "react-dom": ">=16.8"
