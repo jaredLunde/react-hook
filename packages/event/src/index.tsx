@@ -1,14 +1,23 @@
 import * as React from 'react'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 
-const useEvent = <
+function useEvent<
+  T extends Window = Window,
+  K extends keyof WindowEventMap = keyof WindowEventMap
+>(target: Window, type: K, listener: WindowEventListener<K>): void
+function useEvent<
+  T extends Document = Document,
+  K extends keyof DocumentEventMap = keyof DocumentEventMap
+>(target: Document, type: K, listener: DocumentEventListener<K>): void
+function useEvent<
   T extends HTMLElement = HTMLElement,
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
 >(
-  target: React.RefObject<T> | T | Window | Document | null,
+  target: React.RefObject<T> | T | null,
   type: K,
-  listener: EventListener<K>
-) => {
+  listener: ElementEventListener<K>
+): void
+function useEvent(target: any, type: any, listener: any): void {
   const storedListener = React.useRef(listener)
   storedListener.current = listener
 
@@ -16,20 +25,28 @@ const useEvent = <
     const current = target && 'current' in target ? target.current : target
     if (!current) return
 
-    const listener: EventListener<K> = function (...args) {
+    const listener = function (this: any, ...args: any[]) {
       storedListener.current.apply(this, args)
     }
 
-    current.addEventListener(type, listener as any)
+    current.addEventListener(type, listener)
 
     return () => {
-      current.removeEventListener(type, listener as any)
+      current.removeEventListener(type, listener)
     }
   }, [target, type])
 }
 
-export type EventListener<
+export type ElementEventListener<
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
 > = (this: HTMLElement, ev: HTMLElementEventMap[K]) => any
+
+export type DocumentEventListener<
+  K extends keyof DocumentEventMap = keyof DocumentEventMap
+> = (this: Document, ev: DocumentEventMap[K]) => any
+
+export type WindowEventListener<
+  K extends keyof WindowEventMap = keyof WindowEventMap
+> = (this: Document, ev: WindowEventMap[K]) => any
 
 export default useEvent

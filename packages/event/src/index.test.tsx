@@ -26,6 +26,7 @@ describe('useEvent()', () => {
     const Component = () => {
       const [foo, setFoo] = React.useState('')
       useEvent(document, 'click', () => setFoo('bar'))
+      useEvent(document, 'click', () => setFoo('bar'))
       return <div data-testid="foo">{foo}</div>
     }
 

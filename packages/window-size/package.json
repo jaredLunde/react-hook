@@ -118,6 +118,7 @@
   },
   "dependencies": {
     "@react-hook/debounce": "^2.0.3",
+    "@react-hook/event": "^1.0.3",
     "@react-hook/throttle": "^2.1.2"
   },
   "peerDependencies": {
