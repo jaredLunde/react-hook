@@ -55,9 +55,9 @@ import useResizeObserver from '@react-hook/resize-observer'
 const useSize = (target) => {
   const [size, setSize] = React.useState()
 
-  if (!size && target) {
-    setSize(target.getBoundingClientRect())
-  }
+  React.useLayoutEffect(() => {
+    setSize(target.current.getBoundingClientRect())
+  }, [target])
 
   // Where the magic happens
   useResizeObserver(target, (entry) => setSize(entry.contentRect))
@@ -68,7 +68,7 @@ const App = () => {
   const target = React.useRef(null)
   const size = useSize(target)
   return (
-    <pre ref={setTarget}>
+    <pre ref={target}>
       {JSON.stringify({width: size.width, height: size.height}, null, 2)}
     </pre>
   )
