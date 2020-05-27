@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/intersection-observer",
-  "version": "2.0.10",
+  "version": "3.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/intersection-observer#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -18,35 +18,53 @@
     "use intersection observer",
     "useintersectionobserver"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "source": "src/index.tsx",
+  "types": "types/index.d.ts",
   "files": [
-    "/dist"
+    "/dist",
+    "/src",
+    "/types"
   ],
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/main/index.js",
+      "source": "./src/index.tsx",
+      "types": "./types/index.d.ts",
+      "default": "./dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es && npm run build:types",
-    "build:cjs": "babel src -d dist/cjs -x .ts --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:es": "babel src -d dist/es -x .ts --env-name es --ignore \"**/*.test.ts\",\"**/test.ts\" --delete-dir-on-start",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-types",
+    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs",
+    "build-main": "npm run compile -- -d dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module",
+    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "format": "prettier --write \"**/*.{ts,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint . --ext .ts",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/*.test.tsx\" --delete-dir-on-start",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
     "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run build-types && git add types && lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.{ts,js}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json}": [
+    "**/*.{md,yml,json,eslintrc,prettierrc}": [
       "prettier --write"
     ]
   },
@@ -54,26 +72,29 @@
     "@lunde/babel-preset-es": "latest",
     "@testing-library/react": "^9.3.2",
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
-    "cross-env": "latest",
-    "eslint": "latest",
+    "@types/jest": "^25.2.3",
+    "@typescript-eslint/eslint-plugin": "^3.0.1",
+    "@typescript-eslint/parser": "^3.0.1",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
+    "babel-plugin-optimize-react": "^0.0.4",
+    "eslint": "^7.1.0",
     "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "latest",
-    "husky": "latest",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "prettier": "latest",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "lint-staged": "^10.2.6",
+    "prettier": "^2.0.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-test-renderer": "^16.12.0",
     "rimraf": "^2.6.3",
-    "ts-jest": "latest",
-    "typescript": "latest"
+    "ts-jest": "^26.0.0",
+    "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.0.2",
+    "@react-hook/passive-layout-effect": "^1.0.3",
     "intersection-observer": "^0.7.0"
   },
   "peerDependencies": {

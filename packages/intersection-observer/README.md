@@ -35,17 +35,33 @@ watching for specific changes in degree of visibility.
 ## Quick Start
 
 ```jsx harmony
+import * as React from 'react'
 import useIntersectionObserver from '@react-hook/intersection-observer'
 
 const Component = () => {
-  const [entry, observerRef] = useIntersectionObserver()
-  return <div ref={observerRef}>Is intersecting? {entry.isIntersecting}</div>
+  const [ref, setRef] = React.useState()
+  const {isIntersecting} = useIntersectionObserver(ref)
+  return <div ref={setRef}>Is intersecting? {isIntersecting}</div>
 }
 ```
 
 ## API
 
-### `useIntersectionObserver(options?: IntersectionObserverOptions)`
+### `useIntersectionObserver(target, options)`
+
+```ts
+function useIntersectionObserver<T extends HTMLElement = HTMLElement>(
+  target: React.RefObject<T> | T | null,
+  options: IntersectionObserverOptions = {}
+): IntersectionObserverEntry
+```
+
+#### Arguments
+
+| Argument | Type                                                          | Required? | Description                                          |
+| -------- | ------------------------------------------------------------- | --------- | ---------------------------------------------------- |
+| target   | <code>React.RefObject<T> &#124; T &#124; null</code>          | Yes       | A React ref created by `useRef()` or an HTML element |
+| options  | [`IntersectionObserverOptions`](#intersectionobserveroptions) | No        | Configuration options for the IntersectionObserver   |
 
 #### IntersectionObserverOptions
 
@@ -58,12 +74,11 @@ const Component = () => {
 | useMutationObserver   | `bool`                            | `true`      | You can also choose to not check for intersections in the polyfill when the DOM changes by setting this to `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | initialIsIntersecting | `bool`                            | `false`     | Changes the default value of `isIntersecting` for use in places like SSR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-#### Returns `[entry: IntersectionObserverEntry, ref: (element: HTMLElement) => void]`
+#### Returns `IntersectionObserverEntry`
 
-| Variable | Type                        | Description                                                                                                                                                                 |
-| -------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| entry    | `IntersectionObserverEntry` | This is the [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) object returned by the `IntersectionObserver` callback. |
-| ref      | `Callback Ref`              | Provide this to the React element you want to monitor via the `ref` property                                                                                                |
+| Type                        | Description                                                                                                                                                                 |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IntersectionObserverEntry` | This is the [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) object returned by the `IntersectionObserver` callback. |
 
 ## LICENSE
 

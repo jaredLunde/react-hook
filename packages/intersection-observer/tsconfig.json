@@ -9,14 +9,10 @@
       // "dom.iterable"
     ],
     "moduleResolution": "node",
-    "strictNullChecks": true,
+    "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": true,
     "downlevelIteration": true
   }
 }

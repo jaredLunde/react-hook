@@ -61,40 +61,33 @@ function intersectionMockInstance(element: Element): IntersectionObserver {
 
 it('sets initialIsIntersecting', () => {
   expect(
-    renderHook(() => useIntersectionObserver({initialIsIntersecting: true}))
-      .result.current[0].isIntersecting
+    renderHook(() =>
+      useIntersectionObserver(null, {initialIsIntersecting: true})
+    ).result.current.isIntersecting
   ).toBe(true)
   expect(
-    renderHook(() => useIntersectionObserver({initialIsIntersecting: false}))
-      .result.current[0].isIntersecting
+    renderHook(() =>
+      useIntersectionObserver(null, {initialIsIntersecting: false})
+    ).result.current.isIntersecting
   ).toBe(false)
 })
 
 it('observes', () => {
   const element = document.createElement('div')
-  const {result} = renderHook(() => useIntersectionObserver())
-
-  act(() => {
-    result.current[1](element)
-  })
-
+  renderHook(() => useIntersectionObserver(element))
   const instance = intersectionMockInstance(element)
   expect(instance.observe).toHaveBeenCalledWith(element)
 })
 
 it('should be intersecting', () => {
   const element = document.createElement('div')
-  const {result} = renderHook(() => useIntersectionObserver())
+  const {result} = renderHook(() => useIntersectionObserver(element))
 
-  act(() => {
-    result.current[1](element)
-  })
-
-  expect(result.current[0].isIntersecting).toBe(false)
+  expect(result.current.isIntersecting).toBe(false)
 
   mockAllIsIntersecting(true)
-  expect(result.current[0].isIntersecting).toBe(true)
+  expect(result.current.isIntersecting).toBe(true)
 
   mockAllIsIntersecting(false)
-  expect(result.current[0].isIntersecting).toBe(false)
+  expect(result.current.isIntersecting).toBe(false)
 })
