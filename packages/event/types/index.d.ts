@@ -2,11 +2,11 @@ import * as React from 'react'
 declare function useEvent<
   T extends Window = Window,
   K extends keyof WindowEventMap = keyof WindowEventMap
->(target: Window, type: K, listener: WindowEventListener<K>): void
+>(target: Window | null, type: K, listener: WindowEventListener<K>): void
 declare function useEvent<
   T extends Document = Document,
   K extends keyof DocumentEventMap = keyof DocumentEventMap
->(target: Document, type: K, listener: DocumentEventListener<K>): void
+>(target: Document | null, type: K, listener: DocumentEventListener<K>): void
 declare function useEvent<
   T extends HTMLElement = HTMLElement,
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap

@@ -1119,7 +1119,7 @@
   resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-2.0.3.tgz#46b346580a19b41e9f25faad0a4103d7c7e5e1ba"
   integrity sha512-G1RStTQ5NJvy0N/Wydn+wdahpEJpdKe/KzTVEkGZ7DTKCixjbOD5TtBJfnkajQzfQUrgLely2JE65W58F2hb1A==
 
-"@react-hook/event@1.0.4":
+"@react-hook/event@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.0.4.tgz#7e88e654425e51535ed7e561f4e84be5730c4d28"
   integrity sha512-qUk/rydNBKFO9nAlyph9fjkHIa5Z9WAbU8Sz8QRYqOHc1xyF3zGKMcMABH+e3jJRlBbQF+/N2n0VcAP/oqKwSg==

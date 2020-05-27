@@ -10,6 +10,8 @@ export interface ThrottledWindowSizeOptions {
   leading?: boolean
 }
 
+const win = typeof window === 'undefined' ? null : window
+
 export const useWindowSize = (
   options: ThrottledWindowSizeOptions = emptyObj
 ): [number, number] => {
@@ -31,8 +33,8 @@ export const useWindowSize = (
       document.documentElement.clientHeight,
     ])
 
-  useEvent(window, 'resize', setSize)
-  useEvent(window, 'orientationchange', setSize)
+  useEvent(win, 'resize', setSize)
+  useEvent(win, 'orientationchange', setSize)
 
   return size
 }

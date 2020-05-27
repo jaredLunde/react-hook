@@ -4,11 +4,11 @@ import useLayoutEffect from '@react-hook/passive-layout-effect'
 function useEvent<
   T extends Window = Window,
   K extends keyof WindowEventMap = keyof WindowEventMap
->(target: Window, type: K, listener: WindowEventListener<K>): void
+>(target: Window | null, type: K, listener: WindowEventListener<K>): void
 function useEvent<
   T extends Document = Document,
   K extends keyof DocumentEventMap = keyof DocumentEventMap
->(target: Document, type: K, listener: DocumentEventListener<K>): void
+>(target: Document | null, type: K, listener: DocumentEventListener<K>): void
 function useEvent<
   T extends HTMLElement = HTMLElement,
   K extends keyof HTMLElementEventMap = keyof HTMLElementEventMap
@@ -22,17 +22,17 @@ function useEvent(target: any, type: any, listener: any): void {
   storedListener.current = listener
 
   useLayoutEffect(() => {
-    const current = target && 'current' in target ? target.current : target
-    if (!current) return
+    const targetEl = target && 'current' in target ? target.current : target
+    if (!targetEl) return
 
     const listener = function (this: any, ...args: any[]) {
       storedListener.current.apply(this, args)
     }
 
-    current.addEventListener(type, listener)
+    targetEl.addEventListener(type, listener)
 
     return () => {
-      current.removeEventListener(type, listener)
+      targetEl.removeEventListener(type, listener)
     }
   }, [target, type])
 }
