@@ -6,7 +6,6 @@ const useIntersectionObserver = <T extends HTMLElement = HTMLElement>(
   target: React.RefObject<T> | T | null,
   options: IntersectionObserverOptions = {}
 ): MockIntersectionObserverEntry | IntersectionObserverEntry => {
-  const targetEl = target && 'current' in target ? target.current : target
   const {
     root = null,
     pollInterval = null,
@@ -57,11 +56,12 @@ const useIntersectionObserver = <T extends HTMLElement = HTMLElement>(
   ])
 
   useLayoutEffect(() => {
+    const targetEl = target && 'current' in target ? target.current : target
     targetEl && observer && observer.observe(targetEl)
     return (): void => {
       targetEl && observer && observer.unobserve(targetEl)
     }
-  }, [targetEl, observer])
+  }, [target, observer])
 
   return entry
 }
