@@ -9,7 +9,7 @@ import ResizeObserver from 'resize-observer-polyfill'
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
  */
-export const useResizeObserver = <T extends HTMLElement>(
+const useResizeObserver = <T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
   callback: UseResizeObserverCallback
 ): ResizeObserver => {
@@ -75,3 +75,5 @@ export type UseResizeObserverCallback = (
   entry: ResizeObserverEntry,
   observer: ResizeObserver
 ) => any
+
+export default useResizeObserver

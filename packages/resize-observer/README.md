@@ -52,18 +52,27 @@ A React hook that fires a callback whenever ResizeObserver detects a change to i
 import * as React from 'react'
 import useResizeObserver from '@react-hook/resize-observer'
 
-const MyComponent = () => {
-  const target = React.useRef(null)
-  const [{width, height}, setSize] = React.useState()
+const useSize = (target) => {
+  const [size, setSize] = React.useState()
 
-  if (!size && target.current) {
-    setSize(target.current.getBoundingClientRect())
+  if (!size && target) {
+    setSize(target.getBoundingClientRect())
   }
 
   // Where the magic happens
   useResizeObserver(target, (entry) => setSize(entry.contentRect))
 
-  return <pre ref={target}>{JSON.stringify({width, height}, null, 2)</pre>}
+  return size
+}
+
+const App = () => {
+  const [target, setTarget] = React.useState(null)
+  const size = useSize(target)
+  return (
+    <pre ref={setTarget}>
+      {JSON.stringify({width: size.width, height: size.height}, null, 2)}
+    </pre>
+  )
 }
 ```
 
