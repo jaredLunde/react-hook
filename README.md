@@ -79,7 +79,7 @@ an element.
 
 A React hook that uses `useEffect()` on the server and `useLayoutEffect()` in the browser.
 
-#### useResizeObserver() [`@react-hook/resize-observer`]
+#### useResizeObserver() [`@react-hook/resize-observer`](packages/resize-observer)
 
 A React hook that fires a callback whenever `ResizeObserver` detects a change to its size.
 
