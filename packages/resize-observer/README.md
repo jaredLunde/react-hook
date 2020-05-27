@@ -88,7 +88,7 @@ function useResizeObserver<T extends HTMLElement>(
 
 | Argument   | Type                                                      | Required? | Description                                                               |
 | ---------- | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------- |
-| `target`   | `React.RefObject<T> | T | null`                           | Yes       | A React ref created by `useRef()` or an HTML element                      |
+| `target`   | <code>React.RefObject<T> &#124; T &#124; null</code>      | Yes       | A React ref created by `useRef()` or an HTML element                      |
 | `callback` | [`UseResizeObserverCallback`](#useresizeobservercallback) | Yes       | Invoked with a single `ResizeObserverEntry` any time the `target` resizes |
 
 ## Types
