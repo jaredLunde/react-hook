@@ -14,23 +14,21 @@ const useSize = <T extends HTMLElement>(
 ): [number, number] => {
   const [size, setSize] = React.useState<[number, number]>(() => {
     const targetEl = target && 'current' in target ? target.current : target
-    const initialRect = targetEl
-      ? targetEl.getBoundingClientRect()
-      : {width: options?.initialWidth ?? 0, height: options?.initialHeight ?? 0}
-    return [initialRect.width, initialRect.height]
+    return targetEl
+      ? [targetEl.offsetWidth, targetEl.offsetHeight]
+      : [options?.initialWidth ?? 0, options?.initialHeight ?? 0]
   })
 
   useLayoutEffect(() => {
     const targetEl = target && 'current' in target ? target.current : target
     if (!targetEl) return
-    const rect = targetEl.getBoundingClientRect()
-    setSize([rect.width, rect.height])
+    setSize([targetEl.offsetWidth, targetEl.offsetHeight])
   }, [target])
 
   // Where the magic happens
   useResizeObserver(target, (entry) => {
-    const {width, height} = entry.contentRect
-    setSize([width, height])
+    const target = entry.target as HTMLElement
+    setSize([target.offsetWidth, target.offsetHeight])
   })
 
   return size

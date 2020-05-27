@@ -35,6 +35,7 @@ A React hook for measuring the size of HTML elements including when they change
 
 ## Features
 
+- [x] Determines the size of the element including any padding, borders, and scroll bars.
 - [x] The size reported by the hook updates each time the size of the element changes.
 - [x] Uses a single `ResizeObserver` for tracking all elements used by the hooks.
       [This approach is astoundingly more performant](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/z6ienONUb5A/F5-VcUZtBAAJ)
