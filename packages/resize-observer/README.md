@@ -65,7 +65,7 @@ const useSize = (target) => {
 }
 
 const App = () => {
-  const [target, setTarget] = React.useState(null)
+  const target = React.useRef(null)
   const size = useSize(target)
   return (
     <pre ref={setTarget}>

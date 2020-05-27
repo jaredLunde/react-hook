@@ -14,7 +14,6 @@ const useResizeObserver = <T extends HTMLElement>(
   callback: UseResizeObserverCallback
 ): ResizeObserver => {
   const resizeObserver = getResizeObserver()
-  const targetEl = target && 'current' in target ? target.current : target
   const storedCallback = React.useRef(callback)
   storedCallback.current = callback
 
@@ -26,6 +25,7 @@ const useResizeObserver = <T extends HTMLElement>(
       observer: ResizeObserver
     ) => {
       if (didUnsubscribe) return
+      const targetEl = target && 'current' in target ? target.current : target
 
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i]
@@ -40,13 +40,14 @@ const useResizeObserver = <T extends HTMLElement>(
       didUnsubscribe = true
       resizeObserver.unsubscribe(callback)
     }
-  }, [targetEl, resizeObserver])
+  }, [target, resizeObserver])
 
   useLayoutEffect(() => {
+    const targetEl = target && 'current' in target ? target.current : target
     if (!targetEl) return
     resizeObserver.observer.observe(targetEl)
     return () => resizeObserver.observer.unobserve(targetEl)
-  }, [targetEl, resizeObserver.observer])
+  }, [target, resizeObserver.observer])
 
   return resizeObserver.observer
 }
