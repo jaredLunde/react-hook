@@ -79,6 +79,10 @@ an element.
 
 A React hook that uses `useEffect()` on the server and `useLayoutEffect()` in the browser.
 
+#### useResizeObserver() [`@react-hook/resize-observer`]
+
+A React hook that fires a callback whenever `ResizeObserver` detects a change to its size.
+
 #### useServerPromises() [`@react-hook/server-promises`](packages/server-promises)
 
 A React hook for continuously rendering a React tree until no promises are pushed to server-promises's
