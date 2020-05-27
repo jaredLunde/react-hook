@@ -88,6 +88,10 @@ A React hook that fires a callback whenever `ResizeObserver` detects a change to
 A React hook for continuously rendering a React tree until no promises are pushed to server-promises's
 context in a given render.
 
+#### useSize() [`@react-hook/resize-observer`](packages/size)
+
+A React hook for measuring the size of HTML elements including when they change
+
 #### useSwitch() [`@react-hook/switch`](packages/switch)
 
 A react hook for controlling a boolean value with toggle, on, and off callbacks.
