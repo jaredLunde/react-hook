@@ -206,14 +206,14 @@ function useMouse<T extends HTMLElement = HTMLElement>(
   useEvent(target, 'touchend', onTouchEnd)
   useEvent(target, 'touchcancel', onTouchEnd)
 
-  React.useEffect((): void | (() => void) => {
+  React.useEffect(() => {
     if (state.context.hoverStatus === 'enter') {
       if (enterDelay) {
         const timeout = setTimeout(
           () => dispatch({type: 'activeStatus', value: 'active'}),
           enterDelay
         )
-        return (): void => clearTimeout(timeout)
+        return () => clearTimeout(timeout)
       }
 
       dispatch({type: 'activeStatus', value: 'active'})
@@ -223,7 +223,7 @@ function useMouse<T extends HTMLElement = HTMLElement>(
           () => dispatch({type: 'activeStatus', value: 'inactive'}),
           leaveDelay
         )
-        return (): void => clearTimeout(timeout)
+        return () => clearTimeout(timeout)
       }
 
       dispatch({type: 'activeStatus', value: 'inactive'})
