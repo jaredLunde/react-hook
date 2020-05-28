@@ -6,55 +6,34 @@ const useHover = <T extends HTMLElement>(
   options: UseHoverOptions = {}
 ): boolean => {
   const {enterDelay, leaveDelay} = options
-  const [state, dispatch] = React.useReducer<
-    React.Reducer<UseHoverState, UseHoverAction>
-  >(
-    (state, action) => {
-      if (!canHover()) return state
+  const timeout = React.useRef<number | undefined>()
+  const [hovering, setHovering] = React.useState(false)
 
-      if (action.type === 'setStatus') {
-        window.clearTimeout(state.timeout)
-        const {value, force} = action
+  const toggle = (which: boolean) => {
+    if (!canHover()) return
+    const delay = which ? enterDelay : leaveDelay
+    window.clearTimeout(timeout.current)
 
-        if (
-          !force &&
-          ((value === 'hovering' && enterDelay) ||
-            (value === 'idle' && leaveDelay))
-        ) {
-          return {
-            ...state,
-            timeout: window.setTimeout(
-              () => dispatch({type: 'setStatus', value, force: true}),
-              enterDelay
-            ),
-          }
-        }
+    if (delay) {
+      timeout.current = window.setTimeout(() => setHovering(which), delay)
+    } else {
+      setHovering(which)
+    }
+  }
 
-        return {...state, timeout: void 0, status: value}
-      }
-
-      return state
-    },
-    {status: 'idle', timeout: void 0}
-  )
-
-  useEvent(target, 'mouseenter', () =>
-    dispatch({type: 'setStatus', value: 'hovering'})
-  )
-  useEvent(target, 'mouseleave', () =>
-    dispatch({type: 'setStatus', value: 'idle'})
-  )
+  useEvent(target, 'mouseenter', () => toggle(true))
+  useEvent(target, 'mouseleave', () => toggle(false))
 
   // Cleans up timeout on unmount
   React.useEffect(
-    () => (): void => {
-      window.clearTimeout(state.timeout)
+    () => () => {
+      window.clearTimeout(timeout.current)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
-  return state.status === 'hovering'
+  return hovering
 }
 
 export const canHover = (): boolean =>
