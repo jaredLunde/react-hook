@@ -66,10 +66,10 @@ devices and mouse devices.
 
 #### Arguments
 
-| Argument | Type                                                                                     | Required? | Description                                                            |
-| -------- | ---------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
-| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or HTML element to add the event listener to  |
-| options  | [`UseMouseOptions`](#usemouseoptions)                                                    | No        | Configuration options. See [`UseMouseOptions`](#usemouseoptions) below |
+| Argument | Type                                                       | Required? | Description                                                            |
+| -------- | ---------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; null</code> | Yes       | The React ref, `window`, or HTML element to add the event listener to  |
+| options  | [`UseMouseOptions`](#usemouseoptions)                      | No        | Configuration options. See [`UseMouseOptions`](#usemouseoptions) below |
 
 #### Returns [`MousePosition`](#mouseposition)
 
