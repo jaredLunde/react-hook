@@ -24,37 +24,53 @@
 <hr>
 
 A React hook for tracking the hover state of DOM elements in browsers
-where hover is enabled. If the browser does not support hover states
+where hovering is possible. If the browser does not support hover states
 (e.g. a phone) the `isHovering` value will always be `false`.
 
 ## Quick Start
 
+[Check out the example on **CodeSandbox**](https://codesandbox.io/s/react-hookhover-example-oohtc)
+
 ```jsx harmony
+import * as React from 'react'
 import useHover from '@react-hook/hover'
 
-const Component = props => {
-  const [isHovering, ref] = useHover(200 /*enterDelay*/, 200 /*leaveDelay*/)
-  return <div ref={ref}>{isHovering ? 'Hovering' : 'Not hovering'}</div>
+const Component = (props) => {
+  const target = React.useRef(null)
+  const isHovering = useHover(target, {enterDelay: 200, leaveDelay: 200})
+  return <div ref={target}>{isHovering ? 'Hovering' : 'Not hovering'}</div>
 }
 ```
 
 ## API
 
-### `useHover(enterDelay?: number, leaveDelay?: number)`
+### useHover(target, options?)
+
+```tsx
+const useHover = <T extends HTMLElement>(
+  target: React.RefObject<T> | T | null,
+  options: UseHoverOptions = {}
+): boolean
+```
 
 #### Arguments
 
-| Argument   | Type   | Description                                                    |
+| Argument | Type                                                 | Required? | Description                                                                          |
+| -------- | ---------------------------------------------------- | --------- | ------------------------------------------------------------------------------------ |
+| target   | <code>React.RefObject<T> &#124; T &#124; null</code> | Yes       | A React ref created by `useRef()` or an HTML element                                 |
+| options  | [`UseHoverOptions`](#usehoveroptions)                | Yes       | Configuration options for the hook. See [`UseHoverOptions`](#usehoveroptions) below. |
+
+#### Returns `boolean`
+
+This hook returns `true` if the element in `ref` is in a hover state, otherwise `false`. This value
+is always `false` on devices that don't have hover states, i.e. phones.
+
+#### UseHoverOptions
+
+| Property   | Type   | Description                                                    |
 | ---------- | ------ | -------------------------------------------------------------- |
 | enterDelay | number | Delays setting `isHovering` to `true` for this amount in `ms`  |
 | leaveDelay | number | Delays setting `isHovering` to `false` for htis amount in `ms` |
-
-#### Returns `[isHovering: boolean, ref: (element: HTMLElement) => void]`
-
-| Variable   | Type                                    | Description                                                                                                                                               |
-| ---------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| isHovering | `boolean`                               | `true` if the element in `ref` is in a hover state, otherwise `false`. This value is always `false` on devices that don't have hover states, i.e. phones. |
-| ref        | `(element: HTMLElement | null) => void` | Provide this `ref` to the React element whose hover state you want to observe                                                                             |
 
 ## LICENSE
 
