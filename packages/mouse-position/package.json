@@ -1,12 +1,12 @@
 {
   "name": "@react-hook/mouse-position",
-  "version": "3.2.2",
+  "version": "4.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/mouse-position#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
-  "description": "A React hook for tracking the position of the mouse as it moves around an element.",
+  "description": "A React hook for tracking the position, hover, and down state of the mouse as it interacts with an element with interop between touch and mouse devices.",
   "keywords": [
     "react",
     "react hook",
@@ -23,19 +23,34 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
     "/dist",
+    "/src",
     "/types"
   ],
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/main/index.js",
+      "source": "./src/index.tsx",
+      "types": "./types/index.d.ts",
+      "default": "./dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-types",
+    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs",
     "build-main": "npm run compile -- -d dist/main --env-name main",
     "build-module": "npm run compile -- -d dist/module --env-name module",
     "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/*.test.tsx\" --delete-dir-on-start",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
     "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
@@ -48,7 +63,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{ts,js}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "eslint",
       "prettier --write"
     ],
@@ -57,29 +72,36 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "latest",
     "@lunde/babel-preset-es": "latest",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.29.0",
-    "@typescript-eslint/parser": "^2.29.0",
-    "babel-plugin-optimize-react": "^0.0.4",
-    "cross-env": "^7.0.2",
-    "eslint": "^6.8.0",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/react-hooks": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "babel-plugin-annotate-pure-calls": "latest",
+    "babel-plugin-optimize-react": "latest",
+    "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "^23.8.2",
-    "husky": "^4.2.5",
-    "jest": "^25.4.0",
-    "lint-staged": "^10.1.7",
-    "prettier": "^2.0.5",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-test-renderer": "^16.12.0",
-    "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "eslint-plugin-jest": "latest",
+    "eslint-plugin-react": "latest",
+    "eslint-plugin-react-hooks": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "prettier": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-test-renderer": "latest",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/throttle": "^2.1.2"
+    "@react-hook/event": "^1.1.0",
+    "@react-hook/throttle": "^2.1.4"
   },
   "peerDependencies": {
     "react": ">=16.8"

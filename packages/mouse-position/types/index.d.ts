@@ -1,4 +1,13 @@
-import React from 'react'
+import * as React from 'react'
+declare function useMouse<T extends HTMLElement = HTMLElement>(
+  target: React.RefObject<T> | T | null,
+  options?: UseMouseOptions
+): MousePosition
+export interface UseMouseOptions {
+  enterDelay?: number
+  leaveDelay?: number
+  fps?: number
+}
 export interface MousePosition {
   x: number | null
   y: number | null
@@ -14,9 +23,4 @@ export interface MousePosition {
   isDown: boolean
   isTouch: boolean
 }
-export declare const useMousePosition: <T extends HTMLElement = HTMLElement>(
-  enterDelay?: number,
-  leaveDelay?: number,
-  fps?: number
-) => [MousePosition, React.Dispatch<React.SetStateAction<T | null>>]
-export default useMousePosition
+export default useMouse

@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    useMousePosition()
+    useMouse()
   </h1>
 </div>
 
@@ -31,15 +31,18 @@ though the precise frame rate is configurable.
 
 ## Quick Start
 
+[Check out the example on **CodeSandbox**](https://codesandbox.io/s/react-hookmouse-position-example-udsxi?file=/src/App.js)
+
 ```jsx harmony
-import useMousePosition from '@react-hook/mouse-position'
+import * as React from 'react'
+import useMouse from '@react-hook/mouse-position'
 
 const Component = (props) => {
-  const [mousePosition, ref] = useMousePosition(
-    0, // enterDelay
-    0, // leaveDelay
-    30 // fps
-  )
+  const ref = React.useRef(null)
+  const mouse = useMouse(ref, {
+    enterDelay: 100,
+    leaveDelay: 100,
+  })
 
   return (
     // You must provide the ref to the element you're tracking the
@@ -47,8 +50,8 @@ const Component = (props) => {
     <div ref={ref}>
       Hover me and see where I am relative to the element:
       <br />
-      x: ${mousePosition.x}
-      y: ${mousePosition.y}
+      x: ${mouse.x}
+      y: ${mouse.y}
     </div>
   )
 }
@@ -56,25 +59,29 @@ const Component = (props) => {
 
 ## API
 
-### useMousePosition(enterDelay?, leaveDelay?, fps?)
+### useMouse(target, options?)
 
 A hook for tracking the mouse position in an element with interoperability between touch
 devices and mouse devices.
 
 #### Arguments
 
-| Argument   | Type     | Default | Description                                                                                            |
+| Argument | Type                                                                                     | Required? | Description                                                            |
+| -------- | ---------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or HTML element to add the event listener to  |
+| options  | [`UseMouseOptions`](#usemouseoptions)                                                    | No        | Configuration options. See [`UseMouseOptions`](#usemouseoptions) below |
+
+#### Returns [`MousePosition`](#mouseposition)
+
+The mouse position data for the target element. See [`MousePosition`](#mouseposition) below.
+
+#### UseMouseOptions
+
+| Property   | Type     | Default | Description                                                                                            |
 | ---------- | -------- | ------- | ------------------------------------------------------------------------------------------------------ |
 | enterDelay | `number` | `0`     | The time in `ms` to wait after an initial action before setting the latest `mousemove` events to state |
 | leaveDelay | `number` | `0`     | The time in `ms` to wait after a final action before setting the latest `mouseleave` events to state   |
 | fps        | `number` | `30`    | The rate in frames-per-second that the mouse position should update                                    |
-
-#### Returns `[state: MousePosition, ref: React.Dispatch<React.SetStateAction<HTMLElement | null>>]`
-
-| Variable | Type                                                       | Description                                                                      |
-| -------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `state`  | [MousePosition](#mouseposition)                            | The mouse position data for the ref'd element                                    |
-| `ref`    | `React.Dispatch<React.SetStateAction<HTMLElement | null>>` | The ref you have to provide to the element you're tracking the mouse position of |
 
 #### MousePosition
 
