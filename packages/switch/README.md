@@ -30,7 +30,7 @@ A React hook for controlling a boolean value with toggle, on, and off callbacks
 ```jsx harmony
 import useSwitch from '@react-hook/switch'
 
-const Component = props => {
+const Component = (props) => {
   const [value, toggle] = useSwitch(false /*default value*/)
 
   return (
