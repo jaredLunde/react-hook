@@ -22,7 +22,7 @@
             "env": {
               "modules": false,
               "targets": {
-                "browsers": "> 2%"
+                "browsers": "cover 80% in US"
               }
             },
             "typescript": false
