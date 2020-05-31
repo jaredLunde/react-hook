@@ -26,9 +26,3 @@ test('toggle', () => {
   act(result.current[1])
   expect(result.current[0]).toBe(false)
 })
-
-test('throws', () => {
-  expect(() => {
-    throw renderSwitch('off').result.error
-  }).toThrowErrorMatchingSnapshot()
-})
