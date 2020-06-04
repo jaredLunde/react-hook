@@ -99,7 +99,6 @@
     "@react-hook/event": "^1.1.0"
   },
   "peerDependencies": {
-    "prop-types": ">=15.6",
     "react": ">=16.8",
     "react-dom": ">=16.8"
   }

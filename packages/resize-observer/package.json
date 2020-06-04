@@ -100,7 +100,6 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "peerDependencies": {
-    "prop-types": ">=15.6",
     "react": ">=16.8",
     "react-dom": ">=16.8"
   }

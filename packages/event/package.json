@@ -100,7 +100,6 @@
     "@react-hook/passive-layout-effect": "^1.0.3"
   },
   "peerDependencies": {
-    "prop-types": ">=15.6",
     "react": ">=16.8",
     "react-dom": ">=16.8"
   }
