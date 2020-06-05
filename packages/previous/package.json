@@ -1,21 +1,24 @@
 {
-  "name": "@react-hook/passive-layout-effect",
-  "version": "1.2.0",
-  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/passive-layout-effect#readme",
+  "name": "@react-hook/previous",
+  "version": "1.0.0",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/previous#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "author": "Jared Lunde <jared.lunde@gmail.com>",
   "license": "MIT",
-  "description": "A React hook that uses useEffect() on the server and useLayoutEffect() in the browser",
+  "description": "A React hook that stores a value from the previous render",
   "keywords": [
     "react",
+    "use-previous",
+    "use-previous-value",
     "react hook",
-    "passive layout effect",
-    "isomorphic layout effect"
+    "react previous hook",
+    "react hook previous",
+    "react hook previous value"
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "unpkg": "dist/umd/use-passive-layout-effect.js",
+  "unpkg": "dist/umd/use-previous.js",
   "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
@@ -28,7 +31,7 @@
       "browser": "./dist/module/index.js",
       "import": "./dist/esm/index.mjs",
       "require": "./dist/main/index.js",
-      "umd": "./dist/umd/use-passive-layout-effect.js",
+      "umd": "./dist/umd/use-previous.js",
       "source": "./src/index.tsx",
       "types": "./types/index.d.ts",
       "default": "./dist/main/index.js"

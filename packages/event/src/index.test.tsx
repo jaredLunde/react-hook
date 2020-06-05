@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import {render, fireEvent, screen} from '@testing-library/react'
 import useEvent from './index'
 
 describe('useEvent()', () => {
@@ -9,16 +9,16 @@ describe('useEvent()', () => {
       const [foo, setFoo] = React.useState('')
       useEvent(ref, 'click', () => setFoo('bar'))
       return (
-        <div data-testid="foo" ref={ref}>
+        <div data-testid='foo' ref={ref}>
           {foo}
         </div>
       )
     }
 
-    const {getByTestId, unmount} = render(<Component />)
-    expect(getByTestId('foo').innerHTML).toBe('')
-    fireEvent.click(getByTestId('foo'))
-    expect(getByTestId('foo').innerHTML).toBe('bar')
+    const {unmount} = render(<Component />)
+    expect(screen.getByTestId('foo')).toBeEmptyDOMElement()
+    fireEvent.click(screen.getByTestId('foo'))
+    expect(screen.getByTestId('foo').innerHTML).toBe('bar')
     unmount()
   })
 
@@ -27,13 +27,13 @@ describe('useEvent()', () => {
       const [foo, setFoo] = React.useState('')
       useEvent(document, 'click', () => setFoo('bar'))
       useEvent(document, 'click', () => setFoo('bar'))
-      return <div data-testid="foo">{foo}</div>
+      return <div data-testid='foo'>{foo}</div>
     }
 
-    const {getByTestId, unmount} = render(<Component />)
-    expect(getByTestId('foo').innerHTML).toBe('')
+    const {unmount} = render(<Component />)
+    expect(screen.getByTestId('foo')).toBeEmptyDOMElement()
     fireEvent.click(document)
-    expect(getByTestId('foo').innerHTML).toBe('bar')
+    expect(screen.getByTestId('foo').innerHTML).toBe('bar')
     unmount()
   })
 
@@ -41,13 +41,33 @@ describe('useEvent()', () => {
     const Component = () => {
       const [foo, setFoo] = React.useState('')
       useEvent(window, 'click', () => setFoo('bar'))
-      return <div data-testid="foo">{foo}</div>
+      return <div data-testid='foo'>{foo}</div>
     }
 
-    const {getByTestId, unmount} = render(<Component />)
-    expect(getByTestId('foo').innerHTML).toBe('')
+    const {unmount} = render(<Component />)
+    expect(screen.getByTestId('foo')).toBeEmptyDOMElement()
     fireEvent.click(window)
-    expect(getByTestId('foo').innerHTML).toBe('bar')
+    expect(screen.getByTestId('foo').innerHTML).toBe('bar')
     unmount()
+  })
+
+  it('should invoke cleanup fn on unmount', () => {
+    const cleanup = jest.fn()
+
+    const Component = () => {
+      const ref = React.useRef<HTMLDivElement>(null)
+      const [foo, setFoo] = React.useState('')
+      useEvent(ref, 'click', () => setFoo('bar'), cleanup)
+      return (
+        <div data-testid='foo' ref={ref}>
+          {foo}
+        </div>
+      )
+    }
+
+    const {unmount} = render(<Component />)
+    expect(cleanup).not.toBeCalled()
+    unmount()
+    expect(cleanup).toBeCalled()
   })
 })

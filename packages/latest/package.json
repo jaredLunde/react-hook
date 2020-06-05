@@ -1,21 +1,23 @@
 {
-  "name": "@react-hook/passive-layout-effect",
-  "version": "1.2.0",
-  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/passive-layout-effect#readme",
+  "name": "@react-hook/latest",
+  "version": "1.0.2",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/latest#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "author": "Jared Lunde <jared.lunde@gmail.com>",
   "license": "MIT",
-  "description": "A React hook that uses useEffect() on the server and useLayoutEffect() in the browser",
+  "description": "A React hook that updates useRef().current with the most recent value each invocation",
   "keywords": [
     "react",
-    "react hook",
-    "passive layout effect",
-    "isomorphic layout effect"
+    "react component",
+    "use-ref",
+    "use-latest",
+    "use-effect-callback",
+    "useeffect callback"
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "unpkg": "dist/umd/use-passive-layout-effect.js",
+  "unpkg": "dist/umd/use-latest.js",
   "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
@@ -28,7 +30,7 @@
       "browser": "./dist/module/index.js",
       "import": "./dist/esm/index.mjs",
       "require": "./dist/main/index.js",
-      "umd": "./dist/umd/use-passive-layout-effect.js",
+      "umd": "./dist/umd/use-latest.js",
       "source": "./src/index.tsx",
       "types": "./types/index.d.ts",
       "default": "./dist/main/index.js"

@@ -82,11 +82,12 @@ const useEvent = <
 )
 ```
 
-| Argument | Type                                                                                     | Required? | Description                                                         |
-| -------- | ---------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------- |
-| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or `document` to add the event listener to |
-| type     | `keyof HTMLElementEventMap`                                                              | Yes       | The type of event to listen for                                     |
-| listener | `(this: HTMLElement, ev: HTMLElementEventMap[K]) => any`                                 | Yes       | The callback invoked when the event type fires                      |
+| Argument | Type                                                                                     | Required? | Description                                                                                                                                                                                     |
+| -------- | ---------------------------------------------------------------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| target   | <code>React.RefObject&lt;T&gt; &#124; T &#124; Window &#124; Document &#124; null</code> | Yes       | The React ref, `window`, or `document` to add the event listener to                                                                                                                             |
+| type     | `keyof HTMLElementEventMap`                                                              | Yes       | The type of event to listen for                                                                                                                                                                 |
+| listener | `(this: HTMLElement, ev: HTMLElementEventMap[K]) => any`                                 | Yes       | The callback invoked when the event type fires                                                                                                                                                  |
+| cleanup  | `(...args: any[]) => any`                                                                | No        | This callback will be invoked when the event unmounts. This is _in addition_ to the automatic event listener cleanup that occurs. A common use case could be something like clearing a timeout. |
 
 ## LICENSE
 

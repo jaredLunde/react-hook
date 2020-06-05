@@ -28,11 +28,11 @@ A React hook that uses `useEffect()` on the server and `useLayoutEffect()` in th
 ## Quick Start
 
 ```jsx harmony
-import usePassiveLayoutEffect from '@react-hook/passive-layout-effect'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
 
 const Component = ({foo, bar}) => {
   // Used the same way useEffect() and useLayoutEffect() are
-  usePassiveLayoutEffect(() => {}, [foo, bar])
+  useLayoutEffect(() => {}, [foo, bar])
 }
 ```
 
