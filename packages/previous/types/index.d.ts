@@ -1,5 +1,3 @@
-declare const usePrevious: <T extends unknown>(
-  value: T,
-  initialValue?: T | undefined
-) => T | undefined
+declare function usePrevious<T extends any>(value: T, initialValue: T): T
+declare function usePrevious<T extends any>(value: T): T | undefined
 export default usePrevious
