@@ -3,15 +3,11 @@
   "exclude": ["src/**/*.test.ts", "throttled/src/**/*.test.ts"],
   "compilerOptions": {
     "target": "es5",
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "react",
     "moduleResolution": "node",
-    "strict": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": true
+    "strict": true
   }
 }

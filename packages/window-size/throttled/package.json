@@ -1,17 +1,24 @@
 {
   "name": "@react-hook/window-size-throttled",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/window-size/throttled#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "license": "MIT",
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "source": "src/index.ts",
-  "types": "src/index.d.ts",
+  "unpkg": "dist/umd/use-window-size.js",
+  "source": "src/index.tsx",
+  "types": "types/index.d.ts",
   "files": [
+    "/dist",
     "/src",
-    "/dist"
+    "/types"
   ],
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "@react-hook/debounce": "^3.0.0",
+    "@react-hook/event": "^1.2.1",
+    "@react-hook/throttle": "^2.2.0"
+  }
 }

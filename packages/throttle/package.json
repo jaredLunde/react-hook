@@ -1,9 +1,10 @@
 {
   "name": "@react-hook/throttle",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/throttle#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
+  "author": "Jared Lunde <jared.lunde@gmail.com>",
   "license": "MIT",
   "description": "A React hook for throttling setState and other callbacks",
   "keywords": [
@@ -20,62 +21,115 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "source": "src/index.ts",
+  "unpkg": "dist/umd/use-throttle.js",
+  "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
     "/dist",
     "/src",
     "/types"
   ],
+  "exports": {
+    ".": {
+      "browser": "./dist/module/index.js",
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/main/index.js",
+      "umd": "./dist/umd/use-throttle.js",
+      "source": "./src/index.tsx",
+      "types": "./types/index.d.ts",
+      "default": "./dist/main/index.js"
+    },
+    "./package.json": "./package.json",
+    "./": "./"
+  },
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-main && npm run build-module && npm run build-types",
-    "build-main": "npm run compile -- -d dist/main --env-name main",
-    "build-module": "npm run compile -- -d dist/module --env-name module",
-    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
-    "check-types": "tsc --noEmit -p tsconfig.json",
-    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
+    "build": "lundle build",
+    "check-types": "lundle check-types",
+    "dev": "lundle build -f module,cjs -w",
+    "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
     "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
+    "validate": "lundle check-types && npm run lint && jest --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build-types && prettier --write \"types/**/*.ts\" && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.{ts,js}": [
+    "**/*.{ts,tsx,js,jsx}": [
+      "lundle build -f types",
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json,eslintrc,prettierrc}": [
+    "**/*.{md,yml,json}": [
       "prettier --write"
     ]
   },
-  "devDependencies": {
-    "@lunde/babel-preset-es": "latest",
-    "@testing-library/react-hooks": "^3.2.1",
-    "@types/jest": "^25.2.1",
-    "@typescript-eslint/eslint-plugin": "^2.29.0",
-    "@typescript-eslint/parser": "^2.29.0",
-    "babel-plugin-optimize-react": "^0.0.4",
-    "cross-env": "^7.0.2",
-    "eslint": "^6.8.0",
-    "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "^23.8.2",
-    "husky": "^4.2.5",
-    "jest": "^25.4.0",
-    "lint-staged": "^10.1.7",
-    "prettier": "^2.0.5",
-    "react": "^16.12.0",
-    "react-test-renderer": "^16.12.0",
-    "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+  "eslintConfig": {
+    "extends": [
+      "lunde"
+    ]
   },
-  "dependencies": {},
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "test",
+    "*.config.js"
+  ],
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src",
+      "test"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/?(*.)test.{ts,tsx}"
+    ],
+    "collectCoverageFrom": [
+      "**/src/**/*.{ts,tsx}"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
+    ],
+    "snapshotResolver": "./test/resolve-snapshot.js",
+    "globals": {
+      "__DEV__": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSpacing": false
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/react-hooks": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "babel-jest": "latest",
+    "eslint": "latest",
+    "eslint-config-lunde": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "lundle": "latest",
+    "prettier": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-test-renderer": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "@react-hook/latest": "^1.0.2"
+  },
   "peerDependencies": {
     "react": ">=16.8"
   }

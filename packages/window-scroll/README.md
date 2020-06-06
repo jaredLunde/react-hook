@@ -34,7 +34,7 @@ at `30fps` by default, but this rate is configurable.
 ```jsx harmony
 import useScrollPosition from '@react-hook/window-scroll'
 
-const Component = props => {
+const Component = (props) => {
   const scrollY = useScrollPosition(60 /*fps*/)
   return <div>scroll pos: {scrollY}</div>
 }

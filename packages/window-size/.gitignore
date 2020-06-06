@@ -1,5 +1,4 @@
 node_modules
 dist
 coverage
-src/index.d.ts
-throttled/src/index.d.ts
+*.log

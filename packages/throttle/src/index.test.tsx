@@ -20,6 +20,7 @@ const mockPerf = () => {
         .mockImplementation(() => ts)
       // @ts-ignore
       global.performance = {
+        // @ts-ignore
         now: perfNowStub,
       }
     },

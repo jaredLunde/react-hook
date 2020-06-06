@@ -1,4 +1,5 @@
-import useThrottle from '@react-hook/throttle'
+/* eslint-disable import/no-extraneous-dependencies */
+import {useThrottle} from '@react-hook/throttle'
 import useEvent from '@react-hook/event'
 
 const emptyObj = {}
@@ -11,27 +12,23 @@ export interface ThrottledWindowSizeOptions {
 }
 
 const win = typeof window === 'undefined' ? null : window
+const getSize = () =>
+  [
+    document.documentElement.clientWidth,
+    document.documentElement.clientHeight,
+  ] as const
 
 export const useWindowSize = (
   options: ThrottledWindowSizeOptions = emptyObj
-): [number, number] => {
+): readonly [number, number] => {
   const {fps, leading, initialWidth = 0, initialHeight = 0} = options
-  const [size, setThrottledSize] = useThrottle<[number, number]>(
+  const [size, setThrottledSize] = useThrottle<readonly [number, number]>(
     /* istanbul ignore next */
-    typeof document === 'undefined'
-      ? [initialWidth, initialHeight]
-      : [
-          document.documentElement.clientWidth,
-          document.documentElement.clientHeight,
-        ],
+    typeof document === 'undefined' ? [initialWidth, initialHeight] : getSize,
     fps,
     leading
   )
-  const setSize = (): void =>
-    setThrottledSize([
-      document.documentElement.clientWidth,
-      document.documentElement.clientHeight,
-    ])
+  const setSize = (): void => setThrottledSize(getSize)
 
   useEvent(win, 'resize', setSize)
   useEvent(win, 'orientationchange', setSize)
@@ -46,5 +43,3 @@ export const useWindowHeight = (
 export const useWindowWidth = (
   options?: Omit<ThrottledWindowSizeOptions, 'initialWidth'>
 ): number => useWindowSize(options)[0]
-
-export default useWindowSize

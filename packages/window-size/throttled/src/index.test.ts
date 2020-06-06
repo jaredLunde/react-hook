@@ -1,7 +1,7 @@
 import {renderHook, act} from '@testing-library/react-hooks'
+import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
 // @ts-ignore
-import {resetSize, resizeTo, changeOrientation} from 'test-utils'
 
 const renderWindowSize = (...args): any =>
   renderHook(() => useWindowSize(...args))

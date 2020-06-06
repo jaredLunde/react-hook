@@ -1,4 +1,4 @@
-import useDebounce from '@react-hook/debounce'
+import {useDebounce} from '@react-hook/debounce'
 import useEvent from '@react-hook/event'
 
 const emptyObj = {}
@@ -11,27 +11,23 @@ export interface DebouncedWindowSizeOptions {
 }
 
 const win = typeof window === 'undefined' ? null : window
+const getSize = () =>
+  [
+    document.documentElement.clientWidth,
+    document.documentElement.clientHeight,
+  ] as const
 
 export const useWindowSize = (
   options: DebouncedWindowSizeOptions = emptyObj
-): [number, number] => {
+): readonly [number, number] => {
   const {wait, leading, initialWidth = 0, initialHeight = 0} = options
-  const [size, setDebouncedSize] = useDebounce<[number, number]>(
+  const [size, setDebouncedSize] = useDebounce<readonly [number, number]>(
     /* istanbul ignore next */
-    typeof document === 'undefined'
-      ? [initialWidth, initialHeight]
-      : [
-          document.documentElement.clientWidth,
-          document.documentElement.clientHeight,
-        ],
+    typeof document === 'undefined' ? [initialWidth, initialHeight] : getSize,
     wait,
     leading
   )
-  const setSize = (): void =>
-    setDebouncedSize([
-      document.documentElement.clientWidth,
-      document.documentElement.clientHeight,
-    ])
+  const setSize = (): void => setDebouncedSize(getSize)
 
   useEvent(win, 'resize', setSize)
   useEvent(win, 'orientationchange', setSize)
@@ -46,5 +42,3 @@ export const useWindowHeight = (
 export const useWindowWidth = (
   options?: Omit<DebouncedWindowSizeOptions, 'initialHeight'>
 ): number => useWindowSize(options)[0]
-
-export default useWindowSize
