@@ -1,7 +1,7 @@
 {
   "name": "@react-hook/copy",
-  "version": "2.0.0",
-  "homepage": "https://github.com/jaredLunde/react-hook#readme",
+  "version": "2.0.1",
+  "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/copy#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
   "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
