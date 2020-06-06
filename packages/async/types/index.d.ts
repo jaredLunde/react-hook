@@ -1,29 +1,25 @@
 import * as React from 'react'
 export declare const useAsync: <
-  ValueType extends any = any,
-  ErrorType extends any = Error,
+  ValueType extends unknown = any,
+  ErrorType extends unknown = Error,
   Args extends any[] = any[]
 >(
   asyncCallback: (...args: Args) => Promise<ValueType>
 ) => [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>]
 export declare const useAsyncEffect: <
-  ValueType extends any = any,
-  ErrorType extends any = Error
+  ValueType extends unknown = any,
+  ErrorType extends unknown = Error
 >(
   asyncCallback: () => Promise<ValueType>,
   dependencies?: React.DependencyList | undefined
 ) => AsyncState<ValueType, ErrorType, []>
-export interface AsyncReducerState<
-  ValueType,
-  ErrorType,
-  Args extends any[] = any[]
-> {
+export interface AsyncReducerState<ValueType, ErrorType> {
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
 }
 export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
-  extends AsyncReducerState<ValueType, ErrorType, Args> {
+  extends AsyncReducerState<ValueType, ErrorType> {
   cancel: () => void
 }
 export declare type AsyncAction<ValueType, ErrorType> =

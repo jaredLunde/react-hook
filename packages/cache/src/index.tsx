@@ -1,11 +1,5 @@
-import {
-  useDebugValue,
-  useRef,
-  useMemo,
-  useCallback,
-  useState,
-  useEffect,
-} from 'react'
+import * as React from 'react'
+import useLatest from '@react-hook/latest'
 import {lru} from './lru'
 import type {LRUCache} from './lru'
 
@@ -15,14 +9,14 @@ import type {LRUCache} from './lru'
  * @param resolve
  * @param lruSize
  */
-export const createCache = <
+export function createCache<
   Value = any,
   ErrorType = Error,
   Args extends any[] = []
 >(
   resolve: (key: string, ...args: Args) => Promise<Value>,
   lruSize = Infinity
-): Cache<Value, ErrorType, Args> => {
+): Cache<Value, ErrorType, Args> {
   const cache = lru<string, CacheState<Value, ErrorType>>(lruSize)
   const listeners: Record<
     string,
@@ -298,7 +292,7 @@ export interface CacheSubscribeCallback<Value = any> {
  * @param key The cache key to read or load from the cache
  * @param args Arguments passed to the `cache.load(key, ...args)` function
  */
-export const useCache = <
+export function useCache<
   Value = any,
   ErrorType = Error,
   Args extends any[] = any[]
@@ -306,11 +300,11 @@ export const useCache = <
   cache: Cache<Value, ErrorType, Args>,
   key: string,
   ...args: Args
-): [
+): readonly [
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
-] => {
-  const [state, setState] = useState<{
+] {
+  const [state, setState] = React.useState<{
     key: string
     cache: Cache<Value, ErrorType, Args>
     current: CacheState<Value, ErrorType> | undefined
@@ -324,8 +318,7 @@ export const useCache = <
     })
   )
   // Allows the most recent arguments to be available in the cached callback below
-  const storedArgs = useRef(args)
-  storedArgs.current = args
+  const storedArgs = useLatest(args)
   // If our cache or key changes, we don't have to set the new key/cache in
   // an effect. It can just be done here.
   if (state.cache !== cache || state.key !== key) {
@@ -336,7 +329,7 @@ export const useCache = <
     })
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     let didUnsubscribe = false
 
     const checkForUpdates = (
@@ -365,10 +358,10 @@ export const useCache = <
     }
   }, [key, cache])
   // So React DevTools can report the value of the hook
-  useDebugValue(state?.current)
+  React.useDebugValue(state?.current)
 
   return [
-    useMemo<UseCacheState<Value, ErrorType>>(() => {
+    React.useMemo<UseCacheState<Value, ErrorType>>(() => {
       const cancel = () => cache.cancel(key)
       if (!state.current) {
         return {
@@ -383,7 +376,11 @@ export const useCache = <
         return Object.assign(current, {cancel})
       }
     }, [state, key, cache]),
-    useCallback(() => cache.load(key, ...storedArgs.current), [key, cache]),
+    React.useCallback(() => cache.load(key, ...storedArgs.current), [
+      key,
+      cache,
+      storedArgs,
+    ]),
   ]
 }
 

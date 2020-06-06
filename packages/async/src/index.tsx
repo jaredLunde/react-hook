@@ -1,4 +1,5 @@
 import * as React from 'react'
+import useLatest from '@react-hook/latest'
 
 export const useAsync = <
   ValueType extends any = any,
@@ -9,7 +10,7 @@ export const useAsync = <
 ): [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>] => {
   const [state, dispatch] = React.useReducer<
     React.Reducer<
-      AsyncReducerState<ValueType, ErrorType, Args>,
+      AsyncReducerState<ValueType, ErrorType>,
       AsyncAction<ValueType, ErrorType>
     >,
     undefined
@@ -37,8 +38,7 @@ export const useAsync = <
   )
   // Creates a stable callback that manages our loading/success/error status updates
   // as the callback is invoked.
-  const storedCallback = React.useRef(asyncCallback)
-  storedCallback.current = asyncCallback
+  const storedCallback = useLatest(asyncCallback)
 
   const [callback] = React.useState(() => {
     const cancelled: Set<Promise<ValueType> | null> = new Set()
@@ -109,18 +109,14 @@ export const useAsyncEffect = <
   return state
 }
 
-export interface AsyncReducerState<
-  ValueType,
-  ErrorType,
-  Args extends any[] = any[]
-> {
+export interface AsyncReducerState<ValueType, ErrorType> {
   status: AsyncStatus
   value?: ValueType
   error?: ErrorType
 }
 
 export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
-  extends AsyncReducerState<ValueType, ErrorType, Args> {
+  extends AsyncReducerState<ValueType, ErrorType> {
   cancel: () => void
 }
 

@@ -1,17 +1,13 @@
 {
   "include": ["src"],
-  "exclude": [
-    "src/**/*.test.ts",
-    "src/**/test.ts",
-    "src/**/*.test.tsx",
-    "src/**/test.tsx"
-  ],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "moduleResolution": "node",
-    "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true
   }
 }

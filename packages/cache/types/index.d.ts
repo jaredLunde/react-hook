@@ -4,14 +4,14 @@
  * @param resolve
  * @param lruSize
  */
-export declare const createCache: <
+export declare function createCache<
   Value = any,
   ErrorType = Error,
   Args extends any[] = []
 >(
   resolve: (key: string, ...args: Args) => Promise<Value>,
   lruSize?: number
-) => Cache<Value, ErrorType, Args>
+): Cache<Value, ErrorType, Args>
 export declare type Cache<
   Value = any,
   ErrorType = Error,
@@ -133,7 +133,7 @@ export interface CacheSubscribeCallback<Value = any> {
  * @param key The cache key to read or load from the cache
  * @param args Arguments passed to the `cache.load(key, ...args)` function
  */
-export declare const useCache: <
+export declare function useCache<
   Value = any,
   ErrorType = Error,
   Args extends any[] = any[]
@@ -141,7 +141,7 @@ export declare const useCache: <
   cache: Cache<Value, ErrorType, Args>,
   key: string,
   ...args: Args
-) => [
+): readonly [
   UseCacheState<Value, ErrorType>,
   () => Promise<CacheState<Value, ErrorType>>
 ]
