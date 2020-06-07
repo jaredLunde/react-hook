@@ -12,14 +12,9 @@
   <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/size">
     <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/size?style=for-the-badge&labelColor=24292e">
   </a>
-  <!--
-  <a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/react-hook">
-    <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/react-hook?style=for-the-badge&labelColor=24292e">
-  </a>
   <a aria-label="Build status" href="https://travis-ci.com/jaredLunde/react-hook">
     <img alt="Build status" src="https://img.shields.io/travis/com/jaredLunde/react-hook?style=for-the-badge&labelColor=24292e">
   </a>
-  -->
   <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/size">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/size?style=for-the-badge&labelColor=24292e">
   </a>

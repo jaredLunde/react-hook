@@ -10,8 +10,11 @@
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/@react-hook/switch?style=for-the-badge&labelColor=24292e">
   </a>
   <a aria-label="Types" href="https://www.npmjs.com/package/@react-hook/switch">
-      <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/switch?style=for-the-badge&labelColor=24292e">
-    </a>
+    <img alt="Types" src="https://img.shields.io/npm/types/@react-hook/switch?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Build status" href="https://travis-ci.com/jaredLunde/react-hook">
+    <img alt="Build status" src="https://img.shields.io/travis/com/jaredLunde/react-hook?style=for-the-badge&labelColor=24292e">
+  </a>
   <a aria-label="NPM version" href="https://www.npmjs.com/package/@react-hook/switch">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/@react-hook/switch?style=for-the-badge&labelColor=24292e">
   </a>

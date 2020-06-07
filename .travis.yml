@@ -14,6 +14,32 @@ matrix:
   include:
     - env: TARGET=packages/async
     - env: TARGET=packages/cache
+    - env: TARGET=packages/change
+    - env: TARGET=packages/click
+    - env: TARGET=packages/copy
+    - env: TARGET=packages/counter
+    - env: TARGET=packages/debounce
+    - env: TARGET=packages/event
+    - env: TARGET=packages/google-optimize
+    - env: TARGET=packages/hotkey
+    - env: TARGET=packages/hover
+    - env: TARGET=packages/intersection-observer
+    - env: TARGET=packages/latest
+    - env: TARGET=packages/media-query
+    - env: TARGET=packages/merged-ref
+    - env: TARGET=packages/mouse-position
+    - env: TARGET=packages/passive-layout-effect
+    - env: TARGET=packages/previous
+    - env: TARGET=packages/resize-observer
+    - env: TARGET=packages/server-promises
+    - env: TARGET=packages/size
+    - env: TARGET=packages/switch
+    - env: TARGET=packages/throttle
+    - env: TARGET=packages/timeout
+    - env: TARGET=packages/toggle
+    - env: TARGET=packages/window-scroll
+    - env: TARGET=packages/window-size
+
 before_script:
   - chmod +x ./.travis/build-condition.sh
 script: if .travis/build-condition.sh $TRAVIS_COMMIT_RANGE $TARGET; then echo "$TARGET is being built" && cd $TARGET && yarn install && yarn validate; else echo "$TARGET is NOT being built"; fi
