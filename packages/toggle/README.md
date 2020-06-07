@@ -51,7 +51,7 @@ const Component = (props) => {
 
 ## API
 
-### useToggle(off, on, defaultValue?)
+### useToggle(off?, on?, defaultValue?)
 
 ```ts
 function useToggle<Off extends any, On extends any>(
@@ -61,11 +61,11 @@ function useToggle<Off extends any, On extends any>(
 ): [Off | On, () => void]
 ```
 
-| Argument     | Type       | Default        | Required? | Description                                                        |
-| ------------ | ---------- | -------------- | --------- | ------------------------------------------------------------------ |
-| off          | `Off`      | `false`        | No        | The value of the toggle in its `off` state                         |
-| on           | `On`       | `true`         | No        | The value of the toggle in its `on` state                          |
-| defaultValue | `Off | On` | `value of off` | No        | The default value of the toggle, either the value of `off` or `on` |
+| Argument     | Type       | Default | Required? | Description                                                        |
+| ------------ | ---------- | ------- | --------- | ------------------------------------------------------------------ |
+| off          | `Off`      | `false` | No        | The value of the toggle in its `off` state                         |
+| on           | `On`       | `true`  | No        | The value of the toggle in its `on` state                          |
+| defaultValue | `Off | On` | `off`   | No        | The default value of the toggle, either the value of `off` or `on` |
 
 ## LICENSE
 
