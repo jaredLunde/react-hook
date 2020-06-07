@@ -8,6 +8,12 @@ exports[`useOptimize should pick "3": <div>3</div> 1`] = `
 </DocumentFragment>
 `;
 
+exports[`useOptimize should throw without dataLayer or gtag 1`] = `
+Array [
+  "[@react-hook/google-optimize] Google Tag Manager was not found on your site. Neither \\"gtag()\\" or \\"dataLayer[]\\" could be located on the \\"window\\". If you are not using Google Tag Manager in dev you can ignore this warning. Otherwise, see the Google Tag Manager dev guide for examples: https://developers.google.com/tag-manager/devguide",
+]
+`;
+
 exports[`useOptimize should timeout and default to "1": <div>1</div> 1`] = `
 <DocumentFragment>
   <div>

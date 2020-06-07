@@ -56,4 +56,39 @@ describe('useOptimize', () => {
     expect(setTimeout).toHaveBeenCalledTimes(1)
     expect(clearTimeout).toHaveBeenCalledTimes(1)
   })
+
+  it('should use dataLayer when gtag is not available', () => {
+    // @ts-ignore
+    delete window.gtag
+    // @ts-ignore
+    window.dataLayer = []
+
+    const Optimize = () => {
+      const variant = useGoogleOptimize('abc', [1, 2, 3])
+      return <div>{JSON.stringify(variant)}</div>
+    }
+
+    render(<Optimize />)
+    expect(window.dataLayer.length).toBe(1)
+  })
+
+  it('should throw without dataLayer or gtag', () => {
+    // @ts-ignore
+    delete window.gtag
+    // @ts-ignore
+    delete window.dataLayer
+    const origWarn = console.warn
+    console.warn = jest.fn()
+
+    const Optimize = () => {
+      const variant = useGoogleOptimize('abc', [1, 2, 3])
+      return <div>{JSON.stringify(variant)}</div>
+    }
+
+    render(<Optimize />)
+    expect(console.warn).toBeCalled()
+    // @ts-ignore
+    expect(console.warn.mock.calls[0]).toMatchSnapshot()
+    console.warn = origWarn
+  })
 })

@@ -49,7 +49,7 @@ function useGoogleOptimize<T>(
       return removeCallback
     },
     // Only update if the experiment ID changes
-    [experimentId]
+    [experimentId, timeout]
   )
   // When testing functions you should use null checks. No special treatment
   // is necessary with React components.
