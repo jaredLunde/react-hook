@@ -40,13 +40,19 @@ const Component = React.forwardRef((props, ref) => {
 
 ## API
 
-### `useMergedRef(...refs: ReactRef[]): CallbackRef`
+### `useMergedRef(...refs)`
+
+```ts
+function useMergedRef<T extends any>(
+  ...refs: React.Ref<T>[]
+): React.RefCallback<T>
+```
 
 | Argument | Description                                                        |
 | -------- | ------------------------------------------------------------------ |
 | refs     | React callback refs or refs created with `useRef()`, `createRef()` |
 
-#### Returns `ref: CallbackRef`
+#### Returns `React.RefCallback`
 
 Returns a callback ref
 
