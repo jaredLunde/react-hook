@@ -47,7 +47,7 @@ const Component = (props) => {
 ### useHover(target, options?)
 
 ```tsx
-const useHover = <T extends HTMLElement>(
+function useHover<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
   options: UseHoverOptions = {}
 ): boolean

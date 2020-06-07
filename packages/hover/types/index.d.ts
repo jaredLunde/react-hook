@@ -1,9 +1,8 @@
 import * as React from 'react'
-declare const useHover: <T extends HTMLElement>(
-  target: T | React.RefObject<T> | null,
+declare function useHover<T extends HTMLElement>(
+  target: React.RefObject<T> | T | null,
   options?: UseHoverOptions
-) => boolean
-export declare const canHover: () => boolean
+): boolean
 export interface UseHoverOptions {
   enterDelay?: number
   leaveDelay?: number

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import useEvent from '@react-hook/event'
 
-const useHover = <T extends HTMLElement>(
+function useHover<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
   options: UseHoverOptions = {}
-): boolean => {
+): boolean {
   const {enterDelay, leaveDelay} = options
   const timeout = React.useRef<number | undefined>()
   const [hovering, setHovering] = React.useState(false)
@@ -36,7 +36,7 @@ const useHover = <T extends HTMLElement>(
   return hovering
 }
 
-export const canHover = (): boolean =>
+const canHover = (): boolean =>
   typeof window !== 'undefined'
     ? !window.matchMedia('(hover: none)').matches
     : false
