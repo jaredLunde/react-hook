@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/timeout",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/timeout#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -40,7 +40,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "lundle build --umd-case camel",
+    "build": "lundle build",
     "check-types": "lundle check-types",
     "dev": "lundle build -f module,cjs -w",
     "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
