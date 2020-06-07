@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/resize-observer",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/resize-observer#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -12,6 +12,7 @@
     "react hook",
     "resize observer",
     "resize observer hook",
+    "resize observer react hook",
     "use-resize-observer",
     "useresizeobserver",
     "resize hook",
@@ -19,6 +20,7 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "unpkg": "dist/umd/use-resize-observer.js",
   "source": "src/index.tsx",
   "types": "types/index.d.ts",
   "files": [
@@ -31,6 +33,7 @@
       "browser": "./dist/module/index.js",
       "import": "./dist/esm/index.mjs",
       "require": "./dist/main/index.js",
+      "umd": "./dist/umd/use-resize-observer.js",
       "source": "./src/index.tsx",
       "types": "./types/index.d.ts",
       "default": "./dist/main/index.js"
@@ -40,22 +43,18 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build-esm && npm run build-main && npm run build-module && npm run build-types",
-    "build-esm": "npm run compile -- -d dist/esm --env-name esm --out-file-extension .mjs",
-    "build-main": "npm run compile -- -d dist/main --env-name main",
-    "build-module": "npm run compile -- -d dist/module --env-name module",
-    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
-    "check-types": "tsc --noEmit -p tsconfig.json",
-    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/*.test.tsx\" --delete-dir-on-start",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,eslintrc,prettierrc}\"",
+    "build": "lundle build --umd-case camel",
+    "check-types": "lundle check-types",
+    "dev": "lundle build -f module,cjs -w",
+    "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
     "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
+    "validate": "lundle check-types && npm run lint && jest --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build-types && git add types && lint-staged"
+      "pre-commit": "lundle check-types && lint-staged"
     }
   },
   "lint-staged": {
@@ -63,44 +62,75 @@
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json,eslintrc,prettierrc}": [
+    "**/*.{md,yml,json}": [
       "prettier --write"
     ]
   },
+  "eslintConfig": {
+    "extends": [
+      "lunde"
+    ]
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "test",
+    "*.config.js"
+  ],
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src",
+      "test"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/?(*.)test.{ts,tsx}"
+    ],
+    "collectCoverageFrom": [
+      "**/src/**/*.{ts,tsx}"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
+    ],
+    "snapshotResolver": "./test/resolve-snapshot.js",
+    "globals": {
+      "__DEV__": true
+    }
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "bracketSpacing": false
+  },
   "devDependencies": {
-    "@babel/preset-react": "latest",
-    "@lunde/babel-preset-es": "latest",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/react-hooks": "latest",
+    "@testing-library/user-event": "latest",
     "@types/jest": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
-    "babel-plugin-annotate-pure-calls": "latest",
-    "babel-plugin-optimize-react": "latest",
+    "babel-jest": "latest",
     "eslint": "latest",
-    "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "latest",
-    "eslint-plugin-react": "latest",
-    "eslint-plugin-react-hooks": "latest",
+    "eslint-config-lunde": "latest",
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
+    "lundle": "latest",
     "prettier": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
-    "ts-jest": "latest",
     "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.0.3",
+    "@react-hook/latest": "^1.0.2",
+    "@react-hook/passive-layout-effect": "^1.2.0",
     "resize-observer-polyfill": "^1.5.1"
   },
   "peerDependencies": {
-    "react": ">=16.8",
-    "react-dom": ">=16.8"
+    "react": ">=16.8"
   }
 }

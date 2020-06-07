@@ -1,6 +1,7 @@
 import * as React from 'react'
-import useLayoutEffect from '@react-hook/passive-layout-effect'
 import ResizeObserver from 'resize-observer-polyfill'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
+import useLatest from '@react-hook/latest'
 
 /**
  * A React hook that fires a callback whenever ResizeObserver detects a change to its size
@@ -14,8 +15,7 @@ const useResizeObserver = <T extends HTMLElement>(
   callback: UseResizeObserverCallback
 ): ResizeObserver => {
   const resizeObserver = getResizeObserver()
-  const storedCallback = React.useRef(callback)
-  storedCallback.current = callback
+  const storedCallback = useLatest(callback)
 
   useLayoutEffect(() => {
     let didUnsubscribe = false
@@ -40,7 +40,7 @@ const useResizeObserver = <T extends HTMLElement>(
       didUnsubscribe = true
       resizeObserver.unsubscribe(callback)
     }
-  }, [target, resizeObserver])
+  }, [target, resizeObserver, storedCallback])
 
   useLayoutEffect(() => {
     const targetEl = target && 'current' in target ? target.current : target
