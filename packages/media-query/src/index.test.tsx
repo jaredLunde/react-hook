@@ -6,7 +6,7 @@ describe('useMediaQueries', () => {
   it('should return correct matches with addListener', () => {
     const addListener = jest.fn()
     const removeListener = jest.fn()
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: query.includes('foo'),
         media: query,
@@ -30,7 +30,7 @@ describe('useMediaQueries', () => {
   it('should return correct matches with addEventListener', () => {
     const addListener = jest.fn()
     const removeListener = jest.fn()
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: query.includes('foo'),
         media: query,
@@ -58,7 +58,7 @@ describe('useMediaQueries', () => {
   it('shold update the query listeners when they change', () => {
     const addListener = jest.fn()
     const removeListener = jest.fn()
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: query.includes('foo') || query.includes('baz'),
         media: query,
@@ -89,7 +89,7 @@ describe('useMediaQueries', () => {
   it('shold update the query listeners when they change length', () => {
     const addListener = jest.fn()
     const removeListener = jest.fn()
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: query.includes('foo') || query.includes('baz'),
         media: query,
@@ -119,7 +119,7 @@ describe('useMediaQueries', () => {
   it('should not match any', () => {
     const addListener = jest.fn()
     const removeListener = jest.fn()
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: false,
         media: query,
@@ -141,13 +141,13 @@ describe('useMediaQueries', () => {
     let callback
     let matches = true
 
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         get matches() {
           return matches
         },
         media: query,
-        addListener: cb => {
+        addListener: (cb) => {
           callback = cb
         },
         removeListener: jest.fn(),
@@ -167,7 +167,7 @@ describe('useMediaQueries', () => {
 
 describe('useMediaQuery', () => {
   it('should return correct matches for single media query', () => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: query.includes('foo'),
         media: query,

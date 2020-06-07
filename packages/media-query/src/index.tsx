@@ -1,4 +1,4 @@
-import {useRef, useMemo, useEffect, useReducer, Reducer} from 'react'
+import * as React from 'react'
 
 export type MediaQueries<T> = {
   [Name in keyof T]: string
@@ -44,12 +44,12 @@ const queriesDidChange = (
   return Object.keys(nextQueries).some((n, i) => n !== prevKeys[i])
 }
 
-const init = <T>(queries: MediaQueries<T>): State<T> => {
-  const queryKeys = Object.keys(queries)
+const init = <T,>(queries: MediaQueries<T>): State<T> => {
+  const queryKeys = Object.keys(queries) as (keyof MediaQueries<T>)[]
   /* istanbul ignore next */
   if (typeof window === 'undefined')
     return queryKeys.reduce(
-      (curr: State<any>, key: string) => {
+      (curr: State<any>, key) => {
         curr.matches[key] = false
         curr.mediaQueries[key] = {} as MediaQueryList
         return curr
@@ -57,7 +57,7 @@ const init = <T>(queries: MediaQueries<T>): State<T> => {
       {mediaQueries: {}, matches: {}}
     )
   return queryKeys.reduce(
-    (state: State<any>, name: string): State<T> => {
+    (state: State<any>, name): State<T> => {
       const mql = window.matchMedia(queries[name])
       state.mediaQueries[name] = mql
       state.matches[name] = mql.matches
@@ -73,7 +73,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         matches: Object.keys(state.mediaQueries).reduce(
           (prev: Matches<any>, key: string) => {
-            prev[key] = state.mediaQueries[key].matches
+            prev[key] = state.mediaQueries[key as keyof T].matches
             return prev
           },
           {}
@@ -86,25 +86,25 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
   }
 }
 
-export const useMediaQueries = <T>(
+export const useMediaQueries = <T,>(
   queries: MediaQueries<T>
 ): MediaQueryMatches<T> => {
-  const prevQueries = useRef<MediaQueries<T>>(queries)
-  const [state, dispatch] = useReducer<
-    Reducer<State<T>, Action<T>>,
+  const prevQueries = React.useRef<MediaQueries<T>>(queries)
+  const [state, dispatch] = React.useReducer<
+    React.Reducer<State<T>, Action<T>>,
     MediaQueries<T>
   >(reducer, queries, init)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (queriesDidChange(queries, prevQueries.current)) {
       dispatch({type: 'setQueries', queries})
       prevQueries.current = queries
     }
   }, [queries])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const queries: MediaQueryList[] = Object.values(state.mediaQueries)
-    const callbacks: (() => void)[] = queries.map(mq => {
+    const callbacks: (() => void)[] = queries.map((mq) => {
       const callback = () => dispatch({type: 'updateMatches'})
       if (typeof mq.addListener !== 'undefined') mq.addListener(callback)
       else mq.addEventListener('change', callback)
@@ -122,7 +122,7 @@ export const useMediaQueries = <T>(
   }, [state.mediaQueries])
 
   const {matches} = state
-  const matchValues = useMemo<boolean[]>(() => Object.values(matches), [
+  const matchValues = React.useMemo<boolean[]>(() => Object.values(matches), [
     matches,
   ])
 
@@ -133,7 +133,7 @@ export const useMediaQueries = <T>(
   }
 }
 
-const cache = {}
+const cache: Record<string, MediaQueries<{default: string}>> = {}
 const getObj = (query: string): MediaQueries<{default: string}> => {
   if (cache[query] === void 0) cache[query] = {default: query}
   return cache[query]
