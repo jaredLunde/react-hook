@@ -7,12 +7,7 @@
     "jsx": "react",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
-    "noImplicitReturns": false,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": true,
     "strict": true
   }
 }
