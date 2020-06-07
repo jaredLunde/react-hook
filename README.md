@@ -1,12 +1,12 @@
 <div align="center">
   <h1 align="center">
     ↩ react-hook
-    <br>
-    <br>
   </h1>
-  <h2>
+  <h3>
     Reusable React hooks for function components
-  </h2>
+  </h3>
+  <br>
+  <br>
 </div>
 
 | Hook                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
