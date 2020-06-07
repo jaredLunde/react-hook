@@ -2,7 +2,7 @@ import * as React from 'react'
 
 const useCallback = React.useCallback
 
-const useSwitch = (defaultValue = false): [boolean, ToggleFn] => {
+const useSwitch = (defaultValue = false) => {
   const [current, setCurrent] = React.useState(defaultValue)
   return [
     current,
@@ -19,15 +19,9 @@ const useSwitch = (defaultValue = false): [boolean, ToggleFn] => {
         off: useCallback(() => setCurrent(false), emptyArr),
       }
     ),
-  ]
+  ] as const
 }
 
 const emptyArr: [] = []
-
-export interface ToggleFn {
-  (): void
-  on: () => void
-  off: () => void
-}
 
 export default useSwitch

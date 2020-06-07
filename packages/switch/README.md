@@ -49,7 +49,7 @@ const Component = (props) => {
 
 ## API
 
-### `useSwitch(defaultValue?: boolean)`
+### `useSwitch(defaultValue?)`
 
 #### Arguments
 
@@ -59,12 +59,12 @@ const Component = (props) => {
 
 #### Returns `[value: boolean, toggle: ToggleFn]`
 
-| Variable | Type       | Description                                                                |
-| -------- | ---------- | -------------------------------------------------------------------------- |
-| value    | `boolean`  | Defines the initial value                                                  |
-| toggle   | `ToggleFn` | If the `value` is `true`, calling this will make it `false` and vice-versa |
+| Variable | Type                                             | Description                                                                |
+| -------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
+| value    | `boolean`                                        | Defines the initial value                                                  |
+| toggle   | `() => void & {on: () => void, off: () => void}` | If the `value` is `true`, calling this will make it `false` and vice-versa |
 
-#### `ToggleFn`
+#### `() => void & {on: () => void, off: () => void}`
 
 | Method | Type         | Description                     |
 | ------ | ------------ | ------------------------------- |
