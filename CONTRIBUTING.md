@@ -16,22 +16,12 @@ Packages must be installed individually. They must also be installed using the `
 Each individual package includes the following scripts:
 
 - `build`: Builds CJS and ES modules, as well as types
-- `build:cjs`: Builds CJS module
-- `build:es`: Builds ES module
-- `build:types`: Builds types
-- `check-types`: Checks types
+- `dev`: Runs CJS and ES module builds in `--watch` mode
+- `check-types`: Checks TypeScript types
 - `format`: Formats the package w/ Prettier
 - `lint`: Lints the package w/ eslint
 - `test`: Tests the package w/ Jest
 - `validate`: Tests, lints, and checks types for the package
-
-#### Watching the ES module build:
-
-`yarn build:es -w`
-
-#### Watching the CJS module build:
-
-`yarn build:cjs -w`
 
 #### Watching tests:
 
