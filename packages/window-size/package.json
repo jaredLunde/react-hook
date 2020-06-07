@@ -71,7 +71,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "lundle build && rimraf throttled/types && mv types/throttled/src throttled/types && mv types/src/index.d.ts types/index.d.ts && rimraf types/{src,throttled}",
+    "build": "lundle build",
     "check-types": "lundle check-types",
     "dev": "lundle build -f module,cjs -w",
     "format": "prettier --write \"{,!(node_modules|dist|coverage|throttled)/**/}*.{ts,tsx,js,jsx,md,yml,json}\" && prettier --write \"throttled/{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
@@ -163,7 +163,7 @@
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "latest",
+    "lundle": "^0.3.0",
     "prettier": "latest",
     "react": "latest",
     "react-dom": "latest",

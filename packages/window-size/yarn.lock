@@ -4545,10 +4545,10 @@ lower-case@^2.0.1:
   dependencies:
     tslib "^1.10.0"
 
-lundle@latest:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/lundle/-/lundle-0.2.4.tgz#dee7c10cbe8cd78d1f4813d4771ec638d624daa2"
-  integrity sha512-BivTToQosqiGkdX65n/SiBEX+VnfZ3vpE0WZ6shG1xd1/nQImrBh4IKJE/tpl5yF85cEd75Os6HKlbCibidQyw==
+lundle@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/lundle/-/lundle-0.3.0.tgz#25ccb8a5565277877fc09c207a89123a900ba95e"
+  integrity sha512-TL/CGCpo4Y9jy5PpYnU6yx7D3q/8VEzL9G54/HQiW3fLClTKFB9riEmbiK11Ph0ZuuHP1QCNzLjS0+bBihjLTA==
   dependencies:
     "@babel/core" "^7.10.2"
     "@babel/preset-react" "^7.10.1"
@@ -4566,7 +4566,7 @@ lundle@latest:
     chokidar "^3.4.0"
     find-package-json "^1.2.0"
     gzip-size "^5.1.1"
-    minimatch "^3.0.4"
+    micromatch "^4.0.2"
     pretty-bytes "^5.3.0"
     rimraf "^3.0.2"
     rollup "^2.12.0"
