@@ -1,6 +1,6 @@
 /* jest */
 import * as React from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import {render, fireEvent, screen} from '@testing-library/react'
 import {useHotkey, useHotkeys} from './index'
 
 describe('useHotkey', () => {
@@ -9,11 +9,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, 'a', fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A'})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A'})
     expect(fn).toBeCalled()
   })
 
@@ -22,11 +22,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, ['ctrl', 'a'], fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A', ctrlKey: true})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A', ctrlKey: true})
     expect(fn).toBeCalled()
   })
 
@@ -35,11 +35,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, ['mod', 'a'], fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A', ctrlKey: true})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A', ctrlKey: true})
     expect(fn).toBeCalledTimes(1)
   })
 
@@ -48,11 +48,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, ['ctrl', 'a'], fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A'})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A'})
     expect(fn).not.toBeCalled()
   })
 
@@ -61,11 +61,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, ['a'], fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A', ctrlKey: true})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A', ctrlKey: true})
     expect(fn).not.toBeCalled()
   })
 
@@ -74,11 +74,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey<HTMLDivElement>(ref, ['a', 'ctrl'], fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {
+    fireEvent.keyDown(screen.getByTestId('area'), {
       key: 'A',
       ctrlKey: true,
       shiftKey: true,
@@ -91,11 +91,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, 'j', fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {which: 74})
+    fireEvent.keyDown(screen.getByTestId('area'), {which: 74})
     expect(fn).toBeCalled()
   })
 
@@ -104,11 +104,11 @@ describe('useHotkey', () => {
     const Hotkey = () => {
       const ref = React.useRef<HTMLDivElement>(null)
       useHotkey(ref, 'j', fn)
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fn).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {which: 75})
+    fireEvent.keyDown(screen.getByTestId('area'), {which: 75})
     expect(fn).not.toBeCalled()
   })
 })
@@ -123,15 +123,15 @@ describe('useHotkeys', () => {
         ['a', fnA],
         ['b', fnB],
       ])
-      return <div data-testid="area" ref={ref} />
+      return <div data-testid='area' ref={ref} />
     }
-    const {getByTestId} = render(<Hotkey />)
+    render(<Hotkey />)
     expect(fnA).not.toBeCalled()
     expect(fnB).not.toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'B'})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'B'})
     expect(fnA).not.toBeCalled()
     expect(fnB).toBeCalled()
-    fireEvent.keyDown(getByTestId('area'), {key: 'A'})
+    fireEvent.keyDown(screen.getByTestId('area'), {key: 'A'})
     expect(fnA).toBeCalled()
   })
 })

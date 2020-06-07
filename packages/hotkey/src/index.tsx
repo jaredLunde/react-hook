@@ -1,15 +1,42 @@
 import useEvent from '@react-hook/event'
 
+export function useHotkey<T extends Window = Window>(
+  target: Window | null,
+  hotkey: Hotkey | Hotkey[],
+  callback: HotkeyCallback
+): void
+export function useHotkey<T extends Document = Document>(
+  target: Document | null,
+  hotkey: Hotkey | Hotkey[],
+  callback: HotkeyCallback
+): void
 export function useHotkey<T extends HTMLElement = HTMLElement>(
-  target: Window | Document | T | React.RefObject<T> | null,
+  target: React.RefObject<T> | T | null,
+  hotkey: Hotkey | Hotkey[],
+  callback: HotkeyCallback
+): void
+export function useHotkey(
+  target: any,
   hotkey: Hotkey | Hotkey[],
   callback: HotkeyCallback
 ): void {
-  return useHotkeys<T>(target, [[hotkey, callback]])
+  return useHotkeys(target, [[hotkey, callback]])
 }
 
+export function useHotkeys<T extends Window = Window>(
+  target: Window | null,
+  hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
+): void
+export function useHotkeys<T extends Document = Document>(
+  target: Document | null,
+  hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
+): void
 export function useHotkeys<T extends HTMLElement = HTMLElement>(
-  target: Window | Document | T | React.RefObject<T> | null,
+  target: React.RefObject<T> | T | null,
+  hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
+): void
+export function useHotkeys(
+  target: any,
   hotkeys: [Hotkey | Hotkey[], HotkeyCallback][]
 ): void {
   useEvent(target, 'keydown', (event) => {
