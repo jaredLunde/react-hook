@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useServerPromises() should render to string w/ resolved promises: 
+      <div>
+        Hello <div>world</div>
+      </div>
+     1`] = `"<div>Hello <div>world </div></div>"`;
+
+exports[`useServerPromises() should use custom renderer: 
+      <div>
+        Hello <div>world</div>
+      </div>
+     1`] = `"<div>Hello<!-- --> <div>world<!-- --> </div></div>"`;
