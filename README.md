@@ -40,7 +40,7 @@
 
 ## Contributing
 
-[👋Click here to see **how to contribute**](./CONTRIBUTING.md)
+[👋 Click here to see **how to contribute**](./CONTRIBUTING.md)
 
 ## LICENSE
 
