@@ -15,18 +15,18 @@ Packages must be installed individually. They must also be installed using the `
 
 Each individual package includes the following scripts:
 
-- `build`: Builds CJS and ES modules, as well as types
-- `dev`: Runs CJS and ES module builds in `--watch` mode
+- `build`: Builds cjs/esm, types, and umd
+- `dev`: Runs cjs and esm builds in `--watch` mode
 - `check-types`: Checks TypeScript types
 - `format`: Formats the package w/ Prettier
 - `lint`: Lints the package w/ eslint
 - `test`: Tests the package w/ Jest
 - `validate`: Tests, lints, and checks types for the package
 
-#### Watching tests:
-
-`yarn test --watch`
-
 ### Submitting a pull request
 
-Prior to submitting a pull request please ensure that `yarn validate` passes. Please also include a tag with the packages you updated in your commit message e.g. `[throttle] Fixes issue where setState was not called on the leading edge`.
+Prior to submitting a pull request please ensure that:
+
+1. `yarn validate` passes
+2. You've included a tag with the packages you updated in your commit message e.g. `[throttle] fix: setState was not called on the leading edge`.
+3. You 've opened an issue prior to large or breaking changes. Talking about it first will increase the likelihood of merging.
