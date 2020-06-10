@@ -60,7 +60,7 @@ function useToggle<Off extends any, On extends any>(
 | ------------ | ---------- | ------- | --------- | ------------------------------------------------------------------ |
 | off          | `Off`      | `false` | No        | The value of the toggle in its `off` state                         |
 | on           | `On`       | `true`  | No        | The value of the toggle in its `on` state                          |
-| defaultValue | `Off | On` | `off`   | No        | The default value of the toggle, either the value of `off` or `on` |
+| defaultValue | `Off \| On` | `off`   | No        | The default value of the toggle, either the value of `off` or `on` |
 
 ## LICENSE
 
