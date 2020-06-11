@@ -63,11 +63,11 @@ export const useThrottle = <State>(
 
 #### Arguments
 
-| Property     | Type                    | Default | Description                                                                                                                |
-| ------------ | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `State | (() => State)` |         | The initial state provided to `React.useState()`                                                                           |
-| fps          | `number`                | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
-| leading      | `boolean`               | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| Property     | Type                     | Default | Description                                                                                                                |
+| ------------ | ------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| initialState | `State \| (() => State)` |         | The initial state provided to `React.useState()`                                                                           |
+| fps          | `number`                 | `30`    | Defines the rate in frames per second with which `setState` is invoked with new state                                      |
+| leading      | `boolean`                | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
 #### Returns `[state, setState]`
 
