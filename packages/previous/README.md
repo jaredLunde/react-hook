@@ -57,10 +57,10 @@ const usePrevious: <T extends any>(
 ) => T | undefined
 ```
 
-| Argument     | Type            | Default     | Required? | Description                                                               |
-| ------------ | --------------- | ----------- | --------- | ------------------------------------------------------------------------- |
-| value        | `T`             |             | Yes       | The current value                                                         |
-| initialValue | `T | undefined` | `undefined` | No        | The value returned by the hook when the current value has not yet changed |
+| Argument     | Type             | Default     | Required? | Description                                                               |
+| ------------ | ---------------- | ----------- | --------- | ------------------------------------------------------------------------- |
+| value        | `T`              |             | Yes       | The current value                                                         |
+| initialValue | `T \| undefined` | `undefined` | No        | The value returned by the hook when the current value has not yet changed |
 
 ## LICENSE
 
