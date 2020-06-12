@@ -3,7 +3,7 @@
     ↩ react-hook
   </h1>
   <h3>
-    Reusable React hooks for function components
+    Strongly typed React hooks for function components
   </h3>
   <br>
   <br>
