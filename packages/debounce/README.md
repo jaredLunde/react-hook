@@ -65,7 +65,7 @@ export const useDebounce = <State>(
 
 | Property     | Type                    | Default | Description                                                                                                                |
 | ------------ | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
-| initialState | `State | (() => State)` |         | The initial state provided to `React.useState`                                                                             |
+| initialState | `State \| (() => State)` |         | The initial state provided to `React.useState`                                                                             |
 | wait         | `number`                | `100`   | The amount of time in `ms` you want to wait after the latest call before setting a new state.                              |
 | leading      | `boolean`               | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
