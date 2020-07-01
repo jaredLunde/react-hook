@@ -26,13 +26,16 @@
 <pre align="center">npm i @react-hook/switch</pre>
 <hr>
 
-A React hook for controlling a boolean value with toggle, on, and off callbacks
+A React hook for controlling a boolean value with toggle, on, and off callbacks. This
+is extremely useful for adding controlled/uncontrolled component behavior to components
+like `<Checkbox/>`, `<Toggle/>`, `<Modal/>`, etc.
 
 ## Quick Start
 
 ```jsx harmony
 import useSwitch from '@react-hook/switch'
 
+// Basic usage
 const Component = (props) => {
   const [value, toggle] = useSwitch(false /*default value*/)
 
@@ -48,19 +51,43 @@ const Component = (props) => {
     </>
   )
 }
+
+// Creating a toggle component with a controlled and uncontrolled
+// value pattern
+const Toggle = ({value: controlledValue, defaultValue, onChange}) => {
+  const [value, toggle] = useSwitch(defaultValue, controlledValue, onChange)
+
+  return (
+    <>
+      <span>Value: {value}</span>
+      <button onClick={toggle}>Toggle</button>
+      <button onClick={toggle.on}>On</button>
+      <button onClick={toggle.off}>On</button>
+    </>
+  )
+}
 ```
 
 ## API
 
-### `useSwitch(defaultValue?)`
+### `useSwitch(defaultValue?, controlledValue?, onChange?)`
+
+```
+function useSwitch(defaultValue?: boolean, controlledValue?: boolean, onChange?: (value: boolean, prevValue: boolean) => any): readonly [boolean, (() => void) & {
+    on: () => void;
+    off: () => void;
+}]
+```
 
 #### Arguments
 
-| Argument     | Type      | Default | Required? | Description               |
-| ------------ | --------- | ------- | --------- | ------------------------- |
-| defaultValue | `boolean` | `false` | `false`   | Defines the initial value |
+| Argument        | Type                      | Default     | Required? | Description                                                                     |
+| --------------- | ------------------------- | ----------- | --------- | ------------------------------------------------------------------------------- |
+| defaultValue    | `boolean`                 | `false`     | No        | Sets the default value of the switch                                            |
+| controlledValue | `boolean`                 | `undefined` | No        | Sets the controlled value of the switch, which will override the `defaultValue` |
+| onChange        | `(value: boolean) => any` | `undefined` | No        | A callback invoked whenever the value in state changes                          |
 
-#### Returns `[value: boolean, toggle: ToggleFn]`
+#### Returns `[value: boolean, toggle: Toggle]`
 
 | Variable | Type                                             | Description                                                                |
 | -------- | ------------------------------------------------ | -------------------------------------------------------------------------- |
