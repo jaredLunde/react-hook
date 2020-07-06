@@ -163,7 +163,7 @@
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "^0.3.0",
+    "lundle": "^0.4.9",
     "prettier": "latest",
     "react": "latest",
     "react-dom": "latest",
