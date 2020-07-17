@@ -59,7 +59,7 @@ const Component = () => {
 
 ## API
 
-### `useMediaQuery(query: string): boolean`
+### useMediaQuery(query)
 
 A hook that returns `true` if the media query matched and `false` if not. This hook
 will always return `false` when rendering on the server.
@@ -72,29 +72,34 @@ will always return `false` when rendering on the server.
 
 Returns `true` if the media query matched. This is always `false` when rendering on the server.
 
-### `useMediaQueries(queries: {[label: string]: string}): MediaQueryMatches`
+### useMediaQueries(queryMap)
 
 A hook that returns a [`MediaQueryMatches`](#mediaquerymatches) object which will
 tell you if specific media queries matched, all media queries matched, or
 any media queries matched. Matches in this hook will always return `false` when
 rendering on the server.
 
-| Argument | Type                        | Required? | Description                                                                                       |
-| -------- | --------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
-| queries  | `{[label: string]: string}` | Yes       | The media queries you want to match against e.g. `{screen: "screen", width: "(min-width: 12em)"}` |
+| Argument | Type                          | Required? | Description                                                                                       |
+| -------- | ----------------------------- | --------- | ------------------------------------------------------------------------------------------------- |
+| queryMap | `{[Name in keyof T]: string}` | Yes       | The media queries you want to match against e.g. `{screen: "screen", width: "(min-width: 12em)"}` |
 
 #### Returns [`MediaQueryMatches`](#mediaquerymatches)
 
-### `MediaQueryMatches`
+### MediaQueryMatches
 
 ```typescript
-interface MediaQueryMatches {
-  // Returns an array of media query matches corresponding
-  // to the input array
-  matches: {[label: string]: boolean}
-  // Any of the media queries matched
+export interface MediaQueryMatches<T> {
+  /**
+   * Returns a map of query key/didMatch pairs
+   */
+  matches: Matches<T>
+  /**
+   * `true` if any of the media queries matched
+   */
   matchesAny: boolean
-  // All of the media queries matched
+  /**
+   * `true` if all of the media queries matched
+   */
   matchesAll: boolean
 }
 ```

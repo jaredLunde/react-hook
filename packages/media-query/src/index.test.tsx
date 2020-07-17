@@ -15,12 +15,7 @@ describe('useMediaQueries', () => {
       }
     })
 
-    const {
-      result,
-    } = renderHook((queries: MediaQueries<any> = {foo: 'foo', bar: 'bar'}) =>
-      useMediaQueries(queries)
-    )
-
+    const {result} = renderHook(() => useMediaQueries({foo: 'foo', bar: 'bar'}))
     expect(result.current.matches.foo).toBe(true)
     expect(result.current.matches.bar).toBe(false)
     expect(result.current.matchesAll).toBe(false)

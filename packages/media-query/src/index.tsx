@@ -1,40 +1,9 @@
 import * as React from 'react'
 
-export type MediaQueries<T> = {
-  [Name in keyof T]: string
-}
-
-export type Matches<T> = {
-  [Name in keyof T]: boolean
-}
-
-interface State<T> {
-  mediaQueries: {[Name in keyof T]: MediaQueryList}
-  matches: Matches<T>
-}
-
-type UpdateMatchesAction = {
-  type: 'updateMatches'
-}
-type SetQueriesAction<T> = {
-  type: 'setQueries'
-  queries: MediaQueries<T>
-}
-type Action<T> = UpdateMatchesAction | SetQueriesAction<T>
-
-export interface MediaQueryMatches<T> {
-  // Returns an array of media query matches
-  matches: Matches<T>
-  // Any of the media queries matched
-  matchesAny: boolean
-  // All of the media queries matched
-  matchesAll: boolean
-}
-
-const queriesDidChange = (
-  prevQueries: MediaQueries<any>,
-  nextQueries: MediaQueries<any>
-): boolean => {
+function queriesDidChange(
+  prevQueries: MediaQueries<unknown>,
+  nextQueries: MediaQueries<unknown>
+): boolean {
   if (nextQueries === prevQueries) return false
   const nextQueriesArr = Object.values(nextQueries)
   const prevQueriesArr = Object.values(prevQueries)
@@ -44,7 +13,7 @@ const queriesDidChange = (
   return Object.keys(nextQueries).some((n, i) => n !== prevKeys[i])
 }
 
-const init = <T,>(queries: MediaQueries<T>): State<T> => {
+function init<T>(queries: MediaQueries<T>): State<T> {
   const queryKeys = Object.keys(queries) as (keyof MediaQueries<T>)[]
   /* istanbul ignore next */
   if (typeof window === 'undefined')
@@ -56,6 +25,7 @@ const init = <T,>(queries: MediaQueries<T>): State<T> => {
       },
       {mediaQueries: {}, matches: {}}
     )
+
   return queryKeys.reduce(
     (state: State<any>, name): State<T> => {
       const mql = window.matchMedia(queries[name])
@@ -86,21 +56,29 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
   }
 }
 
-export const useMediaQueries = <T,>(
-  queries: MediaQueries<T>
-): MediaQueryMatches<T> => {
-  const prevQueries = React.useRef<MediaQueries<T>>(queries)
+/**
+ * A hook that returns a [`MediaQueryMatches`](#mediaquerymatches) object which will
+ * tell you if specific media queries matched, all media queries matched, or
+ * any media queries matched. Matches in this hook will always return `false` when
+ * rendering on the server.
+ *
+ * @param queryMap The media queries you want to match against e.g. `{screen: "screen", width: "(min-width: 12em)"}`
+ */
+export function useMediaQueries<T>(
+  queryMap: MediaQueries<T>
+): MediaQueryMatches<T> {
+  const prevQueries = React.useRef<MediaQueries<T>>(queryMap)
   const [state, dispatch] = React.useReducer<
     React.Reducer<State<T>, Action<T>>,
     MediaQueries<T>
-  >(reducer, queries, init)
+  >(reducer, queryMap, init)
 
   React.useEffect(() => {
-    if (queriesDidChange(queries, prevQueries.current)) {
-      dispatch({type: 'setQueries', queries})
-      prevQueries.current = queries
+    if (queriesDidChange(queryMap, prevQueries.current)) {
+      dispatch({type: 'setQueries', queries: queryMap})
+      prevQueries.current = queryMap
     }
-  }, [queries])
+  }, [queryMap])
 
   React.useEffect(() => {
     const queries: MediaQueryList[] = Object.values(state.mediaQueries)
@@ -133,11 +111,56 @@ export const useMediaQueries = <T,>(
   }
 }
 
+/**
+ * A hook that returns `true` if the media query matched and `false` if not. This
+ * hook will always return `false` when rendering on the server.
+ *
+ * @param query The media query you want to match against e.g. `"only screen and (min-width: 12em)"`
+ */
+export function useMediaQuery(query: string) {
+  return useMediaQueries(getObj(query)).matchesAll
+}
+
 const cache: Record<string, MediaQueries<{default: string}>> = {}
-const getObj = (query: string): MediaQueries<{default: string}> => {
+
+function getObj(query: string): MediaQueries<{default: string}> {
   if (cache[query] === void 0) cache[query] = {default: query}
   return cache[query]
 }
 
-export const useMediaQuery = (query: string) =>
-  useMediaQueries(getObj(query)).matchesAll
+export type MediaQueries<T> = {
+  [Name in keyof T]: string
+}
+
+export type Matches<T> = {
+  [Name in keyof T]: boolean
+}
+
+interface State<T> {
+  mediaQueries: {[Name in keyof T]: MediaQueryList}
+  matches: Matches<T>
+}
+
+type UpdateMatchesAction = {
+  type: 'updateMatches'
+}
+type SetQueriesAction<T> = {
+  type: 'setQueries'
+  queries: MediaQueries<T>
+}
+type Action<T> = UpdateMatchesAction | SetQueriesAction<T>
+
+export interface MediaQueryMatches<T> {
+  /**
+   * Returns a map of query key/didMatch pairs
+   */
+  matches: Matches<T>
+  /**
+   * `true` if any of the media queries matched
+   */
+  matchesAny: boolean
+  /**
+   * `true` if all of the media queries matched
+   */
+  matchesAll: boolean
+}
