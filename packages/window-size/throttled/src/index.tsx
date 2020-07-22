@@ -41,5 +41,5 @@ export const useWindowHeight = (
 ): number => useWindowSize(options)[1]
 
 export const useWindowWidth = (
-  options?: Omit<ThrottledWindowSizeOptions, 'initialWidth'>
+  options?: Omit<ThrottledWindowSizeOptions, 'initialHeight'>
 ): number => useWindowSize(options)[0]
