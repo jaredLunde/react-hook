@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 declare const usePassiveLayoutEffect:
   | typeof React.useLayoutEffect
   | typeof React.useEffect
