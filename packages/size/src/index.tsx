@@ -37,10 +37,10 @@ const useSize = <T extends HTMLElement>(
 export interface UseSizeOptions {
   // The initial width to set into state.
   // This is useful for SSR environments.
-  initialWidth: 0
+  initialWidth: number
   // The initial height to set into state.
   // This is useful for SSR environments.
-  initialHeight: 0
+  initialHeight: number
 }
 
 export default useSize
