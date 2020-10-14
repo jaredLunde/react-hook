@@ -10,7 +10,7 @@ declare const useSize: <T extends HTMLElement>(
   options?: UseSizeOptions | undefined
 ) => [number, number]
 export interface UseSizeOptions {
-  initialWidth: 0
-  initialHeight: 0
+  initialWidth: number
+  initialHeight: number
 }
 export default useSize
