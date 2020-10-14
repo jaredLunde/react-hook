@@ -37,13 +37,15 @@ function useGoogleOptimize<T>(
       })
 
       // Cleans up the optimize callback if the request times out
-      const removeCallback = () =>
+      const removeCallback = () => {
+        optimizeTimedOut && clearTimeout(optimizeTimedOut)
         // @ts-ignore
         gtag('event', 'optimize.callback', {
           name: experimentId,
           callback,
           remove: true,
         })
+      }
       // Unregisters the event when the parent is unmounted or the experiment
       // id is changed
       return removeCallback

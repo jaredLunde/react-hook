@@ -57,6 +57,23 @@ describe('useOptimize', () => {
     expect(clearTimeout).toHaveBeenCalledTimes(1)
   })
 
+  it('should clear timeout on unmount', () => {
+    // @ts-ignore
+    window.gtag = (command, eventName, eventParams) => {
+      if (eventParams.remove) return
+    }
+
+    const Optimize = () => {
+      const variant = useGoogleOptimize('abc', [1, 2, 3], 1)
+      return <div>{JSON.stringify(variant)}</div>
+    }
+
+    const rendered = render(<Optimize />)
+    rendered.unmount()
+    expect(setTimeout).toHaveBeenCalledTimes(1)
+    expect(clearTimeout).toHaveBeenCalledTimes(1)
+  })
+
   it('should use dataLayer when gtag is not available', () => {
     // @ts-ignore
     delete window.gtag
