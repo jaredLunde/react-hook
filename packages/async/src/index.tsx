@@ -1,13 +1,11 @@
 import * as React from 'react'
 import useLatest from '@react-hook/latest'
 
-export const useAsync = <
+export function useAsync<
   ValueType extends any = any,
   ErrorType extends any = Error,
   Args extends any[] = any[]
->(
-  asyncCallback: (...args: Args) => Promise<ValueType>
-): [AsyncState<ValueType, ErrorType, Args>, AsyncCallback<Args>] => {
+>(asyncCallback: (...args: Args) => Promise<ValueType>) {
   const [state, dispatch] = React.useReducer<
     React.Reducer<
       AsyncReducerState<ValueType, ErrorType>,
@@ -89,16 +87,16 @@ export const useAsync = <
       }
     }, [callback, state]),
     callback,
-  ]
+  ] as const
 }
 
-export const useAsyncEffect = <
+export function useAsyncEffect<
   ValueType extends any = any,
   ErrorType extends any = Error
 >(
   asyncCallback: () => Promise<ValueType>,
   dependencies?: React.DependencyList
-): AsyncState<ValueType, ErrorType, []> => {
+) {
   const [state, callback] = useAsync<ValueType, ErrorType>(asyncCallback)
   // Runs the callback each time deps change
   React.useEffect(() => {
@@ -115,11 +113,6 @@ export interface AsyncReducerState<ValueType, ErrorType> {
   error?: ErrorType
 }
 
-export interface AsyncState<ValueType, ErrorType, Args extends any[] = any[]>
-  extends AsyncReducerState<ValueType, ErrorType> {
-  cancel: () => void
-}
-
 export type AsyncAction<ValueType, ErrorType> =
   | {
       status: 'idle' | 'loading' | 'cancelled'
@@ -132,10 +125,5 @@ export type AsyncAction<ValueType, ErrorType> =
       status: 'error'
       error?: ErrorType
     }
-
-export interface AsyncCallback<Args extends any[] = any[]> {
-  (...args: Args): void
-  cancel: () => void
-}
 
 export type AsyncStatus = 'idle' | 'loading' | 'success' | 'error' | 'cancelled'
