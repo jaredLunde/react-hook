@@ -40,7 +40,7 @@
 
 ## Note on IE11
 
-> If you need support for legacy browsers you will have to do what you _should_ be doing already anyway and compile your dependencies to your desired target. This library does not ship transformations for end-of-life browsers.
+> If you need support for legacy browsers you will have to do what you _should_ be doing already anyway and compile your dependencies to your desired target. This library does not ship transformations for browsers the maintainer doesn't care about performing maintenance for.
 
 ## Contributing
 
