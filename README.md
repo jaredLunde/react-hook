@@ -38,6 +38,10 @@
 | [**useWindowScroll()**](packages/window-scroll#readme)                 | A React hook for updating components when the scroll position of the window on the y-axis changes.                                                                                                                                                                                                                                                                                                                                                              |
 | [**useWindowSize()**](packages/window-size#readme)                     | React hooks for updating components when the size of the `window` changes.                                                                                                                                                                                                                                                                                                                                                                                      |
 
+## Note on IE11
+
+> If you need support for legacy browsers you will have to do what you _should_ be doing already anyway and compile your dependencies to your desired target. This library does not ship transformations for end-of-life browsers.
+
 ## Contributing
 
 [👋 Click here to see **how to contribute**](./CONTRIBUTING.md)
