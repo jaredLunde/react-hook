@@ -20,11 +20,16 @@ function useSwitch(
   const [current, setCurrent] = React.useState(controlledValue ?? defaultValue)
   useChange(current, onChange)
 
+  React.useEffect(() => {
+    if (controlledValue === current) return
+    setCurrent(!!controlledValue)
+  }, [controlledValue])
+
   return [
     controlledValue ?? current,
     Object.assign(
       useCallback(
-        () => setCurrent((curr) => !curr),
+        () => setCurrent((curr: boolean) => !curr),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         emptyArr
       ),
