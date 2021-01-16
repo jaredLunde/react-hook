@@ -21,8 +21,9 @@ function useSwitch(
   useChange(current, onChange)
 
   React.useEffect(() => {
-    if (controlledValue === current) return
+    if (!isBoolean(controlledValue) || controlledValue === current) return
     setCurrent(!!controlledValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controlledValue])
 
   return [
@@ -43,6 +44,9 @@ function useSwitch(
   ] as const
 }
 
+function isBoolean(val?: boolean) {
+  return val === false || val === true
+}
 const emptyArr: [] = []
 function noop() {}
 
