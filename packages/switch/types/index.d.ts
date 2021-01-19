@@ -5,12 +5,12 @@
  * @param defaultValue Sets the default value of the switch
  * @param controlledValue Sets the controlled value of the switch, which will override
  *  the defaultValue
- * @param onChange A callback invoked whenever the value in state changes
+ * @param onChange A callback invoked whenever toggle callbacks that change state are invoked
  */
 declare function useSwitch(
   defaultValue?: boolean,
   controlledValue?: boolean,
-  onChange?: (value: boolean, prevValue: boolean) => any
+  onChange?: (value: boolean) => any
 ): readonly [
   boolean,
   (() => void) & {

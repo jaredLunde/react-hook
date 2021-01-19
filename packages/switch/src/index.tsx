@@ -8,12 +8,12 @@ import useLatest from '@react-hook/latest'
  * @param defaultValue Sets the default value of the switch
  * @param controlledValue Sets the controlled value of the switch, which will override
  *  the defaultValue
- * @param onChange A callback invoked whenever the value in state changes
+ * @param onChange A callback invoked whenever toggle callbacks that change state are invoked
  */
 function useSwitch(
   defaultValue = false,
   controlledValue?: boolean,
-  onChange: (value: boolean, prevValue: boolean) => any = noop
+  onChange: (value: boolean) => any = noop
 ) {
   const [current, setCurrent] = React.useState(controlledValue ?? defaultValue)
   const storedOnChange = useLatest(onChange)
@@ -24,31 +24,22 @@ function useSwitch(
     }
   }, [controlledValue])
 
-  const toggle = React.useCallback(
-    () =>
-      setCurrent((current: boolean) => {
-        const next = !current
-        storedOnChange.current(next, current)
-        return next
-      }),
-    [storedOnChange]
-  )
+  const toggle = React.useCallback(() => {
+    setCurrent(!current)
+    storedOnChange.current(!current)
+  }, [storedOnChange, current])
 
   return [
     controlledValue ?? current,
     Object.assign(toggle, {
       on: React.useCallback(() => {
-        setCurrent((current) => {
-          if (!current) storedOnChange.current(true, false)
-          return true
-        })
-      }, [storedOnChange]),
+        setCurrent(true)
+        if (!current) storedOnChange.current(true)
+      }, [storedOnChange, current]),
       off: React.useCallback(() => {
-        setCurrent((current) => {
-          if (current) storedOnChange.current(false, true)
-          return false
-        })
-      }, [storedOnChange]),
+        setCurrent(false)
+        if (current) storedOnChange.current(false)
+      }, [storedOnChange, current]),
     }),
   ] as const
 }

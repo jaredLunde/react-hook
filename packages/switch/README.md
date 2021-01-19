@@ -85,7 +85,7 @@ function useSwitch(defaultValue?: boolean, controlledValue?: boolean, onChange?:
 | --------------- | ------------------------- | ----------- | --------- | ------------------------------------------------------------------------------- |
 | defaultValue    | `boolean`                 | `false`     | No        | Sets the default value of the switch                                            |
 | controlledValue | `boolean`                 | `undefined` | No        | Sets the controlled value of the switch, which will override the `defaultValue` |
-| onChange        | `(value: boolean) => any` | `undefined` | No        | A callback invoked whenever the value in state changes                          |
+| onChange        | `(value: boolean) => any` | `undefined` | No        | A callback invoked whenever toggle callbacks that change state are invoked      |
 
 #### Returns `[value: boolean, toggle: Toggle]`
 

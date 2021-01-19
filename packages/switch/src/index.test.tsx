@@ -60,6 +60,6 @@ describe('useSwitch()', () => {
     rerender({value: false})
     act(result.current[1])
     expect(result.current[0]).toBe(false)
-    expect(handleChange).toBeCalledWith(true, false)
+    expect(handleChange).toBeCalledWith(true)
   })
 })
