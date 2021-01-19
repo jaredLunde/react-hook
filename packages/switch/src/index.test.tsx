@@ -42,4 +42,24 @@ describe('useSwitch()', () => {
     rerender({value})
     expect(result.current[0]).toBe(false)
   })
+
+  it('should be controlled externally', () => {
+    const handleChange = jest.fn()
+    const {result, rerender} = renderHook(
+      ({value}) => useSwitch(false, value, handleChange),
+      {initialProps: {value: true}}
+    )
+
+    rerender({value: false})
+    expect(result.current[0]).toBe(false)
+    rerender({value: true})
+    expect(result.current[0]).toBe(true)
+    expect(handleChange).not.toBeCalled()
+    rerender({value: false})
+    expect(result.current[0]).toBe(false)
+    rerender({value: false})
+    act(result.current[1])
+    expect(result.current[0]).toBe(false)
+    expect(handleChange).toBeCalledWith(true, false)
+  })
 })

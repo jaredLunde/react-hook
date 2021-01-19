@@ -127,7 +127,7 @@
     "typescript": "latest"
   },
   "dependencies": {
-    "@react-hook/change": "^1.0.0"
+    "@react-hook/latest": "^1.0.3"
   },
   "peerDependencies": {
     "react": ">=16.8"

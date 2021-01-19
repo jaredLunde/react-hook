@@ -1,7 +1,5 @@
 import * as React from 'react'
-import useChange from '@react-hook/change'
-
-const useCallback = React.useCallback
+import useLatest from '@react-hook/latest'
 
 /**
  * A hook for creating controlled toggles with on, off, and toggle callbacks.
@@ -18,34 +16,43 @@ function useSwitch(
   onChange: (value: boolean, prevValue: boolean) => any = noop
 ) {
   const [current, setCurrent] = React.useState(controlledValue ?? defaultValue)
-  useChange(current, onChange)
+  const storedOnChange = useLatest(onChange)
 
   React.useEffect(() => {
-    if (typeof controlledValue !== 'boolean' || controlledValue === current)
-      return
-    setCurrent(!!controlledValue)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (typeof controlledValue === 'boolean') {
+      setCurrent(controlledValue)
+    }
   }, [controlledValue])
+
+  const toggle = React.useCallback(
+    () =>
+      setCurrent((current: boolean) => {
+        const next = !current
+        storedOnChange.current(next, current)
+        return next
+      }),
+    [storedOnChange]
+  )
 
   return [
     controlledValue ?? current,
-    Object.assign(
-      useCallback(
-        () => setCurrent((curr: boolean) => !curr),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        emptyArr
-      ),
-      {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        on: useCallback(() => setCurrent(true), emptyArr),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        off: useCallback(() => setCurrent(false), emptyArr),
-      }
-    ),
+    Object.assign(toggle, {
+      on: React.useCallback(() => {
+        setCurrent((current) => {
+          if (!current) storedOnChange.current(true, false)
+          return true
+        })
+      }, [storedOnChange]),
+      off: React.useCallback(() => {
+        setCurrent((current) => {
+          if (current) storedOnChange.current(false, true)
+          return false
+        })
+      }, [storedOnChange]),
+    }),
   ] as const
 }
 
-const emptyArr: [] = []
 function noop() {}
 
 export default useSwitch

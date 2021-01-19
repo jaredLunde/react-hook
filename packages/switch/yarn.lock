@@ -1236,23 +1236,15 @@
   dependencies:
     "@react-hook/latest" "^1.0.2"
 
-"@react-hook/change@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/change/-/change-1.0.0.tgz#4604bc93d616fcc0311f528464edd7cb24083289"
-  integrity sha512-NwkNxq6PZ5XRZ9gcBhE1kmTXtNf4/YayZXaLviCWowBkmXWKcRKtmBZBlAj86LbWxReWZgyINaYsPDxEEa2MKQ==
-  dependencies:
-    "@react-hook/latest" "^1.0.2"
-    "@react-hook/previous" "^1.0.1"
-
 "@react-hook/latest@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.2.tgz#767eb6974f91eef353981b8b60a87147dadecb18"
   integrity sha512-zLtOIToct1EBTbwldkMJsXC2eCsmWOOP7z6UG0M/sCgnPExtIjvVMCpPESvPnMbQzDZytXVy0nvMbUuK2gZs2A==
 
-"@react-hook/previous@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/previous/-/previous-1.0.1.tgz#61f499e855873dcdb64e7b98f302194548f267f4"
-  integrity sha512-O7VaRLDEHRy1hxh03CmtWRxDhCwIVQBBkf1kYdYqUP3KNrPnQMIVIYYYQpHIIiNcS1BO6zmBKM4bugFDNgP8Iw==
+"@react-hook/latest@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.3.tgz#c2d1d0b0af8b69ec6e2b3a2412ba0768ac82db80"
+  integrity sha512-dy6duzl+JnAZcDbNTfmaP3xHiKtbXYOaz3G51MGVljh548Y8MWzTr+PHLOfvpypEVW9zwvl+VyKjbWKEVbV1Rg==
 
 "@rollup/plugin-babel@^5.0.2":
   version "5.0.3"
