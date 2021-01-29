@@ -1,15 +1,19 @@
 import 'intersection-observer'
 import * as React from 'react'
-declare const useIntersectionObserver: <T extends HTMLElement = HTMLElement>(
-  target: T | React.RefObject<T> | null,
+declare function useIntersectionObserver<T extends HTMLElement = HTMLElement>(
+  target: React.RefObject<T> | T | null,
   options?: IntersectionObserverOptions
-) => MockIntersectionObserverEntry | IntersectionObserverEntry
+): MockIntersectionObserverEntry | IntersectionObserverEntry
+export declare type UseIntersectionObserverCallback = (
+  entry: IntersectionObserverEntry,
+  observer: IntersectionObserver
+) => any
 export interface IntersectionObserverOptions {
   root?: HTMLElement | null
   pollInterval?: number | null
   useMutationObserver?: boolean
   rootMargin?: string
-  threshold?: number
+  threshold?: number | number[]
   initialIsIntersecting?: boolean
 }
 export interface IntersectionObserverBounds {
