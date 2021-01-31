@@ -36,32 +36,31 @@ function useResizeObserver<T extends HTMLElement>(
     }
   }, [target, resizeObserver, storedCallback])
 
-  useLayoutEffect(() => {
-    const targetEl = target && 'current' in target ? target.current : target
-    if (!targetEl) return
-    resizeObserver.observer.observe(targetEl)
-    return () => resizeObserver.observer.unobserve(targetEl)
-  }, [target, resizeObserver.observer])
-
   return resizeObserver.observer
 }
 
 function createResizeObserver() {
   const callbacks: Map<any, UseResizeObserverCallback> = new Map()
+  const observer = new ResizeObserver((entries, observer) => {
+    if (entries.length === 1) {
+      callbacks.get(entries[0].target)?.(entries[0], observer)
+    } else {
+      for (let i = 0; i < entries.length; i++) {
+        callbacks.get(entries[i].target)?.(entries[i], observer)
+      }
+    }
+  })
 
   return {
-    observer: new ResizeObserver((entries, observer) => {
-      if (entries.length === 1) {
-        callbacks.get(entries[0].target)?.(entries[0], observer)
-      } else {
-        for (let i = 0; i < entries.length; i++) {
-          callbacks.get(entries[i].target)?.(entries[i], observer)
-        }
-      }
-    }),
-    subscribe: (target: HTMLElement, callback: UseResizeObserverCallback) =>
-      callbacks.set(target, callback),
-    unsubscribe: (target: HTMLElement) => callbacks.delete(target),
+    observer,
+    subscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
+      observer.observe(target)
+      callbacks.set(target, callback)
+    },
+    unsubscribe(target: HTMLElement) {
+      observer.unobserve(target)
+      callbacks.delete(target)
+    },
   }
 }
 
