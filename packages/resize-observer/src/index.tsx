@@ -10,35 +10,29 @@ import useLatest from '@react-hook/latest'
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
  */
-const useResizeObserver = <T extends HTMLElement>(
+function useResizeObserver<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
   callback: UseResizeObserverCallback
-): ResizeObserver => {
+): ResizeObserver {
   const resizeObserver = getResizeObserver()
   const storedCallback = useLatest(callback)
 
   useLayoutEffect(() => {
     let didUnsubscribe = false
+    const targetEl = target && 'current' in target ? target.current : target
+    if (!targetEl) return
 
-    const callback = (
-      entries: ResizeObserverEntry[],
-      observer: ResizeObserver
-    ) => {
-      if (didUnsubscribe) return
-      const targetEl = target && 'current' in target ? target.current : target
-
-      for (let i = 0; i < entries.length; i++) {
-        const entry = entries[i]
-        if (entry.target === targetEl) {
-          storedCallback.current(entry, observer)
-        }
+    resizeObserver.subscribe(
+      targetEl,
+      (entry: ResizeObserverEntry, observer: ResizeObserver) => {
+        if (didUnsubscribe) return
+        storedCallback.current(entry, observer)
       }
-    }
+    )
 
-    resizeObserver.subscribe(callback)
     return () => {
       didUnsubscribe = true
-      resizeObserver.unsubscribe(callback)
+      resizeObserver.unsubscribe(targetEl)
     }
   }, [target, resizeObserver, storedCallback])
 
@@ -52,16 +46,22 @@ const useResizeObserver = <T extends HTMLElement>(
   return resizeObserver.observer
 }
 
-const createResizeObserver = () => {
-  const callbacks: Set<ResizeObserverCallback> = new Set()
+function createResizeObserver() {
+  const callbacks: Map<any, UseResizeObserverCallback> = new Map()
 
   return {
     observer: new ResizeObserver((entries, observer) => {
-      for (const callback of callbacks) callback(entries, observer)
+      if (entries.length === 1) {
+        callbacks.get(entries[0].target)?.(entries[0], observer)
+      } else {
+        for (let i = 0; i < entries.length; i++) {
+          callbacks.get(entries[i].target)?.(entries[i], observer)
+        }
+      }
     }),
-    subscribe: (callback: ResizeObserverCallback) => callbacks.add(callback),
-    unsubscribe: (callback: ResizeObserverCallback) =>
-      callbacks.delete(callback),
+    subscribe: (target: HTMLElement, callback: UseResizeObserverCallback) =>
+      callbacks.set(target, callback),
+    unsubscribe: (target: HTMLElement) => callbacks.delete(target),
   }
 }
 
