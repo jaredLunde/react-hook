@@ -2,6 +2,7 @@ import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
+import rafSchd from 'raf-schd'
 
 /**
  * A React hook that fires a callback whenever ResizeObserver detects a change to its size
@@ -41,15 +42,17 @@ function useResizeObserver<T extends HTMLElement>(
 
 function createResizeObserver() {
   const callbacks: Map<any, UseResizeObserverCallback> = new Map()
-  const observer = new ResizeObserver((entries, observer) => {
-    if (entries.length === 1) {
-      callbacks.get(entries[0].target)?.(entries[0], observer)
-    } else {
-      for (let i = 0; i < entries.length; i++) {
-        callbacks.get(entries[i].target)?.(entries[i], observer)
+  const observer = new ResizeObserver(
+    rafSchd((entries, observer) => {
+      if (entries.length === 1) {
+        callbacks.get(entries[0].target)?.(entries[0], observer)
+      } else {
+        for (let i = 0; i < entries.length; i++) {
+          callbacks.get(entries[i].target)?.(entries[i], observer)
+        }
       }
-    }
-  })
+    })
+  )
 
   return {
     observer,
