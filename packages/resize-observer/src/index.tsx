@@ -6,6 +6,41 @@ import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
 import rafSchd from 'raf-schd'
 
+/**
+ * A React hook that fires a callback whenever ResizeObserver detects a change to its size
+ *
+ * @param target A React ref created by `useRef()` or an HTML element
+ * @param callback Invoked with a single `ResizeObserverEntry` any time
+ *   the `target` resizes
+ */
+function useResizeObserver<T extends HTMLElement>(
+  target: React.RefObject<T> | T | null,
+  callback: UseResizeObserverCallback
+): ResizeObserver {
+  const resizeObserver = getResizeObserver()
+  const storedCallback = useLatest(callback)
+
+  useLayoutEffect(() => {
+    let didUnsubscribe = false
+    const targetEl = target && 'current' in target ? target.current : target
+    if (!targetEl) return () => {}
+
+    function cb(entry: ResizeObserverEntry, observer: ResizeObserver) {
+      if (didUnsubscribe) return
+      storedCallback.current(entry, observer)
+    }
+
+    resizeObserver.subscribe(targetEl as HTMLElement, cb)
+
+    return () => {
+      didUnsubscribe = true
+      resizeObserver.unsubscribe(targetEl as HTMLElement, cb)
+    }
+  }, [target, resizeObserver, storedCallback])
+
+  return resizeObserver.observer
+}
+
 function createResizeObserver() {
   const callbacks: Map<any, Array<UseResizeObserverCallback>> = new Map()
   const observer = new ResizeObserver(
@@ -45,41 +80,6 @@ const getResizeObserver = () =>
   !_resizeObserver
     ? (_resizeObserver = createResizeObserver())
     : _resizeObserver
-
-/**
- * A React hook that fires a callback whenever ResizeObserver detects a change to its size
- *
- * @param target A React ref created by `useRef()` or an HTML element
- * @param callback Invoked with a single `ResizeObserverEntry` any time
- *   the `target` resizes
- */
-function useResizeObserver<T extends HTMLElement>(
-  target: React.RefObject<T> | T | null,
-  callback: UseResizeObserverCallback
-): ResizeObserver {
-  const resizeObserver = getResizeObserver()
-  const storedCallback = useLatest(callback)
-
-  useLayoutEffect(() => {
-    let didUnsubscribe = false
-    const targetEl = target && 'current' in target ? target.current : target
-    if (!targetEl) return () => {}
-
-    function cb(entry: ResizeObserverEntry, observer: ResizeObserver) {
-      if (didUnsubscribe) return
-      storedCallback.current(entry, observer)
-    }
-
-    resizeObserver.subscribe(targetEl as HTMLElement, cb)
-
-    return () => {
-      didUnsubscribe = true
-      resizeObserver.unsubscribe(targetEl as HTMLElement, cb)
-    }
-  }, [target, resizeObserver, storedCallback])
-
-  return resizeObserver.observer
-}
 
 export type UseResizeObserverCallback = (
   entry: ResizeObserverEntry,
