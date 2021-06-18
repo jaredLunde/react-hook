@@ -8,4 +8,8 @@ export declare const useDebounce: <State extends unknown>(
   initialState: State | (() => State),
   wait?: number | undefined,
   leading?: boolean | undefined
-) => [State, React.Dispatch<React.SetStateAction<State>>]
+) => [
+  State,
+  React.Dispatch<React.SetStateAction<State>>,
+  React.Dispatch<React.SetStateAction<State>>
+]
