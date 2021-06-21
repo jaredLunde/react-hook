@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ResizeObserver from 'resize-observer-polyfill'
+import {ResizeObserver, ResizeObserverEntry} from '@juggle/resize-observer'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
 import rafSchd from 'raf-schd'
