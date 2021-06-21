@@ -125,7 +125,7 @@
   },
   "dependencies": {
     "@react-hook/passive-layout-effect": "^1.2.0",
-    "@react-hook/resize-observer": "^1.1.0"
+    "@react-hook/resize-observer": "^1.2.1"
   },
   "peerDependencies": {
     "react": ">=16.8"
