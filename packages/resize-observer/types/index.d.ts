@@ -1,5 +1,5 @@
 import * as React from 'react'
-import ResizeObserver from 'resize-observer-polyfill'
+import {ResizeObserver, ResizeObserverEntry} from '@juggle/resize-observer'
 /**
  * A React hook that fires a callback whenever ResizeObserver detects a change to its size
  *
