@@ -40,7 +40,7 @@ const useEvent = (element, name, listener) => {
     const listen = (e) => latest.current(e)
     element.addEventListener(name, listen)
     return () => element.removeEventListener(name, listen)
-  }, [latest])
+  }, [name])
 }
 ```
 
