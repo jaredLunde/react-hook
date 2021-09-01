@@ -1,8 +1,17 @@
 import * as React from 'react'
-import {ResizeObserver, ResizeObserverEntry} from '@juggle/resize-observer'
+import {
+  ResizeObserver as Polyfill,
+  ResizeObserverEntry,
+} from '@juggle/resize-observer'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
 import rafSchd from 'raf-schd'
+
+const ResizeObserver =
+  typeof window !== 'undefined' && 'ResizeObserver' in window
+    // @ts-ignore
+    ? window.ResizeObserver
+    : Polyfill
 
 /**
  * A React hook that fires a callback whenever ResizeObserver detects a change to its size
@@ -14,7 +23,7 @@ import rafSchd from 'raf-schd'
 function useResizeObserver<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
   callback: UseResizeObserverCallback
-): ResizeObserver {
+): Polyfill {
   const resizeObserver = getResizeObserver()
   const storedCallback = useLatest(callback)
 
@@ -25,7 +34,7 @@ function useResizeObserver<T extends HTMLElement>(
 
     resizeObserver.subscribe(
       targetEl,
-      (entry: ResizeObserverEntry, observer: ResizeObserver) => {
+      (entry: ResizeObserverEntry, observer: Polyfill) => {
         if (didUnsubscribe) return
         storedCallback.current(entry, observer)
       }
@@ -76,7 +85,7 @@ const getResizeObserver = () =>
 
 export type UseResizeObserverCallback = (
   entry: ResizeObserverEntry,
-  observer: ResizeObserver
+  observer: Polyfill
 ) => any
 
 export default useResizeObserver
