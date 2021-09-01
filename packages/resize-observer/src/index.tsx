@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-underscore-dangle */
 import * as React from 'react'
 import {
   ResizeObserver as Polyfill,
@@ -30,19 +32,18 @@ function useResizeObserver<T extends HTMLElement>(
   useLayoutEffect(() => {
     let didUnsubscribe = false
     const targetEl = target && 'current' in target ? target.current : target
-    if (!targetEl) return
+    if (!targetEl) return () => {}
 
-    resizeObserver.subscribe(
-      targetEl,
-      (entry: ResizeObserverEntry, observer: Polyfill) => {
-        if (didUnsubscribe) return
-        storedCallback.current(entry, observer)
-      }
-    )
+    function cb(entry: ResizeObserverEntry, observer: Polyfill) {
+      if (didUnsubscribe) return
+      storedCallback.current(entry, observer)
+    }
+
+    resizeObserver.subscribe(targetEl as HTMLElement, cb)
 
     return () => {
       didUnsubscribe = true
-      resizeObserver.unsubscribe(targetEl)
+      resizeObserver.unsubscribe(targetEl as HTMLElement, cb)
     }
   }, [target, resizeObserver, storedCallback])
 
@@ -50,15 +51,12 @@ function useResizeObserver<T extends HTMLElement>(
 }
 
 function createResizeObserver() {
-  const callbacks: Map<any, UseResizeObserverCallback> = new Map()
+  const callbacks: Map<any, Array<UseResizeObserverCallback>> = new Map()
   const observer = new ResizeObserver(
-    rafSchd((entries, observer) => {
-      if (entries.length === 1) {
-        callbacks.get(entries[0].target)?.(entries[0], observer)
-      } else {
-        for (let i = 0; i < entries.length; i++) {
-          callbacks.get(entries[i].target)?.(entries[i], observer)
-        }
+    rafSchd((entries, obs) => {
+      for (let i = 0; i < entries.length; i++) {
+        const cbs = callbacks.get(entries[i].target)
+        cbs?.forEach((cb) => cb(entries[i], obs))
       }
     })
   )
@@ -67,11 +65,20 @@ function createResizeObserver() {
     observer,
     subscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
       observer.observe(target)
-      callbacks.set(target, callback)
+      const cbs = callbacks.get(target) ?? []
+      cbs.push(callback)
+      callbacks.set(target, cbs)
     },
-    unsubscribe(target: HTMLElement) {
+    unsubscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
       observer.unobserve(target)
-      callbacks.delete(target)
+      const cbs = callbacks.get(target) ?? []
+      if (cbs.length === 1) {
+        callbacks.delete(target)
+        return
+      }
+      const cbIndex = cbs.indexOf(callback)
+      if (cbIndex !== -1) cbs.splice(cbIndex, 1)
+      callbacks.set(target, cbs)
     },
   }
 }
