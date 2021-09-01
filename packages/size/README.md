@@ -35,7 +35,7 @@ A React hook for measuring the size of HTML elements including when they change
 - [x] Uses a single `ResizeObserver` for tracking all elements used by the hooks.
       [This approach is astoundingly more performant](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/z6ienONUb5A/F5-VcUZtBAAJ)
       than using a `ResizeObserver` per element which most hook implementations do.
-- [x] Uses [`resize-observer-polyfill`](https://github.com/que-etc/resize-observer-polyfill) as a ponyfill when `ResizeObserver` isnt' supported
+- [x] Uses [`@juggle/resize-observer`](https://github.com/juggle/resize-observer) as a ponyfill when `ResizeObserver` isn't supported
       by the current browser.
 - [x] Automatically unobserves the target element when the hook unmounts.
 

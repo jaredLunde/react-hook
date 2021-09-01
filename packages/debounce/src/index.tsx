@@ -44,7 +44,11 @@ export const useDebounce = <State extends any>(
   initialState: State | (() => State),
   wait?: number,
   leading?: boolean
-): [State, React.Dispatch<React.SetStateAction<State>>] => {
+): [
+  State,
+  React.Dispatch<React.SetStateAction<State>>,
+  React.Dispatch<React.SetStateAction<State>>
+] => {
   const state = React.useState(initialState)
-  return [state[0], useDebounceCallback(state[1], wait, leading)]
+  return [state[0], useDebounceCallback(state[1], wait, leading), state[1]]
 }

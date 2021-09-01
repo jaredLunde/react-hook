@@ -63,18 +63,24 @@ export const useDebounce = <State>(
 
 #### Options
 
-| Property     | Type                    | Default | Description                                                                                                                |
-| ------------ | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Property     | Type                     | Default | Description                                                                                                                |
+| ------------ | ------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------- |
 | initialState | `State \| (() => State)` |         | The initial state provided to `React.useState`                                                                             |
-| wait         | `number`                | `100`   | The amount of time in `ms` you want to wait after the latest call before setting a new state.                              |
-| leading      | `boolean`               | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
+| wait         | `number`                 | `100`   | The amount of time in `ms` you want to wait after the latest call before setting a new state.                              |
+| leading      | `boolean`                | `false` | Calls `setState` on the leading edge (right away). When `false`, `setState` will not be called until the next frame is due |
 
-#### Returns `[state, setState]`
+#### Returns `[state, setStateDebounced, setStateImmediate]`
 
-| Variable | Type       | Description                     |
-| -------- | ---------- | ------------------------------- |
-| state    | `State`    | The current value in state      |
-| setState | `Function` | A debounced `setState` callback |
+| Variable          | Type       | Description                                |
+| ----------------- | ---------- | ------------------------------------------ |
+| state             | `State`    | The current value in state                 |
+| setStateDebounced | `Function` | A debounced `setState` callback            |
+| setStateImmediate | `Function` | The regular, immediate `setState` callback |
+
+Note: Using `setStateImmediate` does not cancel a queued `setStateDebounced` calls,
+i.e., the `setStateDebounced` will still take effect once its wait time is over.
+If needed, cancelling behavior could typically still be achieved by calling both
+`setStateImmediate` and `setStateDebounced` with the same value.
 
 ---
 
