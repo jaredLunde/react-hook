@@ -11,8 +11,8 @@ import rafSchd from 'raf-schd'
 
 const ResizeObserver =
   typeof window !== 'undefined' && 'ResizeObserver' in window
-    // @ts-ignore
-    ? window.ResizeObserver
+    ? // @ts-ignore
+      window.ResizeObserver
     : Polyfill
 
 /**
