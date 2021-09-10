@@ -20,6 +20,7 @@ function useMouse<T extends HTMLElement = HTMLElement>(
           | MousemoveAction<T>
           | TouchmoveAction<T>
       ): UseMouseState => {
+        if (typeof window === 'undefined') return state
         const {event: e, element} = action
         let event: MouseEvent | TouchEvent['touches'][0]
         if ('touches' in e) {
@@ -199,8 +200,8 @@ function useMouse<T extends HTMLElement = HTMLElement>(
   useEvent(target, 'mousemove', onMove)
   useEvent(target, 'mouseleave', onLeave)
   useEvent(target, 'mousedown', onDown)
-  useEvent(window, 'mousedown', onDown)
-  useEvent(window, 'mouseup', onUp)
+  useEvent(typeof window !== 'undefined' ? window : null, 'mousedown', onDown)
+  useEvent(typeof window !== 'undefined' ? window : null, 'mouseup', onUp)
   useEvent(target, 'touchstart', onDown)
   useEvent(target, 'touchmove', onTouchMove)
   useEvent(target, 'touchend', onTouchEnd)
