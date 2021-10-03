@@ -1,5 +1,3 @@
 import * as React from 'react'
-declare const useMergedRef: <T extends unknown>(
-  ...refs: React.Ref<T>[]
-) => (instance: T | null) => void
+declare function useMergedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T>
 export default useMergedRef

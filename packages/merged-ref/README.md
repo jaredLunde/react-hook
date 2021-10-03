@@ -46,9 +46,7 @@ const Component = React.forwardRef((props, ref) => {
 ### `useMergedRef(...refs)`
 
 ```ts
-function useMergedRef<T extends any>(
-  ...refs: React.Ref<T>[]
-): React.RefCallback<T>
+function useMergedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T>
 ```
 
 | Argument | Description                                                        |
