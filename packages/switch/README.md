@@ -47,7 +47,7 @@ const Component = (props) => {
       {/* toggles the current value to true*/}
       <button onClick={toggle.on}>On</button>
       {/* toggles the current value to false*/}
-      <button onClick={toggle.off}>On</button>
+      <button onClick={toggle.off}>Off</button>
     </>
   )
 }
@@ -62,7 +62,7 @@ const Toggle = ({value: controlledValue, defaultValue, onChange}) => {
       <span>Value: {value}</span>
       <button onClick={toggle}>Toggle</button>
       <button onClick={toggle.on}>On</button>
-      <button onClick={toggle.off}>On</button>
+      <button onClick={toggle.off}>Off</button>
     </>
   )
 }
