@@ -29,4 +29,4 @@ Prior to submitting a pull request please ensure that:
 
 1. `yarn validate` passes
 2. You've included a tag with the packages you updated in your commit message e.g. `[throttle] fix: setState was not called on the leading edge`.
-3. You 've opened an issue prior to large or breaking changes. Talking about it first will increase the likelihood of merging.
+3. You've opened an issue prior to large or breaking changes. Talking about it first will increase the likelihood of merging.
