@@ -1236,22 +1236,15 @@
   dependencies:
     "@react-hook/latest" "^1.0.2"
 
-"@react-hook/event@^1.2.5":
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.2.5.tgz#615096ef4bdc5b749bb1a0fdca719a18191b3984"
-  integrity sha512-qUWsJVYDrNd5FLsZinVFHUAIA92KPFpaAspC8vGTzb8iKL4/SYw4XhVdCwDdaItdx9ttvmwUNvNfyrsl1FJ9NQ==
-  dependencies:
-    "@react-hook/passive-layout-effect" "^1.2.1"
+"@react-hook/event@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.2.6.tgz#52f91578add934acc1203328ca09ab14fc7ee58e"
+  integrity sha512-JUL5IluaOdn5w5Afpe/puPa1rj8X6udMlQ9dt4hvMuKmTrBS1Ya6sb4sVgvfe2eU4yDuOfAhik8xhbcCekbg9Q==
 
 "@react-hook/latest@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.2.tgz#767eb6974f91eef353981b8b60a87147dadecb18"
   integrity sha512-zLtOIToct1EBTbwldkMJsXC2eCsmWOOP7z6UG0M/sCgnPExtIjvVMCpPESvPnMbQzDZytXVy0nvMbUuK2gZs2A==
-
-"@react-hook/passive-layout-effect@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.2.1.tgz#c06dac2d011f36d61259aa1c6df4f0d5e28bc55e"
-  integrity sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==
 
 "@react-hook/throttle@^2.2.0":
   version "2.2.0"
