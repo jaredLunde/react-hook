@@ -1236,23 +1236,22 @@
   dependencies:
     "@react-hook/latest" "^1.0.2"
 
-"@react-hook/event@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.2.1.tgz#4ebaff343ea3ab0f7c98d2e0e26e3aa719a69ebf"
-  integrity sha512-kzCZfUAtJl6A9Wvr+OLfVtjbqhC8o5/E0hqyHHQ6gX7/Gm/XlabM5OMCcoiipNu9PRMIfTlbeI4a8QOE6O00Qw==
+"@react-hook/event@^1.2.5":
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/@react-hook/event/-/event-1.2.5.tgz#615096ef4bdc5b749bb1a0fdca719a18191b3984"
+  integrity sha512-qUWsJVYDrNd5FLsZinVFHUAIA92KPFpaAspC8vGTzb8iKL4/SYw4XhVdCwDdaItdx9ttvmwUNvNfyrsl1FJ9NQ==
   dependencies:
-    "@react-hook/latest" "^1.0.2"
-    "@react-hook/passive-layout-effect" "^1.2.0"
+    "@react-hook/passive-layout-effect" "^1.2.1"
 
 "@react-hook/latest@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.2.tgz#767eb6974f91eef353981b8b60a87147dadecb18"
   integrity sha512-zLtOIToct1EBTbwldkMJsXC2eCsmWOOP7z6UG0M/sCgnPExtIjvVMCpPESvPnMbQzDZytXVy0nvMbUuK2gZs2A==
 
-"@react-hook/passive-layout-effect@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.2.0.tgz#1232f0b08f9bfd9f87a2898a3ae50d5f7731d806"
-  integrity sha512-obGcMHoeiG/qp9djzlxwvlsAzL4a+JFaxTLvJv8GykipmS/TEkfvdcpu6orE1ZL4dAT7OpoGwHDc/LGJbkZzXQ==
+"@react-hook/passive-layout-effect@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.2.1.tgz#c06dac2d011f36d61259aa1c6df4f0d5e28bc55e"
+  integrity sha512-IwEphTD75liO8g+6taS+4oqz+nnroocNfWVHWz7j+N+ZO2vYrc6PV1q7GQhuahL0IOR7JccFTsFKQ/mb6iZWAg==
 
 "@react-hook/throttle@^2.2.0":
   version "2.2.0"
