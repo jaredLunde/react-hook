@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/event",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/event#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -126,9 +126,7 @@
     "react-test-renderer": "latest",
     "typescript": "latest"
   },
-  "dependencies": {
-    "@react-hook/passive-layout-effect": "^1.2.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=16.8"
   }

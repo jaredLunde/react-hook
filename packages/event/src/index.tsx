@@ -1,5 +1,4 @@
 import * as React from 'react'
-import useLayoutEffect from '@react-hook/passive-layout-effect'
 
 function useEvent<
   T extends Window = Window,
@@ -32,19 +31,19 @@ function useEvent(target: any, type: any, listener: any, cleanup: any): void {
   const storedListener = React.useRef(listener)
   const storedCleanup = React.useRef(cleanup)
 
-  useLayoutEffect(() => {
+  React.useEffect(() => {
     storedListener.current = listener
     storedCleanup.current = cleanup
   })
 
-  useLayoutEffect(() => {
+  React.useEffect(() => {
     const targetEl = target && 'current' in target ? target.current : target
     if (!targetEl) return
 
     let didUnsubscribe = 0
     function listener(this: any, ...args: any[]) {
       if (didUnsubscribe) return
-      storedListener.current.apply(this, args)
+      storedListener.current(this, args)
     }
 
     targetEl.addEventListener(type, listener)
