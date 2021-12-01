@@ -70,9 +70,9 @@ function createResizeObserver() {
       callbacks.set(target, cbs)
     },
     unsubscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
-      observer.unobserve(target)
       const cbs = callbacks.get(target) ?? []
       if (cbs.length === 1) {
+        observer.unobserve(target)
         callbacks.delete(target)
         return
       }
