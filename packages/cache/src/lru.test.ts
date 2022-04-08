@@ -193,7 +193,18 @@ describe('lru()', () => {
     cache.write('baz', 'boz')
 
     const results: string[] = []
-    cache.forEach((value) => results.push(value))
+    cache.forEach((key) => results.push(key))
     expect(results).toEqual(['baz', 'bar', 'foo'])
+  })
+
+  it('should not iterate over deleted head', () => {
+    const cache = lru<string, string>(Infinity)
+    cache.write('foo', 'bar')
+    cache.write('bar', 'baz')
+    cache.delete('bar')
+
+    const results: string[] = []
+    cache.forEach((key) => results.push(key))
+    expect(results).toEqual(['foo'])
   })
 })

@@ -107,6 +107,9 @@ export const lru = <Key = string, Value = any>(
     if (this.size === 1) {
       this.head = undefined
     } else {
+      if (node === this.head) {
+        this.head = node.prev
+      }
       node.prev.next = node.next
       node.next.prev = node.prev
     }
