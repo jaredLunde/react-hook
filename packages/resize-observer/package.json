@@ -128,9 +128,7 @@
   "dependencies": {
     "@juggle/resize-observer": "^3.3.1",
     "@react-hook/latest": "^1.0.2",
-    "@react-hook/passive-layout-effect": "^1.2.0",
-    "@types/raf-schd": "^4.0.0",
-    "raf-schd": "^4.0.2"
+    "@react-hook/passive-layout-effect": "^1.2.0"
   },
   "peerDependencies": {
     "react": ">=16.8"
