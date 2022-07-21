@@ -7,7 +7,6 @@ import {
 } from '@juggle/resize-observer'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
-import rafSchd from 'raf-schd'
 
 const ResizeObserver =
   typeof window !== 'undefined' && 'ResizeObserver' in window
@@ -51,14 +50,29 @@ function useResizeObserver<T extends HTMLElement>(
 }
 
 function createResizeObserver() {
+  let ticking = false
+  let allEntries: ResizeObserverEntry[] = []
+
   const callbacks: Map<any, Array<UseResizeObserverCallback>> = new Map()
+
   const observer = new ResizeObserver(
-    rafSchd((entries, obs) => {
-      for (let i = 0; i < entries.length; i++) {
-        const cbs = callbacks.get(entries[i].target)
-        cbs?.forEach((cb) => cb(entries[i], obs))
+    (entries: ResizeObserverEntry[], obs: Polyfill) => {
+      allEntries = allEntries.concat(entries)
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const triggered = new Set<Element>()
+          for (let i = 0; i < allEntries.length; i++) {
+            if (triggered.has(allEntries[i].target)) continue
+            triggered.add(allEntries[i].target)
+            const cbs = callbacks.get(allEntries[i].target)
+            cbs?.forEach((cb) => cb(allEntries[i], obs))
+          }
+          allEntries = []
+          ticking = false
+        })
       }
-    })
+      ticking = true
+    }
   )
 
   return {
