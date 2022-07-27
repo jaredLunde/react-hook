@@ -18,11 +18,9 @@ function useSwitch(
   const [current, setCurrent] = React.useState(controlledValue ?? defaultValue)
   const storedOnChange = useLatest(onChange)
 
-  React.useEffect(() => {
-    if (typeof controlledValue === 'boolean') {
-      setCurrent(controlledValue)
-    }
-  }, [controlledValue])
+  if (typeof controlledValue === 'boolean' && controlledValue !== current) {
+    setCurrent(controlledValue)
+  }
 
   const toggle = React.useCallback(() => {
     setCurrent(!current)
