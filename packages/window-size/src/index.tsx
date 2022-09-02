@@ -11,7 +11,7 @@ export interface DebouncedWindowSizeOptions {
 }
 
 const win = typeof window === 'undefined' ? null : window
-const wv = win && typeof win.VideoPlaybackQuality !== 'undefined' ? win : null
+const wv = win && typeof win.visualViewport !== 'undefined' ? win.visualViewport : null
 const getSize = () =>
   [
     document.documentElement.clientWidth,
