@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import {useThrottle} from '@react-hook/throttle'
 import useEvent from '@react-hook/event'
+import {useThrottle} from '@react-hook/throttle'
 
 const emptyObj = {}
 
@@ -12,6 +12,8 @@ export interface ThrottledWindowSizeOptions {
 }
 
 const win = typeof window === 'undefined' ? null : window
+const wv =
+  win && typeof win.visualViewport !== 'undefined' ? win.visualViewport : null
 const getSize = () =>
   [
     document.documentElement.clientWidth,
@@ -31,6 +33,8 @@ export const useWindowSize = (
   const setSize = (): void => setThrottledSize(getSize)
 
   useEvent(win, 'resize', setSize)
+  // @ts-expect-error
+  useEvent(wv, 'resize', setSize)
   useEvent(win, 'orientationchange', setSize)
 
   return size

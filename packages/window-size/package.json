@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/window-size",
-  "version": "3.0.7",
+  "version": "3.1.1",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/window-size#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -121,6 +121,7 @@
     "coverage",
     "dist",
     "test",
+    "*.d.ts",
     "*.config.js"
   ],
   "jest": {
@@ -155,20 +156,20 @@
     "@testing-library/react-hooks": "latest",
     "@testing-library/user-event": "latest",
     "@types/jest": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
     "babel-jest": "latest",
-    "eslint": "latest",
-    "eslint-config-lunde": "latest",
+    "eslint": "^7.32.0",
+    "eslint-config-lunde": "^0.7.1",
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "^0.4.9",
-    "prettier": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-test-renderer": "latest",
-    "typescript": "latest"
+    "lundle": "^0.4.14",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "typescript": "^4.7.0"
   },
   "dependencies": {
     "@react-hook/debounce": "^3.0.0",
@@ -177,5 +178,9 @@
   },
   "peerDependencies": {
     "react": ">=16.8"
+  },
+  "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

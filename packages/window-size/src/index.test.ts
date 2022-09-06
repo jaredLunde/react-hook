@@ -1,7 +1,8 @@
-import {renderHook, act} from '@testing-library/react-hooks'
-// @ts-ignore
-import {resetSize, resizeTo, changeOrientation} from 'test-utils'
-import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
+/* eslint-disable jest/valid-title */
+import {act, renderHook} from '@testing-library/react-hooks'
+// @ts-expect-error
+import {changeOrientation, resetSize, resizeTo} from 'test-utils'
+import {useWindowHeight, useWindowSize, useWindowWidth} from './index'
 
 const renderWindowSize = (...args): any =>
   renderHook(() => useWindowSize(...args))

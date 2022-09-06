@@ -1,7 +1,8 @@
-import {renderHook, act} from '@testing-library/react-hooks'
-import {resetSize, resizeTo, changeOrientation} from 'test-utils'
-import {useWindowSize, useWindowWidth, useWindowHeight} from './index'
-// @ts-ignore
+/* eslint-disable jest/valid-title */
+import {act, renderHook} from '@testing-library/react-hooks'
+import {changeOrientation, resetSize, resizeTo} from 'test-utils'
+import {useWindowHeight, useWindowSize, useWindowWidth} from './index'
+// @ts-expect-error
 
 const renderWindowSize = (...args): any =>
   renderHook(() => useWindowSize(...args))
@@ -13,7 +14,7 @@ const renderWindowHeight = (...args): any =>
   renderHook(() => useWindowHeight(...args))
 
 const mockPerf = () => {
-  // @ts-ignore
+  // @ts-expect-error
   const original = global?.performance
   let ts = (typeof performance !== 'undefined' ? performance : Date).now()
 
@@ -23,8 +24,8 @@ const mockPerf = () => {
       const perfNowStub = jest
         .spyOn(performance, 'now')
         .mockImplementation(() => ts)
-      // @ts-ignore
       global.performance = {
+        //@ts-expect-error
         now: perfNowStub,
       }
     },
@@ -32,7 +33,7 @@ const mockPerf = () => {
     advanceTo: (t: number) => (ts = t),
     uninstall: () => {
       if (original) {
-        //@ts-ignore
+        //@ts-expect-error
         global.performance = original
       }
     },
@@ -112,7 +113,9 @@ describe('useWindowSize() throttled', () => {
     expect(result.current[1]).toBe(0)
 
     act(() => changeOrientation(1280, 720))
-    act(() => jest.advanceTimersByTime(1000 / 30))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
 
     expect(result.current[0]).toBe(1280)
     expect(result.current[1]).toBe(720)
@@ -126,7 +129,9 @@ describe('useWindowWidth() throttled', () => {
     expect(result.current).toBe(0)
 
     act(() => resizeTo(1280, 720))
-    act(() => jest.advanceTimersByTime(1000 / 30))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     expect(result.current).toBe(1280)
   })
 })
@@ -138,7 +143,9 @@ describe('useWindowHeight() throttled', () => {
     expect(result.current).toBe(0)
 
     act(() => resizeTo(1280, 720))
-    act(() => jest.advanceTimersByTime(1000 / 30))
+    act(() => {
+      jest.advanceTimersByTime(1000 / 30)
+    })
     expect(result.current).toBe(720)
   })
 })

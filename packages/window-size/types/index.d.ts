@@ -8,12 +8,8 @@ export declare const useWindowSize: (
   options?: DebouncedWindowSizeOptions
 ) => readonly [number, number]
 export declare const useWindowHeight: (
-  options?:
-    | Pick<DebouncedWindowSizeOptions, 'wait' | 'initialHeight' | 'leading'>
-    | undefined
+  options?: Omit<DebouncedWindowSizeOptions, 'initialWidth'>
 ) => number
 export declare const useWindowWidth: (
-  options?:
-    | Pick<DebouncedWindowSizeOptions, 'wait' | 'initialWidth' | 'leading'>
-    | undefined
+  options?: Omit<DebouncedWindowSizeOptions, 'initialHeight'>
 ) => number

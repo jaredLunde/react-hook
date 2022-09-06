@@ -11,7 +11,8 @@ export interface DebouncedWindowSizeOptions {
 }
 
 const win = typeof window === 'undefined' ? null : window
-const wv = win && typeof win.visualViewport !== 'undefined' ? win.visualViewport : null
+const wv =
+  win && typeof win.visualViewport !== 'undefined' ? win.visualViewport : null
 const getSize = () =>
   [
     document.documentElement.clientWidth,
@@ -31,6 +32,7 @@ export const useWindowSize = (
   const setSize = (): void => setDebouncedSize(getSize)
 
   useEvent(win, 'resize', setSize)
+  // @ts-expect-error
   useEvent(wv, 'resize', setSize)
   useEvent(win, 'orientationchange', setSize)
 
