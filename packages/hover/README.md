@@ -73,7 +73,7 @@ is always `false` on devices that don't have hover states, i.e. phones.
 | Property   | Type   | Description                                                    |
 | ---------- | ------ | -------------------------------------------------------------- |
 | enterDelay | number | Delays setting `isHovering` to `true` for this amount in `ms`  |
-| leaveDelay | number | Delays setting `isHovering` to `false` for htis amount in `ms` |
+| leaveDelay | number | Delays setting `isHovering` to `false` for this amount in `ms` |
 
 ## LICENSE
 
