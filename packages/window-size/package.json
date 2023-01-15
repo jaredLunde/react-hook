@@ -67,7 +67,7 @@
       "default": "./throttled/dist/main/index.js"
     },
     "./package.json": "./package.json",
-    "./": "./"
+    "./*": "./*"
   },
   "sideEffects": false,
   "scripts": {
