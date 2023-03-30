@@ -47,7 +47,7 @@ function useResizeObserver<T extends HTMLElement>(
       didUnsubscribe = true
       resizeObserver.unsubscribe(targetEl as HTMLElement, cb)
     }
-  }, [target, resizeObserver, storedCallback])
+  }, [target, resizeObserver, storedCallback, options])
 
   return resizeObserver.observer
 }
