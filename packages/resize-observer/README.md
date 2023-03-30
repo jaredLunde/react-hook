@@ -77,7 +77,8 @@ const App = () => {
 ```ts
 function useResizeObserver<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
-  callback: UseResizeObserverCallback
+  callback: UseResizeObserverCallback,
+  options?: ResizeObserverOptions
 ): ResizeObserver
 ```
 
@@ -85,6 +86,7 @@ function useResizeObserver<T extends HTMLElement>(
 | -------- | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------- |
 | target   | <code>React.RefObject<T> &#124; T &#124; null</code>      | Yes       | A React ref created by `useRef()` or an HTML element                      |
 | callback | [`UseResizeObserverCallback`](#useresizeobservercallback) | Yes       | Invoked with a single `ResizeObserverEntry` any time the `target` resizes |
+| options? | [ResizeObserverOptions][1]                                | No        | Provide options to ResizeObserver                                         |
 
 ## Types
 
@@ -100,3 +102,5 @@ export type UseResizeObserverCallback = (
 ## LICENSE
 
 MIT
+
+[1]: https://w3c.github.io/csswg-drafts/resize-observer/#resize-observer-interface

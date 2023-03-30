@@ -5,6 +5,7 @@ import {
   ResizeObserver as Polyfill,
   ResizeObserverEntry,
 } from '@juggle/resize-observer'
+import {ResizeObserverOptions} from '@juggle/resize-observer/lib/ResizeObserverOptions'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
 
@@ -20,10 +21,12 @@ const ResizeObserver =
  * @param target A React ref created by `useRef()` or an HTML element
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
+ * @param [options] Provide options to ResizeObserver
  */
 function useResizeObserver<T extends HTMLElement>(
   target: React.RefObject<T> | T | null,
-  callback: UseResizeObserverCallback
+  callback: UseResizeObserverCallback,
+  options?: ResizeObserverOptions
 ): Polyfill {
   const resizeObserver = getResizeObserver()
   const storedCallback = useLatest(callback)
@@ -38,7 +41,7 @@ function useResizeObserver<T extends HTMLElement>(
       storedCallback.current(entry, observer)
     }
 
-    resizeObserver.subscribe(targetEl as HTMLElement, cb)
+    resizeObserver.subscribe(targetEl as HTMLElement, cb, options)
 
     return () => {
       didUnsubscribe = true
@@ -77,8 +80,12 @@ function createResizeObserver() {
 
   return {
     observer,
-    subscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
-      observer.observe(target)
+    subscribe(
+      target: HTMLElement,
+      callback: UseResizeObserverCallback,
+      options?: ResizeObserverOptions
+    ) {
+      observer.observe(target, options)
       const cbs = callbacks.get(target) ?? []
       cbs.push(callback)
       callbacks.set(target, cbs)
