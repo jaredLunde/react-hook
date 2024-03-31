@@ -22,7 +22,7 @@ const ResizeObserver =
  *   the `target` resizes
  */
 function useResizeObserver<T extends HTMLElement>(
-  target: React.RefObject<T> | T | null,
+  target: React.RefObject<T> | React.ForwardedRef<T> | T | null,
   callback: UseResizeObserverCallback
 ): Polyfill {
   const resizeObserver = getResizeObserver()
