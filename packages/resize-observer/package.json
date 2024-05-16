@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/resize-observer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/resize-observer#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -98,6 +98,10 @@
       "__DEV__": true
     }
   },
+  "resolutions": {
+    "react": "^18.3.1",
+    "@types/react": "^18.3.2"
+  },
   "prettier": {
     "semi": false,
     "singleQuote": true,
@@ -112,7 +116,7 @@
     "@testing-library/user-event": "latest",
     "@types/jest": "latest",
     "@types/react": "^18.3.2",
-    "@types/react-dom": "^16.9.8",
+    "@types/react-dom": "^18.3.0",
     "babel-jest": "latest",
     "eslint": "^8",
     "eslint-config-lunde": "^0.8.2",
