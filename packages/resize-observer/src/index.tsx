@@ -21,8 +21,8 @@ const ResizeObserver =
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
  */
-function useResizeObserver<T extends Element>(
-  target: React.RefObject<T> | T | null,
+function useResizeObserver<T extends HTMLElement>(
+  target: React.RefObject<T> | React.ForwardedRef<T> | T | null,
   callback: UseResizeObserverCallback
 ): Polyfill {
   const resizeObserver = getResizeObserver()
