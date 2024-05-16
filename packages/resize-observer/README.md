@@ -75,7 +75,7 @@ const App = () => {
 ### useResizeObserver(target, callback)
 
 ```ts
-function useResizeObserver<T extends HTMLElement>(
+function useResizeObserver<T extends Element>(
   target: React.RefObject<T> | T | null,
   callback: UseResizeObserverCallback
 ): ResizeObserver
