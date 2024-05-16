@@ -38,11 +38,11 @@ function useResizeObserver<T extends HTMLElement>(
       storedCallback.current(entry, observer)
     }
 
-    resizeObserver.subscribe(targetEl as HTMLElement, cb)
+    resizeObserver.subscribe(targetEl as Element, cb)
 
     return () => {
       didUnsubscribe = true
-      resizeObserver.unsubscribe(targetEl as HTMLElement, cb)
+      resizeObserver.unsubscribe(targetEl as Element, cb)
     }
   }, [target, resizeObserver, storedCallback])
 
@@ -77,13 +77,13 @@ function createResizeObserver() {
 
   return {
     observer,
-    subscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
+    subscribe(target: Element, callback: UseResizeObserverCallback) {
       observer.observe(target)
       const cbs = callbacks.get(target) ?? []
       cbs.push(callback)
       callbacks.set(target, cbs)
     },
-    unsubscribe(target: HTMLElement, callback: UseResizeObserverCallback) {
+    unsubscribe(target: Element, callback: UseResizeObserverCallback) {
       const cbs = callbacks.get(target) ?? []
       if (cbs.length === 1) {
         observer.unobserve(target)
