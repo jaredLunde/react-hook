@@ -10,7 +10,7 @@ import {
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
  */
-declare function useResizeObserver<T extends HTMLElement>(
+declare function useResizeObserver<T extends Element>(
   target: React.RefObject<T> | React.ForwardedRef<T> | T | null,
   callback: UseResizeObserverCallback
 ): Polyfill

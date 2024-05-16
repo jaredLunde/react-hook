@@ -33,8 +33,6 @@ A React hook that fires a callback whenever ResizeObserver detects a change to i
 - [x] Uses a single `ResizeObserver` for tracking all elements used by the hooks.
       [This approach is astoundingly more performant](https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/z6ienONUb5A/F5-VcUZtBAAJ)
       than using a `ResizeObserver` per element which most hook implementations do.
-- [x] Uses [`@juggle/resize-observer`](https://github.com/juggle/resize-observer) as a ponyfill when `ResizeObserver` isn't supported
-      by the current browser.
 - [x] Automatically unobserves the target element when the hook unmounts.
 - [x] You don't have to wrap your callback in `useCallback()` because any mutations
       are handled by the hook.
@@ -85,6 +83,7 @@ function useResizeObserver<T extends Element>(
 | -------- | --------------------------------------------------------- | --------- | ------------------------------------------------------------------------- |
 | target   | <code>React.RefObject<T> &#124; T &#124; null</code>      | Yes       | A React ref created by `useRef()` or an HTML element                      |
 | callback | [`UseResizeObserverCallback`](#useresizeobservercallback) | Yes       | Invoked with a single `ResizeObserverEntry` any time the `target` resizes |
+| options  | [`UseResizeObserverOptions`](#useresizeobserveroptions)   | No        | Options for the `ResizeObserver` instance.                                |
 
 ## Types
 
@@ -97,6 +96,12 @@ export type UseResizeObserverCallback = (
 ) => any
 ```
 
+### UseResizeObserverOptions
+
+```ts
+expo
+
 ## LICENSE
 
 MIT
+```

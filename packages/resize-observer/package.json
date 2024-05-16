@@ -1,6 +1,6 @@
 {
   "name": "@react-hook/resize-observer",
-  "version": "1.2.6",
+  "version": "2.0.0",
   "homepage": "https://github.com/jaredLunde/react-hook/tree/master/packages/resize-observer#readme",
   "repository": "github:jaredLunde/react-hook",
   "bugs": "https://github.com/jaredLunde/react-hook/issues",
@@ -105,25 +105,26 @@
     "bracketSpacing": false
   },
   "devDependencies": {
+    "@babel/plugin-syntax-typescript": "^7.24.1",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/react-hooks": "latest",
     "@testing-library/user-event": "latest",
     "@types/jest": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^16.9.8",
     "babel-jest": "latest",
-    "eslint": "latest",
-    "eslint-config-lunde": "latest",
+    "eslint": "^8",
+    "eslint-config-lunde": "^0.8.2",
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "^0.4.9",
+    "lundle": "^0.4.14",
     "prettier": "latest",
-    "react": "latest",
-    "react-dom": "latest",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-test-renderer": "latest",
-    "typescript": "latest"
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.3.1",
@@ -131,6 +132,6 @@
     "@react-hook/passive-layout-effect": "^1.2.0"
   },
   "peerDependencies": {
-    "react": ">=16.8"
+    "react": ">=18"
   }
 }

@@ -1,18 +1,8 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-underscore-dangle */
 import * as React from 'react'
-import {
-  ResizeObserver as Polyfill,
-  ResizeObserverEntry,
-} from '@juggle/resize-observer'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useLatest from '@react-hook/latest'
-
-const ResizeObserver =
-  typeof window !== 'undefined' && 'ResizeObserver' in window
-    ? // @ts-ignore
-      window.ResizeObserver
-    : Polyfill
 
 /**
  * A React hook that fires a callback whenever ResizeObserver detects a change to its size
@@ -21,11 +11,12 @@ const ResizeObserver =
  * @param callback Invoked with a single `ResizeObserverEntry` any time
  *   the `target` resizes
  */
-function useResizeObserver<T extends HTMLElement>(
+function useResizeObserver<T extends Element>(
   target: React.RefObject<T> | React.ForwardedRef<T> | T | null,
-  callback: UseResizeObserverCallback
-): Polyfill {
-  const resizeObserver = getResizeObserver()
+  callback: UseResizeObserverCallback,
+  options: UseResizeObserverOptions = {}
+): ResizeObserver {
+  const resizeObserver = getResizeObserver(options.polyfill)
   const storedCallback = useLatest(callback)
 
   useLayoutEffect(() => {
@@ -33,7 +24,7 @@ function useResizeObserver<T extends HTMLElement>(
     const targetEl = target && 'current' in target ? target.current : target
     if (!targetEl) return () => {}
 
-    function cb(entry: ResizeObserverEntry, observer: Polyfill) {
+    function cb(entry: ResizeObserverEntry, observer: ResizeObserver) {
       if (didUnsubscribe) return
       storedCallback.current(entry, observer)
     }
@@ -49,14 +40,14 @@ function useResizeObserver<T extends HTMLElement>(
   return resizeObserver.observer
 }
 
-function createResizeObserver() {
+function createResizeObserver(polyfill?: any) {
   let ticking = false
   let allEntries: ResizeObserverEntry[] = []
 
   const callbacks: Map<any, Array<UseResizeObserverCallback>> = new Map()
 
-  const observer = new ResizeObserver(
-    (entries: ResizeObserverEntry[], obs: Polyfill) => {
+  const observer = new (polyfill || window.ResizeObserver)(
+    (entries: ResizeObserverEntry[], obs: ResizeObserver) => {
       allEntries = allEntries.concat(entries)
       if (!ticking) {
         window.requestAnimationFrame(() => {
@@ -99,14 +90,15 @@ function createResizeObserver() {
 
 let _resizeObserver: ReturnType<typeof createResizeObserver>
 
-const getResizeObserver = () =>
+const getResizeObserver = (polyfill: any) =>
   !_resizeObserver
-    ? (_resizeObserver = createResizeObserver())
+    ? (_resizeObserver = createResizeObserver(polyfill))
     : _resizeObserver
 
 export type UseResizeObserverCallback = (
   entry: ResizeObserverEntry,
-  observer: Polyfill
+  observer: ResizeObserver
 ) => any
 
+export type UseResizeObserverOptions = {polyfill?: any}
 export default useResizeObserver
