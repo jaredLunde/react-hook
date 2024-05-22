@@ -70,12 +70,13 @@ const App = () => {
 
 ## API
 
-### useResizeObserver(target, callback)
+### useResizeObserver(target, callback, options)
 
 ```ts
 function useResizeObserver<T extends Element>(
-  target: React.RefObject<T> | T | null,
-  callback: UseResizeObserverCallback
+  target: React.RefObject<T> | React.ForwardedRef<T> | T | null,
+  callback: UseResizeObserverCallback,
+  options?: UseResizeObserverOptions
 ): ResizeObserver
 ```
 
@@ -99,9 +100,22 @@ export type UseResizeObserverCallback = (
 ### UseResizeObserverOptions
 
 ```ts
-expo
+export type UseResizeObserverOptions = {
+  polyfill?: any
+}
+```
+
+#### `polyfill`
+
+A `ResizeObserver` polyfill implementation such as `@juggle/resize-observer` (this was the default in V1.x).
+
+```ts
+import useResizeObserver from '@react-hook/resize-observer'
+import {ResizeObserver} from '@juggle/resize-observer'
+
+useResizeObserver(..., ..., { polyfill: ResizeObserver })
+```
 
 ## LICENSE
 
 MIT
-```

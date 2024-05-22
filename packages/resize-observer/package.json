@@ -131,7 +131,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "@juggle/resize-observer": "^3.3.1",
     "@react-hook/latest": "^1.0.2",
     "@react-hook/passive-layout-effect": "^1.2.0"
   },

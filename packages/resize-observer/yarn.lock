@@ -2200,11 +2200,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@juggle/resize-observer@^3.3.1":
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.3.1.tgz#b50a781709c81e10701004214340f25475a171a0"
-  integrity sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==
-
 "@lunde/babel-preset-es@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@lunde/babel-preset-es/-/babel-preset-es-1.0.1.tgz#78f13276b8c4ca2e1032afa476c79b0fc9184a86"
