@@ -5,9 +5,12 @@
   <h3>
     Strongly typed React hooks for function components
   </h3>
-  <br>
-  <br>
+
+  <div align="center">
+    <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg" height="38" alt="Supported by FlexStack"></a>
+  </div>
 </div>
+<hr>
 
 | Hook                                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -37,11 +40,6 @@
 | [**useToggle()**](packages/toggle#readme)                              | A React hook for toggling between two values with a callback.                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [**useWindowScroll()**](packages/window-scroll#readme)                 | A React hook for updating components when the scroll position of the window on the y-axis changes.                                                                                                                                                                                                                                                                                                                                                              |
 | [**useWindowSize()**](packages/window-size#readme)                     | React hooks for updating components when the size of the `window` changes.                                                                                                                                                                                                                                                                                                                                                                                      |
-
-## Note on IE11
-
-> If you need support for legacy browsers you will have to do what you _should_ be doing already anyway and compile your dependencies to your desired target. This library does not ship transformations for browsers the maintainer doesn't care about performing maintenance for.
-
 ## Contributing
 
 [👋 Click here to see **how to contribute**](./CONTRIBUTING.md)
