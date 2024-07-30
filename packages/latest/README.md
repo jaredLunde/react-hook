@@ -3,7 +3,11 @@
   <h1 align="center">
     useLatest()
   </h1>
+  <div align="center">
+    <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg" height="38" alt="Supported by FlexStack"></a>
+  </div>
 </div>
+<hr>
 
 <p align="center">
   <a href="https://bundlephobia.com/result?p=@react-hook/latest">
@@ -24,7 +28,6 @@
 </p>
 
 <pre align="center">npm i @react-hook/latest</pre>
-<hr>
 
 A React hook that updates useRef().current with the most recent value each invocation
 
