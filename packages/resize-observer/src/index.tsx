@@ -33,7 +33,7 @@ function useResizeObserver<T extends Element>(
 
     return () => {
       didUnsubscribe = true
-      resizeObserver.unsubscribe(targetEl as Element, cb)
+      resizeObserver.disconnect()
     }
   }, [target, resizeObserver, storedCallback])
 
