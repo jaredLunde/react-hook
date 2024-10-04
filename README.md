@@ -7,7 +7,7 @@
   </h3>
 
   <div align="center">
-    <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg" height="38" alt="Supported by FlexStack"></a>
+    <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg?v1" height="38" alt="Supported by FlexStack"></a>
   </div>
 </div>
 <hr>
