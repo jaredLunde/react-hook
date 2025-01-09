@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    useScrollPosition()
+    useWindowScroll()
   </h1>
 </div>
 
@@ -35,17 +35,17 @@ at `30fps` by default, but this rate is configurable.
 [Check out the example on **CodeSandbox**](https://codesandbox.io/s/react-hookwindow-size-and-react-hookwindow-scroll-examples-oqmer?file=/src/App.js)
 
 ```jsx harmony
-import useScrollPosition from '@react-hook/window-scroll'
+import { useWindowScroll } from '@react-hook/window-scroll'
 
 const Component = (props) => {
-  const scrollY = useScrollPosition(60 /*fps*/)
+  const scrollY = useWindowScroll(60 /*fps*/)
   return <div>scroll pos: {scrollY}</div>
 }
 ```
 
 ## API
 
-### useScrollPosition(fps?: number): number
+### useWindowScroll(fps?: number): number
 
 A hook that performantly updates its scroll position at a constant frame rate.
 
