@@ -27,7 +27,10 @@
   ],
   "exports": {
     ".": {
-      "browser": "./dist/module/index.js",
+      "browser": {
+        "import": "./dist/module/index.js",
+        "require": "./dist/main/index.js"
+      },
       "import": "./dist/esm/index.mjs",
       "require": "./dist/main/index.js",
       "umd": "./dist/umd/use-latest.js",
